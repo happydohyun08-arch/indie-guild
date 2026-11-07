@@ -3,6 +3,21 @@
   "github": "example-maker",
   "tagline": "Sample profile — shows the fallback when GitHub lookup fails",
   "bio": "A fictional handle that does not exist. Used to confirm the build survives a failed metrics lookup and still renders the profile.",
+  "experience": [
+    {
+      "role": "Founder",
+      "org": "Example SaaS",
+      "from": "2023-03",
+      "proof": "https://example.com"
+    },
+    {
+      "role": "Backend Engineer",
+      "org": "Example Corp",
+      "from": "2021-01",
+      "to": "2023-02",
+      "proof": "https://example.com/cli"
+    }
+  ],
   "products": [
     {
       "name": "Example SaaS",
@@ -18,7 +33,7 @@
   ],
   "open_to": ["investment", "acquisition"],
   "consent": {
-    "version": "2",
+    "version": "3",
     "agreed_at": "2026-11-07",
     "agreed": [
       "purpose",

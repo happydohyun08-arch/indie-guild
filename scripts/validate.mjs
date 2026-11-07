@@ -11,6 +11,7 @@ const ROOT = path.join(import.meta.dirname, "..");
 const VOUCH_LIMIT_PER_YEAR = 3;
 const YEAR_MS = 365 * 24 * 60 * 60 * 1000;
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+const MONTH_RE = /^\d{4}-\d{2}$/;
 const HANDLE_RE = /^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/;
 
 // 저장소에 절대 들어와서는 안 되는 패턴. 한 번 커밋되면 되돌릴 수 없다.
@@ -59,6 +60,20 @@ export function validate(profiles, vouches, spec) {
     for (const prod of p.products ?? []) {
       if (!/^https?:\/\//.test(prod.url ?? ""))
         at(`제품 url이 http(s)가 아닙니다.`);
+    }
+
+    // 경력은 항목마다 공개 증거 링크가 있어야 한다. 증거 없는 경력은
+    // 자기신고일 뿐이고, 그러면 이 저장소의 존재 이유가 사라진다.
+    for (const e of p.experience ?? []) {
+      const who = `경력 "${e.role ?? ""}@${e.org ?? ""}"`;
+      if (!e.role || !e.org) at(`${who}: role과 org는 필수입니다.`);
+      if (!/^https?:\/\//.test(e.proof ?? ""))
+        at(`${who}: 공개 증거 링크(proof)가 필요합니다.`);
+      if (!MONTH_RE.test(e.from ?? "")) at(`${who}: from이 YYYY-MM이 아닙니다.`);
+      if (e.to !== undefined && !MONTH_RE.test(e.to))
+        at(`${who}: to가 YYYY-MM이 아닙니다 (재직 중이면 생략).`);
+      if (MONTH_RE.test(e.from ?? "") && MONTH_RE.test(e.to ?? "") && e.to < e.from)
+        at(`${who}: to가 from보다 앞섭니다.`);
     }
   }
 
@@ -174,6 +189,44 @@ function selfcheck() {
     validate([p("alice", { bio: "900101-1234567" })], [], spec)[0],
     /주민등록번호로 보이는 값/,
     "주민번호 차단",
+  );
+
+  const exp = (over = {}) => ({
+    experience: [
+      {
+        role: "Engineer",
+        org: "Sample Corp",
+        from: "2024-01",
+        to: "2025-06",
+        proof: "https://example.com/proof",
+        ...over,
+      },
+    ],
+  });
+  assert.deepEqual(
+    validate([p("alice", exp())], [], spec),
+    [],
+    "증거 링크가 있는 경력은 통과",
+  );
+  assert.match(
+    validate([p("alice", exp({ proof: undefined }))], [], spec)[0],
+    /공개 증거 링크\(proof\)가 필요합니다/,
+    "증거 없는 경력 차단",
+  );
+  assert.match(
+    validate([p("alice", exp({ from: "2024" }))], [], spec)[0],
+    /from이 YYYY-MM이 아닙니다/,
+    "경력 기간 형식 차단",
+  );
+  assert.match(
+    validate([p("alice", exp({ from: "2025-06", to: "2024-01" }))], [], spec)[0],
+    /to가 from보다 앞섭니다/,
+    "거꾸로 된 기간 차단",
+  );
+  assert.deepEqual(
+    validate([p("alice", exp({ to: undefined }))], [], spec),
+    [],
+    "재직 중(to 생략)은 통과",
   );
 
   const two = [p("alice"), p("bob")];

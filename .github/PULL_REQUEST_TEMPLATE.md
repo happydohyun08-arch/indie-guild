@@ -3,7 +3,7 @@
 - [ ] Add my profile (`profiles/my-handle.json`)
 - [ ] Edit my profile
 - [ ] Delete my profile (leave)
-- [ ] Vouch for another member (`vouches/my-handle--their-handle.json`)
+- [ ] Vouch for someone else (`vouches/my-handle--their-handle.json`)
 - [ ] Code / docs
 
 ## If you are adding or editing a profile
@@ -14,8 +14,10 @@ accepting the notices. Hand-written JSON has no consent record and CI will rejec
 - [ ] I ticked every required item on the `/join` page.
 - [ ] I understand that public Git history cannot be deleted.
 - [ ] I read the US privacy notice (CCPA/CPRA) and accept that my right to delete is limited.
+- [ ] Every `experience` entry has a public evidence link (`proof`) that anyone can open.
 - [ ] I did **not** include an email, phone number, legal name or government ID.
-- [ ] I gave revenue as a band (`mrr_band`), not an exact figure.
+- [ ] I gave revenue as a band (`mrr_band`), not an exact figure, and no salary figures at all.
+- [ ] I did **not** include education records (school name, degree, grades).
 - [ ] I added only my own account, never anyone else's information.
 
 ## If you are vouching

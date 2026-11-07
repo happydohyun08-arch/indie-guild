@@ -1,5 +1,5 @@
 {
-  "version": "2",
+  "version": "3",
   "repo": "happydohyun08-arch/indie-guild",
   "controller": {
     "name": {
@@ -9,8 +9,8 @@
     "contact": "https://github.com/happydohyun08-arch/indie-guild/issues"
   },
   "purpose": {
-    "en": "To collect verifiable public track records so indie developers can find each other, and so investors and acquirers can find them.",
-    "ko": "검증 가능한 공개 트랙레코드를 모아 인디 개발자 상호 연결 및 투자자·인수자와의 연결 기회를 제공합니다."
+    "en": "To publish résumés and portfolios in which every claim is backed by a public evidence link, so that companies and investors can evaluate, hire or invest.",
+    "ko": "모든 항목에 공개 증거 링크가 붙은 이력서·포트폴리오를 게시하여, 기업과 투자자가 평가·채용·투자할 수 있도록 합니다."
   },
   "collected": [
     {
@@ -34,6 +34,10 @@
       "ko": "본인이 선택한 수익 구간 (실제 금액이 아닌 범위)"
     },
     {
+      "en": "Work history you write yourself: role, organisation name, period by month, and a public evidence link for each entry (an evidence link is mandatory — entries without one are rejected)",
+      "ko": "본인이 작성한 경력: 역할, 소속 조직명, 월 단위 기간, 그리고 항목마다 공개 증거 링크 (증거 링크는 필수이며, 없는 항목은 등록이 거부됩니다)"
+    },
+    {
       "en": "Consent record (consent version, date of consent, items consented to)",
       "ko": "동의 이력 (동의 버전, 동의 일자, 동의한 항목)"
     }
@@ -45,6 +49,10 @@
     { "en": "Date of birth", "ko": "생년월일" },
     { "en": "Postal address", "ko": "주소" },
     { "en": "Exact revenue figures", "ko": "수익 실액" },
+    {
+      "en": "Education records (school name, degree, grades) and salary figures",
+      "ko": "학력 기록 (학교명·학위·성적) 및 급여 액수"
+    },
     {
       "en": "Government identifiers (SSN, resident registration number, passport number)",
       "ko": "주민등록번호 등 고유식별정보"
@@ -87,8 +95,8 @@
       "ko": "CPRA로 개정된 캘리포니아 소비자 프라이버시법(CCPA, Cal. Civ. Code § 1798.100 이하)에 따른 수집 시 고지입니다. 유사 법률을 둔 미국 전 주(버지니아·콜로라도·코네티컷·유타·텍사스 등) 거주자에게 동일하게 적용합니다."
     },
     "categories": {
-      "en": "Categories of personal information collected: (1) Identifiers — your public GitHub handle only; (2) Internet or other electronic network activity information — public repository counts, star counts and account creation date read from the GitHub public API. No other category under § 1798.140(v) is collected.",
-      "ko": "수집하는 개인정보 범주: (1) 식별자 — 공개 GitHub 핸들만; (2) 인터넷 등 전자적 네트워크 활동 정보 — GitHub 공개 API에서 읽은 공개 저장소 수, 스타 수, 계정 생성일. § 1798.140(v)의 그 외 범주는 수집하지 않습니다."
+      "en": "Categories of personal information collected: (1) Identifiers — your public GitHub handle only; (2) Internet or other electronic network activity information — public repository counts, star counts and account creation date read from the GitHub public API; (3) Professional or employment-related information — the role, organisation name, period and evidence link you write yourself for each work-history entry. No education records under § 1798.140(v)(1)(C) and no other category are collected.",
+      "ko": "수집하는 개인정보 범주: (1) 식별자 — 공개 GitHub 핸들만; (2) 인터넷 등 전자적 네트워크 활동 정보 — GitHub 공개 API에서 읽은 공개 저장소 수, 스타 수, 계정 생성일; (3) 직업·고용 관련 정보 — 본인이 경력 항목마다 직접 작성한 역할, 조직명, 기간, 증거 링크. § 1798.140(v)(1)(C)의 교육 기록 및 그 외 범주는 수집하지 않습니다."
     },
     "sensitive": {
       "en": "We do not collect sensitive personal information as defined in § 1798.140(ae), and we do not use or disclose any information for the purpose of inferring characteristics about you.",
@@ -120,8 +128,8 @@
     "ko": "정보주체는 자신의 개인정보에 대해 열람·정정·삭제·처리정지를 요구할 수 있습니다. 저장소에 이슈 또는 Pull Request를 등록하면 10일 내에 처리합니다. 단 위 '보유 기간'에 명시한 Git 히스토리 사본은 기술적으로 삭제가 불가능합니다."
   },
   "refusal_consequence": {
-    "en": "You have the right to refuse consent to any required item. The only consequence is that you cannot join the guild or publish a profile. There is no other disadvantage.",
-    "ko": "모든 필수 항목에 대해 동의를 거부할 권리가 있습니다. 거부 시 불이익은 '길드 가입 및 프로필 게시 불가'이며, 그 외 어떤 불이익도 없습니다."
+    "en": "You have the right to refuse consent to any required item. The only consequence is that your résumé and portfolio cannot be published here. There is no other disadvantage.",
+    "ko": "모든 필수 항목에 대해 동의를 거부할 권리가 있습니다. 거부 시 불이익은 '이력서·포트폴리오 게시 불가'이며, 그 외 어떤 불이익도 없습니다."
   },
   "required": [
     {

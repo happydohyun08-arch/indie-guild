@@ -105,6 +105,36 @@ export default async function ProfilePage({
         )}
       </section>
 
+      {profile.experience && profile.experience.length > 0 && (
+        <section className="mt-8">
+          <h2 className="font-semibold">
+            {t.experienceTitle}{" "}
+            <span className="text-xs font-normal opacity-60">
+              {t.experienceAuto}
+            </span>
+          </h2>
+          <ul className="mt-2 space-y-3">
+            {profile.experience.map((e) => (
+              <li key={`${e.org}-${e.from}`} className="text-sm">
+                <span className="font-medium">{e.role}</span>
+                <span className="opacity-80"> · {e.org}</span>
+                <span className="ml-2 opacity-60">
+                  {e.from} – {e.to ?? t.experiencePresent}
+                </span>
+                <a
+                  href={e.proof}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="ml-2 underline opacity-60 hover:opacity-100"
+                >
+                  {t.experienceProof}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
       <section className="mt-8">
         <h2 className="font-semibold">{t.productsTitle}</h2>
         <ul className="mt-2 space-y-3">

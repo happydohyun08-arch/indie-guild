@@ -20,10 +20,11 @@ export const MRR_BANDS = {
 } as const satisfies Record<string, Bi>;
 
 export const OPEN_TO = {
+  hiring: { en: "full-time roles", ko: "정규직 채용" },
+  contract: { en: "contract work", ko: "외주·계약" },
   investment: { en: "investment", ko: "투자 제안" },
   acquisition: { en: "acquisition", ko: "인수 제안" },
   cofounder: { en: "co-founder", ko: "공동창업" },
-  contract: { en: "contract work", ko: "외주·계약" },
   nothing: { en: "not looking", ko: "연결 희망 없음" },
 } as const satisfies Record<string, Bi>;
 
@@ -38,21 +39,21 @@ const en = {
   navJoin: "Join",
   metaTitle: "Indie Guild",
   metaDescription:
-    "A trust network of indie developers connected by verifiable track records. Three vouches per person per year.",
+    "Résumés and portfolios where every claim carries a public evidence link. For companies and investors who want to verify before they hire or invest.",
   footerNote:
     "We never collect your email, phone number or legal name. Public Git history cannot be deleted.",
   footerLink: "Read the privacy notice",
 
-  homeTitle: "Indie Developer Guild",
+  homeTitle: "Résumés you can verify",
   homeIntro:
-    "We connect indie developers through verifiable public track records. Metrics are pulled from the GitHub public API at build time, so they cannot be self-reported, and vouches are capped at {n} per person per year, so they cannot be handed out freely.",
-  homeCounts: "{m} members · {v} vouches",
-  homeEmpty: "No members yet.",
-  homeEmptyLink: "Be the first to join",
+    "Every claim here is backed by a public link. Work history without an evidence link is rejected by CI, metrics come from the GitHub public API at build time so they cannot be self-reported, and vouches are capped at {n} per person per year so they cannot be handed out freely.",
+  homeCounts: "{m} profiles · {v} vouches",
+  homeEmpty: "No profiles yet.",
+  homeEmptyLink: "Be the first to publish",
   homeVouches: "vouches",
-  homeCta: "Join the guild",
+  homeCta: "Publish your résumé",
 
-  back: "← Guild",
+  back: "← Profiles",
   metricsTitle: "GitHub metrics",
   metricsAuto: "fetched automatically · cannot be self-reported",
   metricsFailed: "fetch failed",
@@ -61,7 +62,11 @@ const en = {
   repos: "Public repos",
   stars: "Total stars",
   created: "Account created",
-  productsTitle: "Products",
+  experienceTitle: "Work history",
+  experienceAuto: "every entry carries a public evidence link",
+  experiencePresent: "present",
+  experienceProof: "evidence",
+  productsTitle: "Portfolio",
   receivedTitle: "Vouches received",
   none: "None yet.",
   vouchCta: "Vouch for this person",
@@ -72,7 +77,7 @@ const en = {
   contactNote:
     "We do not collect email addresses or phone numbers. Contact happens through the GitHub profile.",
 
-  joinTitle: "Join the guild",
+  joinTitle: "Publish your résumé",
   joinLead:
     "Read the disclosures below and consent to every required item before you can proceed. Nothing is collected before you consent.",
   warnTitle: "Most important disclosure: deletion is not possible",
@@ -110,24 +115,24 @@ const en = {
 
 const ko: typeof en = {
   brand: "Indie Guild",
-  navJoin: "가입",
+  navJoin: "등록",
   metaTitle: "Indie Guild",
   metaDescription:
-    "검증 가능한 트랙레코드로 연결되는 인디 개발자 신뢰 네트워크. 보증은 1인당 연 3개.",
+    "모든 항목에 공개 증거 링크가 붙은 이력서·포트폴리오. 채용·투자 전에 직접 검증하려는 기업과 투자자를 위한 곳입니다.",
   footerNote:
     "이메일·전화번호·실명은 수집하지 않습니다. 공개 Git 히스토리는 삭제할 수 없습니다.",
   footerLink: "개인정보 고지 읽기",
 
-  homeTitle: "인디 개발자 길드",
+  homeTitle: "검증할 수 있는 이력서",
   homeIntro:
-    "검증 가능한 공개 트랙레코드로 서로를 연결합니다. 지표는 빌드 시점에 GitHub 공개 API에서 가져오므로 자기신고가 불가능하고, 보증은 1인당 연 {n}개로 제한돼 남발할 수 없습니다.",
-  homeCounts: "멤버 {m}명 · 보증 {v}건",
-  homeEmpty: "아직 멤버가 없습니다.",
-  homeEmptyLink: "첫 번째로 가입하세요",
+    "이곳의 모든 항목에는 공개 링크가 붙습니다. 증거 링크 없는 경력은 CI가 거부하고, 지표는 빌드 시점에 GitHub 공개 API에서 가져오므로 자기신고가 불가능하며, 보증은 1인당 연 {n}개로 제한돼 남발할 수 없습니다.",
+  homeCounts: "프로필 {m}개 · 보증 {v}건",
+  homeEmpty: "아직 프로필이 없습니다.",
+  homeEmptyLink: "첫 번째로 등록하세요",
   homeVouches: "보증",
-  homeCta: "가입하기",
+  homeCta: "이력서 등록하기",
 
-  back: "← 길드",
+  back: "← 프로필 목록",
   metricsTitle: "GitHub 지표",
   metricsAuto: "자동 조회 · 자기신고 불가",
   metricsFailed: "조회 실패",
@@ -136,7 +141,11 @@ const ko: typeof en = {
   repos: "공개 저장소",
   stars: "누적 스타",
   created: "계정 생성",
-  productsTitle: "제품",
+  experienceTitle: "경력",
+  experienceAuto: "모든 항목에 공개 증거 링크가 붙어 있습니다",
+  experiencePresent: "현재",
+  experienceProof: "증거",
+  productsTitle: "포트폴리오",
   receivedTitle: "받은 보증",
   none: "아직 없습니다.",
   vouchCta: "이 사람을 보증하기",
@@ -147,7 +156,7 @@ const ko: typeof en = {
   contactNote:
     "이메일·전화번호는 수집하지 않습니다. 연락은 GitHub 프로필을 통해 이루어집니다.",
 
-  joinTitle: "길드 가입",
+  joinTitle: "이력서 등록",
   joinLead:
     "아래 고지를 읽고 필수 항목에 동의해야 가입 절차로 넘어갈 수 있습니다. 동의 전에는 어떤 정보도 수집하지 않습니다.",
   warnTitle: "가장 중요한 고지: 삭제가 불가능합니다",

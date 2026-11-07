@@ -26,8 +26,11 @@ export default function JoinPage({
       github: handle,
       tagline: "",
       bio: "",
+      experience: [
+        { role: "", org: "", from: "YYYY-MM", to: "YYYY-MM", proof: "" },
+      ],
       products: [{ name: "", url: "", stage: "live", mrr_band: "none" }],
-      open_to: ["cofounder"],
+      open_to: ["hiring"],
       consent: {
         version: consent.version,
         agreed_at: new Date().toISOString().slice(0, 10),
