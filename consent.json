@@ -85,8 +85,8 @@
       "ko": "위 '수집 항목' 전체"
     },
     "purpose_and_period": {
-      "en": "For public repository hosting and site deployment, for as long as your profile is published",
-      "ko": "공개 저장소 호스팅 및 사이트 배포 목적으로, 프로필이 게시되어 있는 기간 동안"
+      "en": "For public repository hosting, site deployment and AI evaluation of your public profile, for as long as your profile is published",
+      "ko": "공개 저장소 호스팅, 사이트 배포, 공개 프로필의 AI 평가 목적으로, 프로필이 게시되어 있는 기간 동안"
     },
     "refusal": {
       "en": "To refuse the cross-border transfer, simply do not join. The service cannot be provided without it.",
@@ -111,8 +111,8 @@
       "ko": "개인정보를 판매하거나 공유하지 않으며, 과거에도 그런 사실이 없고, 맥락 간 행태 광고에 이용하지 않습니다. 개인정보에 대한 금전적 보상도 제공하지 않습니다. 따라서 '판매·공유 거부' 절차 자체가 존재하지 않습니다."
     },
     "sources": {
-      "en": "Sources of collection: information you submit yourself in a pull request, and the GitHub public API.",
-      "ko": "수집 출처: 본인이 Pull Request로 직접 제출한 정보, 그리고 GitHub 공개 API."
+      "en": "Sources of collection: information you submit yourself in a pull request, the GitHub public API, and the AI evaluation the operator generates from that information.",
+      "ko": "수집 출처: 본인이 Pull Request로 직접 제출한 정보, GitHub 공개 API, 그리고 운영자가 이 정보로 생성하는 AI 평가."
     },
     "rights": {
       "en": "You have the right to know, access, correct, delete, and to data portability, and the right not to be discriminated against for exercising them. Exercise any of these by opening an issue or pull request in the repository; we respond within 45 days. Your identity is verified by the GitHub account that authored the original commit.",
