@@ -20,6 +20,14 @@ export type Profile = {
     stage: keyof typeof STAGE;
     mrr_band?: keyof typeof MRR_BANDS;
   }[];
+  /** 경력. proof는 필수 — 증거 없는 경력은 CI가 거부한다. to 생략 = 현재 재직 중. */
+  experience?: {
+    role: string;
+    org: string;
+    from: string;
+    to?: string;
+    proof: string;
+  }[];
   open_to: (keyof typeof OPEN_TO)[];
   consent: { version: string; agreed_at: string; agreed: string[] };
 };
