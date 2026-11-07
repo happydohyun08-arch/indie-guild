@@ -42,6 +42,7 @@ jobs:
           node scripts/evaluate.mjs --max 10
       - name: Commit evaluations
         run: |
+          [ -d evaluations ] || exit 0
           git add evaluations
           if git diff --cached --quiet; then exit 0; fi
           git config user.name "github-actions[bot]"
