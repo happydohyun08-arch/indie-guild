@@ -1,26 +1,124 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Indie Guild design tokens (research/indie-guild-design/tokens.json).
+   A theme swaps colors only; type, spacing and radius stay the guild's.
+   Workshop is the default. Another theme adds a [data-theme="<id>"] block
+   that redefines the same color variables. */
+:root,
+[data-theme="workshop"] {
+  color-scheme: light;
+  --ground: #f3f5f2;
+  --surface: #ffffff;
+  --ink: #16201b;
+  --muted: #56625b;
+  --line: #d3d9d4;
+  --brand: #0f5c55;
+  --brand-hover: #0b4540;
+  --on-brand: #ffffff;
+  --accent: #c98a00;
+  /* Text on the amber seal stays dark in both modes (accent is fill only). */
+  --on-accent: #16201b;
+  --proof: #1f7a3e;
+  --on-proof: #ffffff;
+  --warn: #a8501a;
+  --critical: #b42318;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  :root,
+  [data-theme="workshop"] {
+    color-scheme: dark;
+    --ground: #121614;
+    --surface: #1b201d;
+    --ink: #e8ede9;
+    --muted: #9aa59f;
+    --line: #2e3632;
+    --brand: #5fc2b5;
+    --brand-hover: #86d4ca;
+    --on-brand: #0b1f1c;
+    --accent: #f0b43c;
+    --proof: #5cc27d;
+    --on-proof: #0b1f1c;
+    --warn: #f08a4b;
+    --critical: #f97066;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@theme inline {
+  --color-ground: var(--ground);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-brand: var(--brand);
+  --color-brand-hover: var(--brand-hover);
+  --color-on-brand: var(--on-brand);
+  --color-accent: var(--accent);
+  --color-on-accent: var(--on-accent);
+  --color-proof: var(--proof);
+  --color-on-proof: var(--on-proof);
+  --color-warn: var(--warn);
+  --color-critical: var(--critical);
+
+  --font-sans: var(--font-plex-sans), "Apple SD Gothic Neo", system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, Menlo, monospace;
+
+  --text-display: 48px;
+  --text-display--line-height: 52px;
+  --text-h1: 32px;
+  --text-h1--line-height: 40px;
+  --text-h2: 22px;
+  --text-h2--line-height: 30px;
+  --text-body: 16px;
+  --text-body--line-height: 26px;
+  --text-small: 14px;
+  --text-small--line-height: 22px;
+  --text-label: 12px;
+  --text-label--line-height: 16px;
+  --text-metric: 14px;
+  --text-metric--line-height: 20px;
+
+  --radius-sm: 2px;
+  --radius-md: 6px;
+  --radius-pill: 999px;
+}
+
+/* In a layer so Tailwind utilities (text-ink on a card link) still win. */
+@layer base {
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--font-sans);
+  }
+
+  a {
+    color: var(--brand);
+  }
+  a:hover {
+    color: var(--brand-hover);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--brand);
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  /* Data label: mono, uppercase, 0.04em tracking. */
+  .label {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  /* A surface sheet on ground: hairline, no shadow. */
+  .sheet {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+  }
 }
