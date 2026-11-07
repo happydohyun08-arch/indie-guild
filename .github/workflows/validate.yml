@@ -1,0 +1,24 @@
+name: validate
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+# 이 워크플로가 동의 절차의 실제 관문이다. 여기를 통과하지 못하면
+# 동의 블록이 없는 프로필이나 개인정보가 저장소에 들어오지 못한다.
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: node scripts/validate.mjs --selfcheck
+      - run: node scripts/validate.mjs
+      - run: npm ci
+      - run: npm run build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,194 @@
+{
+  "version": "2",
+  "repo": "happydohyun08-arch/indie-guild",
+  "controller": {
+    "name": {
+      "en": "Indie Guild maintainers",
+      "ko": "Indie Guild 운영자"
+    },
+    "contact": "https://github.com/happydohyun08-arch/indie-guild/issues"
+  },
+  "purpose": {
+    "en": "To collect verifiable public track records so indie developers can find each other, and so investors and acquirers can find them.",
+    "ko": "검증 가능한 공개 트랙레코드를 모아 인디 개발자 상호 연결 및 투자자·인수자와의 연결 기회를 제공합니다."
+  },
+  "collected": [
+    {
+      "en": "Your GitHub handle (already public information)",
+      "ko": "GitHub 계정 핸들 (이미 공개된 정보)"
+    },
+    {
+      "en": "URLs of public products and repositories you run",
+      "ko": "본인이 운영하는 공개 제품/저장소 URL"
+    },
+    {
+      "en": "A self-written tagline and bio",
+      "ko": "본인이 직접 작성한 소개 문구"
+    },
+    {
+      "en": "Activity metrics read from the GitHub public API (public repo count, total stars, account creation date)",
+      "ko": "GitHub 공개 API로 조회되는 활동 지표 (공개 저장소 수, 스타 수, 계정 생성일)"
+    },
+    {
+      "en": "A revenue band you select (a range, never an exact figure)",
+      "ko": "본인이 선택한 수익 구간 (실제 금액이 아닌 범위)"
+    },
+    {
+      "en": "Consent record (consent version, date of consent, items consented to)",
+      "ko": "동의 이력 (동의 버전, 동의 일자, 동의한 항목)"
+    }
+  ],
+  "never_collected": [
+    { "en": "Email address", "ko": "이메일 주소" },
+    { "en": "Phone number", "ko": "전화번호" },
+    { "en": "Legal name", "ko": "실명" },
+    { "en": "Date of birth", "ko": "생년월일" },
+    { "en": "Postal address", "ko": "주소" },
+    { "en": "Exact revenue figures", "ko": "수익 실액" },
+    {
+      "en": "Government identifiers (SSN, resident registration number, passport number)",
+      "ko": "주민등록번호 등 고유식별정보"
+    },
+    {
+      "en": "Sensitive data (health, political opinion, sexual orientation, precise geolocation, biometrics)",
+      "ko": "건강·정치관·성적 지향·정밀 위치·생체정보 등 민감정보"
+    }
+  ],
+  "retention": {
+    "en": "On request we delete your profile from the latest version of the repository. However, this service runs as a public Git repository: past commit history, forks and clones made by third parties, and search engine caches are beyond our control and cannot be deleted by us. If you do not accept this, do not join.",
+    "ko": "탈퇴를 요청하면 최신 버전에서 프로필을 삭제합니다. 다만 본 서비스는 공개 Git 저장소로 운영되므로 과거 커밋 히스토리, 제3자의 포크·클론, 검색엔진 캐시에 남은 사본은 운영자가 삭제할 수 없습니다. 이 점에 동의하지 않으면 가입할 수 없습니다."
+  },
+  "transfer": {
+    "recipient": {
+      "en": "GitHub, Inc. (storage and hosting), Vercel Inc. (deployment)",
+      "ko": "GitHub, Inc. (저장·호스팅), Vercel Inc. (배포)"
+    },
+    "country": { "en": "United States", "ko": "미국" },
+    "method": {
+      "en": "Network transfer when pushing to the Git repository and deploying the static site",
+      "ko": "Git 저장소 푸시 및 정적 사이트 배포 시 네트워크 전송"
+    },
+    "items": {
+      "en": "All items listed under \"What we collect\" above",
+      "ko": "위 '수집 항목' 전체"
+    },
+    "purpose_and_period": {
+      "en": "For public repository hosting and site deployment, for as long as your profile is published",
+      "ko": "공개 저장소 호스팅 및 사이트 배포 목적으로, 프로필이 게시되어 있는 기간 동안"
+    },
+    "refusal": {
+      "en": "To refuse the cross-border transfer, simply do not join. The service cannot be provided without it.",
+      "ko": "국외 이전을 거부하려면 가입하지 않으면 됩니다. 이전 없이는 서비스 제공이 불가능합니다."
+    }
+  },
+  "us": {
+    "law": {
+      "en": "Notice at Collection under the California Consumer Privacy Act as amended by the CPRA (Cal. Civ. Code § 1798.100 et seq.), applied uniformly to residents of all US states with comparable laws (Virginia, Colorado, Connecticut, Utah, Texas and others).",
+      "ko": "CPRA로 개정된 캘리포니아 소비자 프라이버시법(CCPA, Cal. Civ. Code § 1798.100 이하)에 따른 수집 시 고지입니다. 유사 법률을 둔 미국 전 주(버지니아·콜로라도·코네티컷·유타·텍사스 등) 거주자에게 동일하게 적용합니다."
+    },
+    "categories": {
+      "en": "Categories of personal information collected: (1) Identifiers — your public GitHub handle only; (2) Internet or other electronic network activity information — public repository counts, star counts and account creation date read from the GitHub public API. No other category under § 1798.140(v) is collected.",
+      "ko": "수집하는 개인정보 범주: (1) 식별자 — 공개 GitHub 핸들만; (2) 인터넷 등 전자적 네트워크 활동 정보 — GitHub 공개 API에서 읽은 공개 저장소 수, 스타 수, 계정 생성일. § 1798.140(v)의 그 외 범주는 수집하지 않습니다."
+    },
+    "sensitive": {
+      "en": "We do not collect sensitive personal information as defined in § 1798.140(ae), and we do not use or disclose any information for the purpose of inferring characteristics about you.",
+      "ko": "§ 1798.140(ae)가 정의하는 민감 개인정보는 수집하지 않으며, 어떤 정보도 개인의 특성을 추론하는 목적으로 이용·제공하지 않습니다."
+    },
+    "sale": {
+      "en": "We do not sell or share your personal information, we have never done so, and we do not use it for cross-context behavioral advertising. We offer no financial incentive for personal information. There is therefore no \"Do Not Sell or Share My Personal Information\" mechanism to exercise.",
+      "ko": "개인정보를 판매하거나 공유하지 않으며, 과거에도 그런 사실이 없고, 맥락 간 행태 광고에 이용하지 않습니다. 개인정보에 대한 금전적 보상도 제공하지 않습니다. 따라서 '판매·공유 거부' 절차 자체가 존재하지 않습니다."
+    },
+    "sources": {
+      "en": "Sources of collection: information you submit yourself in a pull request, and the GitHub public API.",
+      "ko": "수집 출처: 본인이 Pull Request로 직접 제출한 정보, 그리고 GitHub 공개 API."
+    },
+    "rights": {
+      "en": "You have the right to know, access, correct, delete, and to data portability, and the right not to be discriminated against for exercising them. Exercise any of these by opening an issue or pull request in the repository; we respond within 45 days. Your identity is verified by the GitHub account that authored the original commit.",
+      "ko": "알 권리, 열람권, 정정권, 삭제권, 데이터 이동권이 있으며, 권리 행사로 인한 차별을 받지 않을 권리가 있습니다. 저장소에 이슈 또는 Pull Request를 등록하면 45일 내에 처리합니다. 본인 확인은 최초 커밋을 작성한 GitHub 계정으로 합니다."
+    },
+    "deletion_limit": {
+      "en": "Limit on the right to delete: § 1798.105(d) permits retention where deletion is technically infeasible. A public Git repository's commit history, third-party forks, and search engine caches fall under that exception. We delete your profile from the current version; we cannot erase the history.",
+      "ko": "삭제권의 한계: § 1798.105(d)는 기술적으로 삭제가 불가능한 경우의 보유를 허용합니다. 공개 Git 저장소의 커밋 히스토리, 제3자의 포크, 검색엔진 캐시가 이 예외에 해당합니다. 현재 버전의 프로필은 삭제하지만 히스토리는 지울 수 없습니다."
+    },
+    "children": {
+      "en": "COPPA: we do not knowingly collect information from anyone under 13, and in fact require every member to be 14 or older. If we learn that a profile belongs to a child under that age, we remove it from the current version immediately.",
+      "ko": "COPPA: 만 13세 미만의 정보를 고의로 수집하지 않으며, 실제로는 모든 멤버에게 만 14세 이상을 요구합니다. 해당 연령 미만의 프로필이 확인되면 현재 버전에서 즉시 제거합니다."
+    }
+  },
+  "rights": {
+    "en": "You may request access, correction, deletion, or suspension of processing of your personal information. Open an issue or pull request in the repository and we will act within 10 days. The Git history copies described under \"Retention\" above are technically impossible to delete.",
+    "ko": "정보주체는 자신의 개인정보에 대해 열람·정정·삭제·처리정지를 요구할 수 있습니다. 저장소에 이슈 또는 Pull Request를 등록하면 10일 내에 처리합니다. 단 위 '보유 기간'에 명시한 Git 히스토리 사본은 기술적으로 삭제가 불가능합니다."
+  },
+  "refusal_consequence": {
+    "en": "You have the right to refuse consent to any required item. The only consequence is that you cannot join the guild or publish a profile. There is no other disadvantage.",
+    "ko": "모든 필수 항목에 대해 동의를 거부할 권리가 있습니다. 거부 시 불이익은 '길드 가입 및 프로필 게시 불가'이며, 그 외 어떤 불이익도 없습니다."
+  },
+  "required": [
+    {
+      "id": "purpose",
+      "label": {
+        "en": "I consent to the purpose of collection and use.",
+        "ko": "수집·이용 목적에 동의합니다."
+      },
+      "detail": {
+        "en": "Your information is not used for any purpose other than those stated above.",
+        "ko": "위에 명시된 목적 외로는 이용하지 않습니다."
+      }
+    },
+    {
+      "id": "items",
+      "label": {
+        "en": "I consent to the items collected.",
+        "ko": "수집 항목에 동의합니다."
+      },
+      "detail": {
+        "en": "Email, phone number and legal name are never collected and must never be committed to the repository. Contact happens through your GitHub profile.",
+        "ko": "이메일·전화번호·실명은 수집하지 않으며 저장소에 기록해서도 안 됩니다. 연락은 GitHub 프로필을 통해 이루어집니다."
+      }
+    },
+    {
+      "id": "retention",
+      "label": {
+        "en": "I understand and accept that the history of a public Git repository cannot be deleted.",
+        "ko": "공개 Git 저장소의 히스토리는 삭제할 수 없다는 점을 이해하고 동의합니다."
+      },
+      "detail": {
+        "en": "This is the most important disclosure. Even after you leave, past commits, other people's forks, and search engine caches cannot be undone.",
+        "ko": "가장 중요한 고지입니다. 탈퇴해도 과거 커밋, 타인의 포크, 검색엔진 캐시에 남은 기록은 되돌릴 수 없습니다."
+      }
+    },
+    {
+      "id": "transfer",
+      "label": {
+        "en": "I consent to my information being transferred to the United States (GitHub, Vercel).",
+        "ko": "개인정보가 미국(GitHub, Vercel)으로 이전되는 것에 동의합니다."
+      },
+      "detail": {
+        "en": "Cross-border transfer consent under Article 28-8 of the Korean Personal Information Protection Act.",
+        "ko": "개인정보 보호법 제28조의8에 따른 국외 이전 동의입니다."
+      }
+    },
+    {
+      "id": "us_notice",
+      "label": {
+        "en": "I have read the US privacy notice (CCPA/CPRA) and accept that my right to delete is limited by public Git history.",
+        "ko": "미국 프라이버시 고지(CCPA/CPRA)를 읽었고, 공개 Git 히스토리로 인해 삭제권이 제한된다는 점에 동의합니다."
+      },
+      "detail": {
+        "en": "We do not sell or share personal information. Deletion applies to the current version only, under the technical-infeasibility exception of § 1798.105(d).",
+        "ko": "개인정보를 판매·공유하지 않습니다. 삭제는 현재 버전에만 적용되며, 이는 § 1798.105(d)의 기술적 불가능 예외에 따른 것입니다."
+      }
+    },
+    {
+      "id": "age",
+      "label": {
+        "en": "I am 14 years of age or older.",
+        "ko": "만 14세 이상입니다."
+      },
+      "detail": {
+        "en": "Under-14 signups require guardian consent and are not accepted at this time. This threshold also satisfies the COPPA floor of 13.",
+        "ko": "만 14세 미만은 법정대리인 동의가 필요하여 현재 가입을 받지 않습니다. 이 기준은 COPPA의 13세 기준도 함께 충족합니다."
+      }
+    }
+  ]
+}

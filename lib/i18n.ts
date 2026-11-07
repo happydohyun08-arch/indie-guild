@@ -1,0 +1,192 @@
+export const LOCALES = ["en", "ko"] as const;
+export type Locale = (typeof LOCALES)[number];
+
+/** consent.json의 사람이 읽는 모든 문구는 이 모양이다. */
+export type Bi = { en: string; ko: string };
+export const tr = (v: Bi, l: Locale): string => v[l];
+
+export const OTHER: Record<Locale, { locale: Locale; label: string }> = {
+  en: { locale: "ko", label: "한국어" },
+  ko: { locale: "en", label: "English" },
+};
+
+/** 수익 구간은 단일 통화(USD)로만 표기한다. 통화가 섞이면 비교가 불가능하다. */
+export const MRR_BANDS = {
+  none: { en: "no revenue", ko: "수익 없음" },
+  under_1k: { en: "under $1k/mo", ko: "월 $1,000 미만" },
+  "1k_5k": { en: "$1k–5k/mo", ko: "월 $1,000~5,000" },
+  "5k_20k": { en: "$5k–20k/mo", ko: "월 $5,000~20,000" },
+  "20k_plus": { en: "$20k+/mo", ko: "월 $20,000 이상" },
+} as const satisfies Record<string, Bi>;
+
+export const OPEN_TO = {
+  investment: { en: "investment", ko: "투자 제안" },
+  acquisition: { en: "acquisition", ko: "인수 제안" },
+  cofounder: { en: "co-founder", ko: "공동창업" },
+  contract: { en: "contract work", ko: "외주·계약" },
+  nothing: { en: "not looking", ko: "연결 희망 없음" },
+} as const satisfies Record<string, Bi>;
+
+export const STAGE = {
+  live: { en: "live", ko: "운영 중" },
+  wip: { en: "in progress", ko: "개발 중" },
+  sunset: { en: "sunset", ko: "종료" },
+} as const satisfies Record<string, Bi>;
+
+const en = {
+  brand: "Indie Guild",
+  navJoin: "Join",
+  metaTitle: "Indie Guild",
+  metaDescription:
+    "A trust network of indie developers connected by verifiable track records. Three vouches per person per year.",
+  footerNote:
+    "We never collect your email, phone number or legal name. Public Git history cannot be deleted.",
+  footerLink: "Read the privacy notice",
+
+  homeTitle: "Indie Developer Guild",
+  homeIntro:
+    "We connect indie developers through verifiable public track records. Metrics are pulled from the GitHub public API at build time, so they cannot be self-reported, and vouches are capped at {n} per person per year, so they cannot be handed out freely.",
+  homeCounts: "{m} members · {v} vouches",
+  homeEmpty: "No members yet.",
+  homeEmptyLink: "Be the first to join",
+  homeVouches: "vouches",
+  homeCta: "Join the guild",
+
+  back: "← Guild",
+  metricsTitle: "GitHub metrics",
+  metricsAuto: "fetched automatically · cannot be self-reported",
+  metricsFailed: "fetch failed",
+  metricsFailNote:
+    "The GitHub API call failed at build time. The profile is shown without metrics.",
+  repos: "Public repos",
+  stars: "Total stars",
+  created: "Account created",
+  productsTitle: "Products",
+  receivedTitle: "Vouches received",
+  none: "None yet.",
+  vouchCta: "Vouch for this person",
+  vouchNote:
+    "Vouches are capped at {n} per person per year. Replace YOUR_HANDLE in both the filename and the from field with your own handle, then commit. Git history records that the commit author is the voucher.",
+  givenTitle: "Vouches given",
+  contactTitle: "Contact",
+  contactNote:
+    "We do not collect email addresses or phone numbers. Contact happens through the GitHub profile.",
+
+  joinTitle: "Join the guild",
+  joinLead:
+    "Read the disclosures below and consent to every required item before you can proceed. Nothing is collected before you consent.",
+  warnTitle: "Most important disclosure: deletion is not possible",
+  secPurpose: "Purpose of collection and use",
+  secCollected: "What we collect",
+  secNever: "What we never collect",
+  secNeverNote:
+    "These must never be committed to the repository either. Contact happens only through your GitHub profile.",
+  secTransfer: "Cross-border transfer",
+  trRecipient: "Recipient",
+  trCountry: "Country",
+  trMethod: "Method",
+  trItems: "Items",
+  trPeriod: "Purpose and period",
+  trRefusal: "How to refuse",
+  secUs: "US privacy notice (CCPA / CPRA)",
+  usLaw: "Applicable law",
+  usCategories: "Categories collected",
+  usSources: "Sources",
+  usSensitive: "Sensitive information",
+  usSale: "Sale and sharing",
+  usRights: "Your rights",
+  usDeletionLimit: "Limit on deletion",
+  usChildren: "Children",
+  secRights: "Rights of the data subject",
+  secRefusal: "Right to refuse consent",
+  requiredTitle: "Required consent ({a}/{b})",
+  handleTitle: "GitHub handle",
+  handleError:
+    "That is not a valid GitHub handle (lowercase letters, digits and hyphens, up to 39 characters).",
+  submit: "Consent and create profile PR",
+  submitNote:
+    "This opens GitHub's new-file editor pre-filled with your profile JSON. Your consent record (version {v}, date, and the items consented to) is committed in that same file, and Git history records that you authored the commit.",
+};
+
+const ko: typeof en = {
+  brand: "Indie Guild",
+  navJoin: "가입",
+  metaTitle: "Indie Guild",
+  metaDescription:
+    "검증 가능한 트랙레코드로 연결되는 인디 개발자 신뢰 네트워크. 보증은 1인당 연 3개.",
+  footerNote:
+    "이메일·전화번호·실명은 수집하지 않습니다. 공개 Git 히스토리는 삭제할 수 없습니다.",
+  footerLink: "개인정보 고지 읽기",
+
+  homeTitle: "인디 개발자 길드",
+  homeIntro:
+    "검증 가능한 공개 트랙레코드로 서로를 연결합니다. 지표는 빌드 시점에 GitHub 공개 API에서 가져오므로 자기신고가 불가능하고, 보증은 1인당 연 {n}개로 제한돼 남발할 수 없습니다.",
+  homeCounts: "멤버 {m}명 · 보증 {v}건",
+  homeEmpty: "아직 멤버가 없습니다.",
+  homeEmptyLink: "첫 번째로 가입하세요",
+  homeVouches: "보증",
+  homeCta: "가입하기",
+
+  back: "← 길드",
+  metricsTitle: "GitHub 지표",
+  metricsAuto: "자동 조회 · 자기신고 불가",
+  metricsFailed: "조회 실패",
+  metricsFailNote:
+    "빌드 시점에 GitHub API 조회가 실패했습니다. 지표 없이 표시합니다.",
+  repos: "공개 저장소",
+  stars: "누적 스타",
+  created: "계정 생성",
+  productsTitle: "제품",
+  receivedTitle: "받은 보증",
+  none: "아직 없습니다.",
+  vouchCta: "이 사람을 보증하기",
+  vouchNote:
+    "보증은 1인당 연 {n}개로 제한됩니다. 파일명과 from 의 YOUR_HANDLE 을 본인 핸들로 바꿔 커밋하세요. 커밋 작성자가 보증인 본인임이 Git 히스토리에 남습니다.",
+  givenTitle: "보낸 보증",
+  contactTitle: "연락",
+  contactNote:
+    "이메일·전화번호는 수집하지 않습니다. 연락은 GitHub 프로필을 통해 이루어집니다.",
+
+  joinTitle: "길드 가입",
+  joinLead:
+    "아래 고지를 읽고 필수 항목에 동의해야 가입 절차로 넘어갈 수 있습니다. 동의 전에는 어떤 정보도 수집하지 않습니다.",
+  warnTitle: "가장 중요한 고지: 삭제가 불가능합니다",
+  secPurpose: "수집·이용 목적",
+  secCollected: "수집 항목",
+  secNever: "수집하지 않는 항목",
+  secNeverNote:
+    "이 항목들은 저장소에 기록해서도 안 됩니다. 연락은 GitHub 프로필을 통해서만 이루어집니다.",
+  secTransfer: "국외 이전",
+  trRecipient: "이전받는 자",
+  trCountry: "이전 국가",
+  trMethod: "이전 방법",
+  trItems: "이전 항목",
+  trPeriod: "목적·기간",
+  trRefusal: "거부 방법",
+  secUs: "미국 프라이버시 고지 (CCPA / CPRA)",
+  usLaw: "적용 법률",
+  usCategories: "수집 범주",
+  usSources: "수집 출처",
+  usSensitive: "민감 정보",
+  usSale: "판매·공유",
+  usRights: "소비자의 권리",
+  usDeletionLimit: "삭제권의 한계",
+  usChildren: "아동",
+  secRights: "정보주체의 권리",
+  secRefusal: "동의를 거부할 권리",
+  requiredTitle: "필수 동의 ({a}/{b})",
+  handleTitle: "GitHub 핸들",
+  handleError:
+    "GitHub 핸들 형식이 아닙니다 (영문 소문자·숫자·하이픈, 39자 이내).",
+  submit: "동의하고 프로필 PR 만들기",
+  submitNote:
+    "버튼을 누르면 GitHub에 프로필 JSON이 채워진 새 파일 편집 화면이 열립니다. 동의 이력(버전 {v}, 동의 일자, 동의 항목)이 해당 파일에 함께 기록되며, 커밋 작성자가 본인임이 Git 히스토리에 남습니다.",
+};
+
+export const UI = { en, ko };
+export type UIStrings = typeof en;
+export const ui = (l: Locale): UIStrings => UI[l];
+
+export function fill(s: string, vars: Record<string, string | number>): string {
+  return s.replace(/\{(\w+)\}/g, (m, k) => String(vars[k] ?? m));
+}
