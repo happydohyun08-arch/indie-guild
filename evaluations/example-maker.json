@@ -1,0 +1,54 @@
+{
+  "model": "claude-sonnet-5-5",
+  "evaluated_at": "2026-11-07T12:59:49.507Z",
+  "profile_hash": "6575caa254bc2fe43e68634ddbf15b8165512ce0e874057c4a340fc6e7a690e1",
+  "total": 9,
+  "scores": {
+    "tech_depth": {
+      "score": 0,
+      "evidence": "No technical content anywhere: the bio and tagline describe no stack or architecture, and GitHub metrics show public_repos 0. Screenshots show only the example.com placeholder.",
+      "fix": "Add a public repo and a short write-up of the stack, key design decisions (auth, payments, DB) and one measured result such as latency or error rate."
+    },
+    "traction": {
+      "score": 2,
+      "evidence": "Product list claims mrr_band '1k_5k' for Example SaaS, but the screenshot shows the example.com notice ('This domain is for use in documentation examples... This is not a service'), so the claim is contradicted. No user counts, period or source.",
+      "fix": "Point the product URL at the real app and attach a Stripe or analytics screenshot with user count, MRR and date range."
+    },
+    "differentiation": {
+      "score": 0,
+      "evidence": "Bio states 'A fictional handle that does not exist.' No product description or unique asset is visible; both products are only the generic placeholder page.",
+      "fix": "State the specific niche, proprietary data or contribution (merged OSS PR, dataset size) that others cannot easily copy."
+    },
+    "evidence": {
+      "score": 3,
+      "evidence": "Both product URLs open to an IANA placeholder page rather than a product; GitHub has 0 repos; proof links (example.com, example.com/cli) corroborate nothing. The profile is at least short and clearly worded.",
+      "fix": "Provide a working live demo link, a public GitHub repo, and a 30-second demo video or real product screenshots."
+    },
+    "commercial": {
+      "score": 3,
+      "evidence": "Only signal is mrr_band '1k_5k' and open_to investment/acquisition; no target customer, pricing or revenue model, and screenshots contradict a live paid service.",
+      "fix": "Name the target customer, pricing plan and paying-customer count, backed by a payment dashboard screenshot."
+    },
+    "design": {
+      "score": 4,
+      "evidence": "The only visuals are the plain gray example.com placeholder in several languages with a default blue link. It is not the maker's design, so the product UI cannot be judged.",
+      "fix": "Supply real product screenshots showing the main screen with a clear hierarchy and a one-line value proposition."
+    },
+    "innovation": {
+      "score": 0,
+      "evidence": "No problem statement or solution is described; the tagline reads 'Sample profile — shows the fallback when GitHub lookup fails'. There is no evidence of novelty.",
+      "fix": "Write two sentences on the problem, who has it, and how your approach differs from existing solutions."
+    }
+  },
+  "summary": {
+    "en": "The profile is a self-described fictional placeholder. Both product screenshots show the IANA example.com notice, GitHub shows 0 repos and 0 stars, and the only claim (MRR band 1k_5k) is uncorroborated, so almost nothing is verifiable.",
+    "ko": "이 프로필은 스스로 가상이라고 밝힌 샘플입니다. 두 제품 스크린샷 모두 IANA example.com 안내 페이지이고 GitHub는 저장소 0개·스타 0개이며, 유일한 수치 주장(MRR 1k_5k)도 뒷받침이 없어 확인 가능한 것이 거의 없습니다."
+  },
+  "injection_flags": [],
+  "screenshots": 2,
+  "usage": {
+    "input_tokens": 6132,
+    "output_tokens": 1113,
+    "usd": 0.0234
+  }
+}
