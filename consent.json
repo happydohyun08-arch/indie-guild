@@ -132,8 +132,8 @@
     "ko": "정보주체는 자신의 개인정보에 대해 열람·정정·삭제·처리정지를 요구할 수 있습니다. 저장소에 이슈 또는 Pull Request를 등록하면 10일 내에 처리합니다. 단 위 '보유 기간'에 명시한 Git 히스토리 사본은 기술적으로 삭제가 불가능합니다."
   },
   "refusal_consequence": {
-    "en": "You have the right to refuse consent to any required item. The only consequence is that you cannot join the guild or publish a profile. There is no other disadvantage.",
-    "ko": "모든 필수 항목에 대해 동의를 거부할 권리가 있습니다. 거부 시 불이익은 '길드 가입 및 프로필 게시 불가'이며, 그 외 어떤 불이익도 없습니다."
+    "en": "You have the right to refuse consent to any required item. The only consequence is that your résumé and portfolio cannot be published here. There is no other disadvantage.",
+    "ko": "모든 필수 항목에 대해 동의를 거부할 권리가 있습니다. 거부 시 불이익은 '이력서·포트폴리오 게시 불가'이며, 그 외 어떤 불이익도 없습니다."
   },
   "required": [
     {

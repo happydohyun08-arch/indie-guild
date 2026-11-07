@@ -42,3 +42,6 @@ next-env.d.ts
 
 # local agent tooling cache
 /.impeccable/
+/.claude/
+/.serena/
+/skills-lock.json

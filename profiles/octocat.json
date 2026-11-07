@@ -3,6 +3,14 @@
   "github": "octocat",
   "tagline": "Sample profile — shows automatic GitHub metrics working",
   "bio": "Uses GitHub's official mascot account as a sample. Not a real person's data.",
+  "experience": [
+    {
+      "role": "Mascot",
+      "org": "GitHub",
+      "from": "2011-01",
+      "proof": "https://github.com/octocat"
+    }
+  ],
   "products": [
     {
       "name": "Hello World",
@@ -11,7 +19,7 @@
       "mrr_band": "none"
     }
   ],
-  "open_to": ["cofounder"],
+  "open_to": ["hiring"],
   "consent": {
     "version": "3",
     "agreed_at": "2026-11-07",
