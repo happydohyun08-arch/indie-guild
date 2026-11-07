@@ -40,18 +40,26 @@ jobs:
             exit 0
           fi
           node scripts/evaluate.mjs --max 10
+     
       - name: Commit evaluations
         run: |
-          [ -d evaluations ] || exit 0
+          if [ ! -d evaluations ]; then
+            echo "No evaluations directory. Skipping commit."
+            exit 0
+          fi
+
           git add evaluations
-          if git diff --cached --quiet; then exit 0; fi
+          if git diff --cached --quiet; then
+            echo "No evaluation changes to commit."
+            exit 0
+          fi
+
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          # [skip ci] + GITHUB_TOKEN 푸시는 워크플로를 다시 띄우지 않는다 (루프 방지 이중 장치).
           git commit -m "Update AI evaluations [skip ci]"
           git pull --rebase origin main
           git push origin HEAD:main
-
+          
   validate:
     needs: evaluate
     # 평가가 건너뛰어지거나 실패해도 사이트는 빌드한다. 평가는 참고용일 뿐이다.
