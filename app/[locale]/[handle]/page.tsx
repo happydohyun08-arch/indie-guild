@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
   consentSpec,
+  getEvaluation,
   getGithubStats,
   getProfile,
   getProfiles,
@@ -10,6 +11,7 @@ import {
   VOUCH_LIMIT_PER_YEAR,
 } from "../../../lib/guild";
 import {
+  CRITERIA,
   fill,
   MRR_BANDS,
   OPEN_TO,
@@ -36,6 +38,7 @@ export default async function ProfilePage({
   if (!profile) notFound();
 
   const stats = await getGithubStats(profile.github);
+  const evaluation = getEvaluation(handle);
   const received = vouchesFor(handle);
   const given = vouchesBy(handle);
 
@@ -130,6 +133,39 @@ export default async function ProfilePage({
           ))}
         </ul>
       </section>
+
+      {evaluation && (
+        <section
+          className="mt-8 rounded border border-current/20 p-4"
+          aria-labelledby="ai-eval"
+        >
+          <h2 id="ai-eval" className="font-semibold">
+            {t.evalTitle}{" "}
+            <span className="ml-1 text-lg">{evaluation.total}</span>
+            <span className="text-xs font-normal opacity-60">/100</span>
+          </h2>
+          <p className="mt-1 text-sm opacity-80">
+            {tr(evaluation.summary, locale)}
+          </p>
+          <dl className="mt-3 grid grid-cols-2 gap-x-4 gap-y-1 text-sm sm:grid-cols-4">
+            {(Object.keys(CRITERIA) as (keyof typeof CRITERIA)[]).map((id) => (
+              <div key={id}>
+                <dt className="text-xs opacity-60">{tr(CRITERIA[id], locale)}</dt>
+                <dd>
+                  {evaluation.scores[id]?.score ?? "–"}
+                  <span className="text-xs opacity-60">/20</span>
+                </dd>
+              </div>
+            ))}
+          </dl>
+          <p className="mt-3 text-xs opacity-60">
+            {fill(t.evalNote, {
+              model: evaluation.model,
+              date: evaluation.evaluated_at.slice(0, 10),
+            })}
+          </p>
+        </section>
+      )}
 
       <section className="mt-8">
         <h2 className="font-semibold">

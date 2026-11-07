@@ -13,7 +13,7 @@
   ],
   "open_to": ["cofounder"],
   "consent": {
-    "version": "2",
+    "version": "3",
     "agreed_at": "2026-11-07",
     "agreed": [
       "purpose",
@@ -21,6 +21,7 @@
       "retention",
       "transfer",
       "us_notice",
+      "ai_eval",
       "age"
     ]
   }

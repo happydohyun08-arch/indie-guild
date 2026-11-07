@@ -7,22 +7,76 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 # 이 워크플로가 동의 절차의 실제 관문이다. 여기를 통과하지 못하면
 # 동의 블록이 없는 프로필이나 개인정보가 저장소에 들어오지 못한다.
 # 검증을 통과한 빌드 산출물만 그대로 Pages로 배포한다.
 jobs:
-  validate:
+  # 운영자 비용으로 도는 AI 평가. main 푸시에서만 돈다 — pull_request /
+  # pull_request_target에는 절대 붙이지 않는다 (포크 PR이 키에 닿지 않게).
+  evaluate:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    concurrency:
+      group: ai-evaluate
+      cancel-in-progress: false
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      - run: node scripts/evaluate.mjs --selfcheck
+      - run: node scripts/validate.mjs
+      - name: Evaluate changed profiles
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          EVAL_USD_CAP: "2"
+        run: |
+          if [ -z "$ANTHROPIC_API_KEY" ]; then
+            echo "::notice::ANTHROPIC_API_KEY secret is not set; skipping AI evaluation. The site still builds."
+            exit 0
+          fi
+          node scripts/evaluate.mjs --max 10
+      - name: Commit evaluations
+        run: |
+          git add evaluations
+          if git diff --cached --quiet; then exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # [skip ci] + GITHUB_TOKEN 푸시는 워크플로를 다시 띄우지 않는다 (루프 방지 이중 장치).
+          git commit -m "Update AI evaluations [skip ci]"
+          git pull --rebase origin main
+          git push origin HEAD:main
+
+  validate:
+    needs: evaluate
+    # 평가가 건너뛰어지거나 실패해도 사이트는 빌드한다. 평가는 참고용일 뿐이다.
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # main 푸시에서는 브랜치 끝을 받아 방금 커밋된 평가까지 빌드에 넣는다.
+          ref: ${{ github.event_name == 'push' && github.ref || '' }}
+          fetch-depth: 2
+      - name: Members cannot write their own scores
+        if: github.event_name == 'pull_request'
+        run: |
+          if git diff --name-only HEAD^1 HEAD | grep '^evaluations/'; then
+            echo "::error::evaluations/ is written only by CI on main. Remove these files from the pull request."
+            exit 1
+          fi
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
           cache: npm
       - run: node scripts/validate.mjs --selfcheck
+      - run: node scripts/evaluate.mjs --selfcheck
       - run: node scripts/validate.mjs
       - run: npm ci
       - run: npm run build
@@ -35,8 +89,11 @@ jobs:
 
   deploy:
     needs: validate
-    if: github.ref == 'refs/heads/main'
+    if: ${{ !cancelled() && needs.validate.result == 'success' && github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deploy.outputs.page_url }}
