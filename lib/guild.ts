@@ -1,7 +1,8 @@
+import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import consentJson from "../consent.json";
-import type { MRR_BANDS, OPEN_TO, STAGE } from "./i18n";
+import type { CRITERIA, MRR_BANDS, OPEN_TO, STAGE } from "./i18n";
 
 export const VOUCH_LIMIT_PER_YEAR = 3;
 
@@ -80,6 +81,32 @@ export function vouchesFor(handle: string): Vouch[] {
 
 export function vouchesBy(handle: string): Vouch[] {
   return getVouches().filter((v) => v.from === handle);
+}
+
+export type Evaluation = {
+  model: string;
+  evaluated_at: string;
+  profile_hash: string;
+  total: number;
+  scores: Record<keyof typeof CRITERIA, { score: number; evidence: string; fix: string }>;
+  summary: { en: string; ko: string };
+};
+
+/**
+ * scripts/evaluate.mjs가 CI에서 쓴 AI 평가. 프로필 파일 해시가 평가 당시와
+ * 같을 때만 돌려준다 — 프로필이 바뀌면 재평가 전까지 낡은 점수를 보이지 않는다.
+ */
+export function getEvaluation(handle: string): Evaluation | null {
+  try {
+    const raw = fs.readFileSync(path.join(process.cwd(), "profiles", `${handle}.json`));
+    const ev = JSON.parse(
+      fs.readFileSync(path.join(process.cwd(), "evaluations", `${handle}.json`), "utf8"),
+    ) as Evaluation;
+    const hash = crypto.createHash("sha256").update(raw).digest("hex");
+    return ev.profile_hash === hash ? ev : null;
+  } catch {
+    return null;
+  }
 }
 
 export type GithubStats = {

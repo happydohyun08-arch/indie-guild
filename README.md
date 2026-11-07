@@ -51,6 +51,7 @@ npm run dev                            # dev server
 node scripts/validate.mjs --selfcheck  # test the validator itself
 node scripts/validate.mjs              # validate the real data
 npm run build                          # static site into out/
+node scripts/evaluate.mjs --dry-run    # AI evaluation with a stub (no network); real runs happen in CI on main
 ```
 
 Past ~25 members the unauthenticated GitHub API limit (60/hour) kicks in.

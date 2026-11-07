@@ -11,8 +11,26 @@ const ROOT = path.join(import.meta.dirname, "..");
 const VOUCH_LIMIT_PER_YEAR = 3;
 const YEAR_MS = 365 * 24 * 60 * 60 * 1000;
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
-const MONTH_RE = /^\d{4}-\d{2}$/;
+const MONTH_RE = /^\d{4}-(0[1-9]|1[0-2])$/;
 const HANDLE_RE = /^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/;
+
+// proof는 공개 https URL이어야 한다. localhost·사설 IP는 공개 증거가 아니다.
+function publicHttps(u) {
+  let url;
+  try {
+    url = new URL(u);
+  } catch {
+    return false;
+  }
+  if (url.protocol !== "https:") return false;
+  const h = url.hostname.replace(/^\[|\]$/g, "").toLowerCase();
+  if (h === "localhost" || h.endsWith(".localhost") || !h.includes(".") && !h.includes(":"))
+    return false;
+  if (/^(127|10|0)\./.test(h) || /^169\.254\./.test(h) || /^192\.168\./.test(h)) return false;
+  if (/^172\.(1[6-9]|2\d|3[01])\./.test(h)) return false;
+  if (h === "::1" || /^f[cd]/.test(h) || /^fe80:/.test(h)) return false;
+  return true;
+}
 
 // 저장소에 절대 들어와서는 안 되는 패턴. 한 번 커밋되면 되돌릴 수 없다.
 const PII = [
@@ -62,13 +80,12 @@ export function validate(profiles, vouches, spec) {
         at(`제품 url이 http(s)가 아닙니다.`);
     }
 
-    // 경력은 항목마다 공개 증거 링크가 있어야 한다. 증거 없는 경력은
-    // 자기신고일 뿐이고, 그러면 이 저장소의 존재 이유가 사라진다.
+    // consent.json이 약속한 경력 형식: 역할·조직·월 단위 기간·공개 증거 링크.
     for (const e of p.experience ?? []) {
       const who = `경력 "${e.role ?? ""}@${e.org ?? ""}"`;
-      if (!e.role || !e.org) at(`${who}: role과 org는 필수입니다.`);
-      if (!/^https?:\/\//.test(e.proof ?? ""))
-        at(`${who}: 공개 증거 링크(proof)가 필요합니다.`);
+      if (!e.role?.trim?.() || !e.org?.trim?.()) at(`${who}: role과 org는 필수입니다.`);
+      if (!publicHttps(e.proof ?? ""))
+        at(`${who}: 공개 증거 링크(proof)는 https URL이어야 합니다.`);
       if (!MONTH_RE.test(e.from ?? "")) at(`${who}: from이 YYYY-MM이 아닙니다.`);
       if (e.to !== undefined && !MONTH_RE.test(e.to))
         at(`${who}: to가 YYYY-MM이 아닙니다 (재직 중이면 생략).`);
@@ -191,43 +208,18 @@ function selfcheck() {
     "주민번호 차단",
   );
 
-  const exp = (over = {}) => ({
-    experience: [
-      {
-        role: "Engineer",
-        org: "Sample Corp",
-        from: "2024-01",
-        to: "2025-06",
-        proof: "https://example.com/proof",
-        ...over,
-      },
-    ],
-  });
-  assert.deepEqual(
-    validate([p("alice", exp())], [], spec),
-    [],
-    "증거 링크가 있는 경력은 통과",
-  );
-  assert.match(
-    validate([p("alice", exp({ proof: undefined }))], [], spec)[0],
-    /공개 증거 링크\(proof\)가 필요합니다/,
-    "증거 없는 경력 차단",
-  );
-  assert.match(
-    validate([p("alice", exp({ from: "2024" }))], [], spec)[0],
-    /from이 YYYY-MM이 아닙니다/,
-    "경력 기간 형식 차단",
-  );
-  assert.match(
-    validate([p("alice", exp({ from: "2025-06", to: "2024-01" }))], [], spec)[0],
-    /to가 from보다 앞섭니다/,
-    "거꾸로 된 기간 차단",
-  );
-  assert.deepEqual(
-    validate([p("alice", exp({ to: undefined }))], [], spec),
-    [],
-    "재직 중(to 생략)은 통과",
-  );
+  const exp = { role: "Engineer", org: "Acme", from: "2024-01", to: "2025-06", proof: "https://acme.com/team" };
+  const e = (over) => validate([p("alice", { experience: [{ ...exp, ...over }] })], [], spec);
+  assert.deepEqual(e({}), [], "정상 경력은 통과");
+  assert.deepEqual(e({ to: undefined }), [], "재직 중(to 생략)은 통과");
+  assert.match(e({ proof: undefined })[0], /proof/, "증거 링크 없으면 차단");
+  assert.match(e({ from: "2024-13" })[0], /from이 YYYY-MM/, "잘못된 월 차단");
+  assert.match(e({ from: "2024/01" })[0], /from이 YYYY-MM/, "월 형식 오류 차단");
+  assert.match(e({ to: "2023-12" })[0], /to가 from보다 앞섭니다/, "to<from 차단");
+  assert.match(e({ role: " " })[0], /role과 org/, "빈 role 차단");
+  assert.match(e({ org: undefined })[0], /role과 org/, "org 누락 차단");
+  for (const bad of ["http://acme.com", "https://localhost/x", "https://127.0.0.1/", "https://192.168.0.1/", "https://10.0.0.1/", "https://172.16.0.1/", "https://[::1]/", "not a url", "ftp://acme.com"])
+    assert.match(e({ proof: bad })[0], /proof/, `비공개·비https 증거 차단: ${bad}`);
 
   const two = [p("alice"), p("bob")];
   assert.deepEqual(
