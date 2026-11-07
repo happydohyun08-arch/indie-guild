@@ -22,36 +22,36 @@ export default async function Home({
   }
 
   return (
-    <main className="mx-auto max-w-2xl px-5 py-12">
-      <h1 className="text-2xl font-semibold">{t.homeTitle}</h1>
-      <p className="mt-2 text-sm opacity-70">
+    <main className="mx-auto w-full max-w-5xl px-4 sm:px-6 py-10">
+      <h1 className="max-w-[65ch] text-h1 font-bold text-balance sm:text-display">{t.homeTitle}</h1>
+      <p className="mt-4 max-w-[65ch] text-body text-muted">
         {fill(t.homeIntro, { n: VOUCH_LIMIT_PER_YEAR })}
       </p>
 
-      <p className="mt-6 text-sm">
+      <p className="mt-6 text-metric font-semibold">
         {fill(t.homeCounts, { m: profiles.length, v: vouches.length })}
       </p>
 
       {profiles.length === 0 ? (
-        <p className="mt-8 text-sm opacity-60">
+        <p className="mt-10 text-small text-muted">
           {t.homeEmpty}{" "}
-          <Link href={`/${locale}/join`} className="underline">
+          <Link href={`/${locale}/join`} className="underline underline-offset-2">
             {t.homeEmptyLink}
           </Link>
         </p>
       ) : (
-        <ul className="mt-6 grid gap-3 sm:grid-cols-2">
+        <ul className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {profiles.map((p) => (
             <li key={p.handle}>
               <Link
                 href={`/${locale}/${p.handle}`}
-                className="block h-full rounded border border-current/15 p-4 hover:border-current/40"
+                className="sheet flex h-full flex-col p-4 text-ink hover:border-brand hover:text-ink sm:p-6"
               >
-                <span className="font-medium">@{p.handle}</span>
-                <span className="mt-1 block text-sm opacity-70">
+                <span className="font-mono text-metric text-muted">@{p.handle}</span>
+                <span className="mt-2 block font-semibold">
                   {p.tagline}
                 </span>
-                <span className="mt-3 block text-xs opacity-60">
+                <span className="mt-auto block pt-4 text-small text-muted">
                   {t.homeVouches} {received.get(p.handle) ?? 0} ·{" "}
                   {p.open_to.map((o) => tr(OPEN_TO[o], locale)).join(", ")}
                 </span>
@@ -63,7 +63,7 @@ export default async function Home({
 
       <Link
         href={`/${locale}/join`}
-        className="mt-10 inline-block rounded bg-foreground px-4 py-2 font-medium text-background"
+        className="mt-10 inline-block rounded-md bg-brand px-5 py-3 font-semibold text-on-brand hover:bg-brand-hover hover:text-on-brand"
       >
         {t.homeCta}
       </Link>

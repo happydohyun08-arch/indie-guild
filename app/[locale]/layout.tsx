@@ -40,14 +40,14 @@ export default async function LocaleLayout({
 
   return (
     <div lang={locale} className="flex flex-1 flex-col">
-      <header className="border-b border-current/10">
-        <nav className="mx-auto flex max-w-2xl items-baseline gap-5 px-5 py-4 text-sm">
-          <Link href={`/${locale}`} className="font-semibold">
+      <header className="border-b border-line bg-surface">
+        <nav className="mx-auto w-full max-w-5xl px-4 sm:px-6 flex items-baseline gap-5 py-4 text-small">
+          <Link href={`/${locale}`} className="font-bold text-ink hover:text-ink">
             {t.brand}
           </Link>
           <Link
             href={`/${locale}/join`}
-            className="opacity-60 hover:opacity-100"
+            className="text-muted hover:text-brand"
           >
             {t.navJoin}
           </Link>
@@ -56,7 +56,7 @@ export default async function LocaleLayout({
           <Link
             href={`/${other.locale}`}
             hrefLang={other.locale}
-            className="ml-auto opacity-60 hover:opacity-100"
+            className="ml-auto text-muted hover:text-brand"
           >
             {other.label}
           </Link>
@@ -65,8 +65,8 @@ export default async function LocaleLayout({
 
       {children}
 
-      <footer className="mt-auto border-t border-current/10">
-        <p className="mx-auto max-w-2xl px-5 py-6 text-xs opacity-60">
+      <footer className="mt-auto border-t border-line">
+        <p className="mx-auto w-full max-w-5xl px-4 sm:px-6 py-6 text-small text-muted">
           {t.footerNote}{" "}
           <Link href={`/${locale}/join`} className="underline">
             {t.footerLink}

@@ -44,15 +44,15 @@ export default function JoinPage({
     `&value=${encodeURIComponent(profileJson)}`;
 
   return (
-    <main className="mx-auto max-w-2xl px-5 py-12">
-      <h1 className="text-2xl font-semibold">{t.joinTitle}</h1>
-      <p className="mt-2 text-sm opacity-70">{t.joinLead}</p>
+    <main className="mx-auto w-full max-w-2xl px-4 py-10 sm:px-6">
+      <h1 className="text-h1 font-bold">{t.joinTitle}</h1>
+      <p className="mt-3 text-body text-muted">{t.joinLead}</p>
 
-      <div className="mt-8 rounded border-2 border-red-500/60 bg-red-500/5 p-4">
-        <h2 className="font-semibold text-red-600 dark:text-red-400">
+      <div className="sheet mt-8 border-2 border-critical p-4 sm:p-6">
+        <h2 className="font-semibold text-critical">
           {t.warnTitle}
         </h2>
-        <p className="mt-2 text-sm">{tr(consent.retention, locale)}</p>
+        <p className="mt-2 text-small">{tr(consent.retention, locale)}</p>
       </div>
 
       <Section title={t.secPurpose}>{tr(consent.purpose, locale)}</Section>
@@ -66,7 +66,7 @@ export default function JoinPage({
       </Section>
 
       <Section title={t.secNever}>
-        <ul className="list-disc pl-5 opacity-70">
+        <ul className="list-disc pl-5 text-muted">
           {consent.never_collected.map((c) => (
             <li key={c.en}>{tr(c, locale)}</li>
           ))}
@@ -108,7 +108,7 @@ export default function JoinPage({
         {tr(consent.refusal_consequence, locale)}
       </Section>
 
-      <h2 className="mt-10 text-lg font-semibold">
+      <h2 className="mt-10 text-h2 font-semibold">
         {fill(t.requiredTitle, {
           a: consent.required.filter((r) => agreed[r.id]).length,
           b: consent.required.length,
@@ -117,34 +117,34 @@ export default function JoinPage({
       <ul className="mt-3 space-y-3">
         {consent.required.map((r) => (
           <li key={r.id}>
-            <label className="flex gap-3 text-sm">
+            <label className="flex gap-3 text-small">
               <input
                 type="checkbox"
-                className="mt-1 size-4 shrink-0"
+                className="mt-1 size-4 shrink-0 accent-brand"
                 checked={!!agreed[r.id]}
                 onChange={(e) =>
                   setAgreed((a) => ({ ...a, [r.id]: e.target.checked }))
                 }
               />
               <span>
-                <span className="font-medium">{tr(r.label, locale)}</span>
-                <span className="block opacity-60">{tr(r.detail, locale)}</span>
+                <span className="font-semibold">{tr(r.label, locale)}</span>
+                <span className="block text-muted">{tr(r.detail, locale)}</span>
               </span>
             </label>
           </li>
         ))}
       </ul>
 
-      <h2 className="mt-10 text-lg font-semibold">{t.handleTitle}</h2>
+      <h2 className="mt-10 text-h2 font-semibold">{t.handleTitle}</h2>
       <input
         value={handle}
         onChange={(e) => setHandle(e.target.value.trim().toLowerCase())}
         placeholder="octocat"
         aria-label={t.handleTitle}
-        className="mt-2 w-full rounded border border-current/20 bg-transparent px-3 py-2"
+        className="mt-2 w-full rounded-md border border-muted bg-surface px-3 py-2 font-mono text-body"
       />
       {handle && !handleOk && (
-        <p className="mt-1 text-sm text-red-600 dark:text-red-400">
+        <p className="mt-1 text-small text-critical">
           {t.handleError}
         </p>
       )}
@@ -155,19 +155,19 @@ export default function JoinPage({
             href={prUrl}
             target="_blank"
             rel="noreferrer"
-            className="inline-block rounded bg-foreground px-4 py-2 font-medium text-background"
+            className="inline-block rounded-md bg-brand px-5 py-3 font-semibold text-on-brand hover:bg-brand-hover hover:text-on-brand"
           >
             {t.submit}
           </a>
         ) : (
           <button
             disabled
-            className="cursor-not-allowed rounded border border-current/20 px-4 py-2 opacity-40"
+            className="cursor-not-allowed rounded-md border border-line px-5 py-3 font-semibold text-muted"
           >
             {t.submit}
           </button>
         )}
-        <p className="mt-2 text-xs opacity-60">
+        <p className="mt-2 text-small text-muted">
           {fill(t.submitNote, { v: consent.version })}
         </p>
       </div>
@@ -185,7 +185,7 @@ function Section({
   return (
     <section className="mt-6">
       <h2 className="font-semibold">{title}</h2>
-      <div className="mt-1 text-sm">{children}</div>
+      <div className="mt-1 text-small">{children}</div>
     </section>
   );
 }
@@ -195,7 +195,7 @@ function Rows({ rows }: { rows: [string, string][] }) {
     <dl className="grid gap-y-1 sm:grid-cols-[9rem_1fr]">
       {rows.map(([k, v]) => (
         <div key={k} className="contents">
-          <dt className="opacity-60">{k}</dt>
+          <dt className="text-muted">{k}</dt>
           <dd>{v}</dd>
         </div>
       ))}
