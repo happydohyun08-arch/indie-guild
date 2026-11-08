@@ -48,7 +48,7 @@ export default async function Start({ params }: { params: Promise<{ locale: stri
     <main className="relative isolate overflow-hidden">
       <GuildScene nodes={talents.length} edges={edges} />
       <div className="mx-auto w-full max-w-6xl px-4 pt-14 pb-20 sm:px-6 sm:pt-24 sm:pb-28">
-        <p className="eyebrow">{fill(t.startEyebrow, { n: talents.length })}</p>
+        <p className="eyebrow">{talents.length ? fill(t.startEyebrow, { n: talents.length }) : t.brand}</p>
         <h1 className="display mt-4">
           <Rotator lines={t.startHeadline} />
         </h1>
@@ -78,7 +78,7 @@ export default async function Start({ params }: { params: Promise<{ locale: stri
                           </svg>
                         </span>
                         <span className="text-muted">{body}</span>
-                        {"needs" in c && (
+                        {"needs" in c && count(c.needs) > 0 && (
                           <span className="mt-auto pt-3 text-meta text-brand">
                             {fill(t.matchCount, { n: count(c.needs) })}
                           </span>

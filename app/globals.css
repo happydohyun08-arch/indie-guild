@@ -302,7 +302,8 @@
     line-height: 1.02;
     font-weight: 600;
     letter-spacing: -0.035em;
-    min-height: 2.04em; /* 문구가 바뀌어도 아래가 들썩이지 않게 두 줄 자리 확보 */
+    min-height: 2.04em;
+    word-break: keep-all; /* 한글을 낱자에서 끊지 않는다 */ /* 문구가 바뀌어도 아래가 들썩이지 않게 두 줄 자리 확보 */
   }
   .rotator {
     display: inline-block;
