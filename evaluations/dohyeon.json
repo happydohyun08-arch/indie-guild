@@ -1,0 +1,54 @@
+{
+  "model": "claude-sonnet-5-5",
+  "evaluated_at": "2026-11-08T09:18:57.036Z",
+  "profile_hash": "16cde530b63953c8d6ecfa4ac74431d858c25c17c0d1a54d1a397b265bec8dca",
+  "total": 43,
+  "scores": {
+    "tech_depth": {
+      "score": 7,
+      "evidence": "Bio: \"DB도 로그인도 백엔드도 없이 공개 Git 저장소 하나로 돌아가고, 커밋 작성자가 곧 신원 확인입니다.\" This is an architectural choice, but there is no rationale detail, measurement, or code evidence; GitHub shows 1 repo, 0 stars.",
+      "fix": "Add a short architecture note in the README explaining how commit-author identity verification works, its limits (e.g. spoofed git emails), and how you handle them."
+    },
+    "traction": {
+      "score": 1,
+      "evidence": "No user counts, profiles created, traffic, or revenue anywhere; mrr_band is \"none\"; GitHub account created 2026-09-25 with 0 stars.",
+      "fix": "Publish concrete numbers (profiles submitted, visitors, merged PRs) with dates, and show an analytics screenshot."
+    },
+    "differentiation": {
+      "score": 9,
+      "evidence": "Tagline and landing text: \"every claim carries a public evidence link\", aimed at companies and investors who verify. The angle is distinct, but no proprietary data, contributions or awards are visible.",
+      "fix": "Show 3–5 real example profiles whose evidence links check out, to prove the concept works and is hard to copy."
+    },
+    "evidence": {
+      "score": 13,
+      "evidence": "Live URL exists and the screenshot shows a bilingual landing page with a clear two-sentence explanation; GitHub is public. But the screenshot shows only a language chooser, with no demo of an actual profile or evaluation.",
+      "fix": "Put a sample profile and a 30-second demo or GIF on the landing page, and link the repo prominently."
+    },
+    "commercial": {
+      "score": 6,
+      "evidence": "Targets \"companies and investors who want to verify before they hire or invest\", but no pricing, revenue model, waitlist or pilots are stated; mrr_band \"none\".",
+      "fix": "State who pays and how much (e.g. recruiter plan per month) and start a waitlist with a visible count."
+    },
+    "design": {
+      "score": 13,
+      "evidence": "Screenshot 1: clean, centered card, consistent font, clear hierarchy, readable in 3 seconds. However the page is sparse, with a lot of empty space, no call to action and no product visuals.",
+      "fix": "Add a primary call-to-action (view sample profile / submit yours) and a visual preview of a profile."
+    },
+    "innovation": {
+      "score": 11,
+      "evidence": "Evidence-required résumés with Git commit identity and no backend is a somewhat fresh take on verified portfolios, but the visible material only describes it; it is not demonstrated.",
+      "fix": "Demonstrate an automated evidence-link check (e.g. CI that validates each claim's URL) to show real novelty beyond the idea."
+    }
+  },
+  "summary": {
+    "en": "A clean, clearly stated concept (evidence-linked résumés on a pure public Git repo), but there are no users, revenue, metrics or visible product depth beyond a bilingual landing screen. Only one repo with 0 stars and no experience entries, so most claims are unverified.",
+    "ko": "증거 링크 기반 이력서라는 개념과 'Git 저장소만으로 동작'한다는 구조는 명확하지만, 사용자·매출·지표나 랜딩 화면 이상의 제품 깊이는 보이지 않습니다. 저장소 1개, 스타 0개로 대부분의 주장이 검증되지 않았습니다."
+  },
+  "injection_flags": [],
+  "screenshots": 1,
+  "usage": {
+    "input_tokens": 4714,
+    "output_tokens": 1194,
+    "usd": 0.0214
+  }
+}
