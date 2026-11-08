@@ -5,8 +5,8 @@
     "ko": "무료 베타용 초안입니다. 아직 법률 검토 전이며, 유료화 전에 바뀔 수 있습니다."
   },
   "officer": {
-    "name": "[운영자 이름]",
-    "email": "[연락 이메일]"
+    "name": "Indie Guild 운영자 (GitHub @happydohyun08-arch)",
+    "email": "https://github.com/happydohyun08-arch/indie-guild/issues"
   },
   "terms": {
     "title": { "en": "Terms of Service", "ko": "이용약관" },
@@ -164,8 +164,8 @@
         "h": { "en": "Privacy officer", "ko": "개인정보 보호책임자" },
         "p": [
           {
-            "en": "Name: {name} · Email: {email} · You can also open an issue in the GitHub repository.",
-            "ko": "성명: {name} · 이메일: {email} · GitHub 저장소에 이슈로 남겨도 됩니다."
+            "en": "Name: {name} · Contact: {email} (open an issue).",
+            "ko": "성명: {name} · 연락처: {email} (이슈로 남겨 주세요)."
           }
         ]
       },
