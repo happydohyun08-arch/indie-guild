@@ -34,6 +34,22 @@ export const STAGE = {
   sunset: { en: "sunset", ko: "종료" },
 } as const satisfies Record<string, Bi>;
 
+/** 직군. scripts/validate.mjs ROLES와 같은 id. */
+export const ROLES = {
+  frontend: { en: "Frontend", ko: "프론트엔드" },
+  backend: { en: "Backend", ko: "백엔드" },
+  fullstack: { en: "Full-stack", ko: "풀스택" },
+  mobile: { en: "Mobile", ko: "모바일" },
+  design: { en: "Design", ko: "디자인" },
+  "ai-data": { en: "AI / Data", ko: "AI·데이터" },
+  "indie-maker": { en: "Indie maker", ko: "인디 메이커" },
+} as const satisfies Record<string, Bi>;
+
+/** 니즈 = open_to 중 실제로 연결을 원하는 값. "nothing"은 카테고리가 아니다. */
+export const NEEDS = (Object.keys(OPEN_TO) as (keyof typeof OPEN_TO)[]).filter(
+  (k) => k !== "nothing",
+);
+
 /** scripts/evaluate.mjs CRITERIA와 같은 id·순서. */
 export const CRITERIA = {
   tech_depth: { en: "Technical depth", ko: "기술 깊이" },
@@ -48,6 +64,7 @@ export const CRITERIA = {
 const en = {
   brand: "Indie Guild",
   navJoin: "Join",
+  navMembers: "Profiles",
   metaTitle: "Indie Guild",
   metaDescription:
     "Résumés and portfolios where every claim carries a public evidence link. For companies and investors who want to verify before they hire or invest.",
@@ -55,9 +72,24 @@ const en = {
     "We never collect your email, phone number or legal name. Public Git history cannot be deleted.",
   footerLink: "Read the privacy notice",
 
-  homeTitle: "Résumés you can verify",
+  homeTitle: "Indie Guild",
   homeIntro:
-    "Every claim here is backed by a public link. Work history without an evidence link is rejected by CI, metrics come from the GitHub public API at build time so they cannot be self-reported, and vouches are capped at {n} per person per year so they cannot be handed out freely.",
+    "A directory of indie developers and vibe coders who show work you can check. Companies and investors browse by job or by need and evaluate before they hire or invest.",
+  homePoints: [
+    "Every portfolio item and work-history entry carries a public proof link. Entries without one are rejected by CI.",
+    "GitHub metrics are fetched from the public API at build time, not self-reported.",
+    "Vouches are capped at {n} per person per year.",
+    "The AI score is a reference opinion only, not a verified fact.",
+  ],
+  byRole: "By job",
+  byNeed: "By need",
+  recentTitle: "Recent profiles",
+  allProfiles: "All profiles →",
+  membersTitle: "Profiles",
+  roleTitle: "Job: {x}",
+  needTitle: "Open to: {x}",
+  rolesLabel: "Job",
+  skillsTitle: "Skills",
   homeCounts: "{m} profiles · {v} vouches",
   homeEmpty: "No profiles yet.",
   homeEmptyLink: "Be the first to publish",
@@ -73,7 +105,7 @@ const en = {
   repos: "Public repos",
   stars: "Total stars",
   created: "Account created",
-  experienceTitle: "Work history",
+  experienceTitle: "Web development history",
   experienceAuto: "every entry carries a public evidence link",
   experiencePresent: "present",
   experienceProof: "evidence",
@@ -122,6 +154,8 @@ const en = {
   handleTitle: "GitHub handle",
   handleError:
     "That is not a valid GitHub handle (lowercase letters, digits and hyphens, up to 39 characters).",
+  joinFieldsNote:
+    "Optional fields: roles (any of: {roles}) and skills (up to 20 short items, 30 characters each, no URLs). Leave them empty if you prefer; CI rejects any other value.",
   submit: "Consent and create profile PR",
   submitNote:
     "This opens GitHub's new-file editor pre-filled with your profile JSON. Your consent record (version {v}, date, and the items consented to) is committed in that same file, and Git history records that you authored the commit.",
@@ -130,6 +164,7 @@ const en = {
 const ko: typeof en = {
   brand: "Indie Guild",
   navJoin: "등록",
+  navMembers: "프로필",
   metaTitle: "Indie Guild",
   metaDescription:
     "모든 항목에 공개 증거 링크가 붙은 이력서·포트폴리오. 채용·투자 전에 직접 검증하려는 기업과 투자자를 위한 곳입니다.",
@@ -137,9 +172,24 @@ const ko: typeof en = {
     "이메일·전화번호·실명은 수집하지 않습니다. 공개 Git 히스토리는 삭제할 수 없습니다.",
   footerLink: "개인정보 고지 읽기",
 
-  homeTitle: "검증할 수 있는 이력서",
+  homeTitle: "Indie Guild",
   homeIntro:
-    "이곳의 모든 항목에는 공개 링크가 붙습니다. 증거 링크 없는 경력은 CI가 거부하고, 지표는 빌드 시점에 GitHub 공개 API에서 가져오므로 자기신고가 불가능하며, 보증은 1인당 연 {n}개로 제한돼 남발할 수 없습니다.",
+    "인디 개발자와 바이브 코더가 검증 가능한 작업물을 보여주는 곳입니다. 기업과 투자자는 직군별·니즈별로 둘러보고, 채용·투자 전에 직접 평가합니다.",
+  homePoints: [
+    "포트폴리오와 경력의 모든 항목에 공개 증거 링크가 붙습니다. 링크 없는 항목은 CI가 거부합니다.",
+    "GitHub 지표는 빌드 시점에 공개 API에서 가져옵니다. 자기신고가 아닙니다.",
+    "보증은 1인당 연 {n}개로 제한됩니다.",
+    "AI 점수는 참고 의견일 뿐, 검증된 사실이 아닙니다.",
+  ],
+  byRole: "직군별",
+  byNeed: "니즈별",
+  recentTitle: "최근 등록된 프로필",
+  allProfiles: "전체 프로필 →",
+  membersTitle: "프로필",
+  roleTitle: "직군: {x}",
+  needTitle: "니즈: {x}",
+  rolesLabel: "직군",
+  skillsTitle: "스킬",
   homeCounts: "프로필 {m}개 · 보증 {v}건",
   homeEmpty: "아직 프로필이 없습니다.",
   homeEmptyLink: "첫 번째로 등록하세요",
@@ -155,7 +205,7 @@ const ko: typeof en = {
   repos: "공개 저장소",
   stars: "누적 스타",
   created: "계정 생성",
-  experienceTitle: "경력",
+  experienceTitle: "웹 개발 이력",
   experienceAuto: "모든 항목에 공개 증거 링크가 붙어 있습니다",
   experiencePresent: "현재",
   experienceProof: "증거",
@@ -204,6 +254,8 @@ const ko: typeof en = {
   handleTitle: "GitHub 핸들",
   handleError:
     "GitHub 핸들 형식이 아닙니다 (영문 소문자·숫자·하이픈, 39자 이내).",
+  joinFieldsNote:
+    "선택 항목: roles (직군, 다음 중에서: {roles})와 skills (스킬, 최대 20개, 각 30자 이내, URL 금지). 비워 둬도 됩니다. 그 외 값은 CI가 거부합니다.",
   submit: "동의하고 프로필 PR 만들기",
   submitNote:
     "버튼을 누르면 GitHub에 프로필 JSON이 채워진 새 파일 편집 화면이 열립니다. 동의 이력(버전 {v}, 동의 일자, 동의 항목)이 해당 파일에 함께 기록되며, 커밋 작성자가 본인임이 Git 히스토리에 남습니다.",

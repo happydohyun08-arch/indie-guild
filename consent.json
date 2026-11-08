@@ -35,12 +35,16 @@
       "ko": "본인이 작성한 경력: 역할, 소속 조직명, 월 단위 기간, 그리고 항목마다 공개 증거 링크 (증거 링크는 필수이며, 없는 항목은 등록이 거부됩니다)"
     },
     {
+      "en": "Optional: job categories (roles) you choose from a fixed list, and a short list of skills you write yourself",
+      "ko": "선택 항목: 정해진 목록에서 본인이 고른 직군, 본인이 직접 작성한 짧은 스킬 목록"
+    },
+    {
       "en": "Consent record (consent version, date of consent, items consented to)",
       "ko": "동의 이력 (동의 버전, 동의 일자, 동의한 항목)"
     },
     {
-      "en": "An AI evaluation of your public profile, product pages and stated work history (scores, short summary, model and date), generated and paid for by the operator; you cannot write or edit it",
-      "ko": "공개 프로필, 제품 페이지, 본인이 작성한 경력에 대한 AI 평가 결과 (점수, 짧은 총평, 모델, 평가일). 운영자가 생성·비용 부담하며 본인이 작성·수정할 수 없습니다"
+      "en": "An AI evaluation of your public profile, product pages, stated work history, roles and skills (scores, short summary, model and date), generated and paid for by the operator; you cannot write or edit it",
+      "ko": "공개 프로필, 제품 페이지, 본인이 작성한 경력·직군·스킬에 대한 AI 평가 결과 (점수, 짧은 총평, 모델, 평가일). 운영자가 생성·비용 부담하며 본인이 작성·수정할 수 없습니다"
     }
   ],
   "never_collected": [
@@ -77,8 +81,8 @@
       "ko": "미국"
     },
     "method": {
-      "en": "Network transfer when pushing to the Git repository, deploying the static site, and sending your public profile, stated work history and product-page screenshots to the Anthropic API for evaluation",
-      "ko": "Git 저장소 푸시, 정적 사이트 배포, 그리고 AI 평가를 위해 공개 프로필, 본인이 작성한 경력, 제품 페이지 스크린샷을 Anthropic API로 전송할 때의 네트워크 전송"
+      "en": "Network transfer when pushing to the Git repository, deploying the static site, and sending your public profile, stated work history, roles, skills and product-page screenshots to the Anthropic API for evaluation",
+      "ko": "Git 저장소 푸시, 정적 사이트 배포, 그리고 AI 평가를 위해 공개 프로필, 본인이 작성한 경력·직군·스킬, 제품 페이지 스크린샷을 Anthropic API로 전송할 때의 네트워크 전송"
     },
     "items": {
       "en": "All items listed under \"What we collect\" above",
@@ -99,12 +103,12 @@
       "ko": "CPRA로 개정된 캘리포니아 소비자 프라이버시법(CCPA, Cal. Civ. Code § 1798.100 이하)에 따른 수집 시 고지입니다. 유사 법률을 둔 미국 전 주(버지니아·콜로라도·코네티컷·유타·텍사스 등) 거주자에게 동일하게 적용합니다."
     },
     "categories": {
-      "en": "Categories of personal information collected: (1) Identifiers — your public GitHub handle only; (2) Internet or other electronic network activity information — public repository counts, star counts and account creation date read from the GitHub public API; (3) Professional or employment-related information — the role, organisation name, period and evidence link you write yourself for each work-history entry; (4) Inferences — the AI evaluation of your public work and stated work history (scores and summary). No education records under § 1798.140(v)(1)(C) and no other category are collected.",
-      "ko": "수집하는 개인정보 범주: (1) 식별자 — 공개 GitHub 핸들만; (2) 인터넷 등 전자적 네트워크 활동 정보 — GitHub 공개 API에서 읽은 공개 저장소 수, 스타 수, 계정 생성일; (3) 직업·고용 관련 정보 — 본인이 경력 항목마다 직접 작성한 역할, 조직명, 기간, 증거 링크; (4) 추론 정보 — 공개 작업물과 본인이 작성한 경력에 대한 AI 평가 (점수와 총평). § 1798.140(v)(1)(C)의 교육 기록 및 그 외 범주는 수집하지 않습니다."
+      "en": "Categories of personal information collected: (1) Identifiers — your public GitHub handle only; (2) Internet or other electronic network activity information — public repository counts, star counts and account creation date read from the GitHub public API; (3) Professional or employment-related information — the role, organisation name, period and evidence link you write yourself for each work-history entry, and, if you provide them, the job categories (roles) you choose from a fixed list and the skills you list yourself; (4) Inferences — the AI evaluation of your public work, stated work history, roles and skills (scores and summary). No education records under § 1798.140(v)(1)(C) and no other category are collected.",
+      "ko": "수집하는 개인정보 범주: (1) 식별자 — 공개 GitHub 핸들만; (2) 인터넷 등 전자적 네트워크 활동 정보 — GitHub 공개 API에서 읽은 공개 저장소 수, 스타 수, 계정 생성일; (3) 직업·고용 관련 정보 — 본인이 경력 항목마다 직접 작성한 역할, 조직명, 기간, 증거 링크, 그리고 본인이 제공한 경우 정해진 목록에서 고른 직군과 직접 작성한 스킬 목록; (4) 추론 정보 — 공개 작업물과 본인이 작성한 경력·직군·스킬에 대한 AI 평가 (점수와 총평). § 1798.140(v)(1)(C)의 교육 기록 및 그 외 범주는 수집하지 않습니다."
     },
     "sensitive": {
-      "en": "We do not collect or infer sensitive personal information as defined in § 1798.140(ae). The AI evaluation scores only your public work products (your profile text, product pages and GitHub public metrics) and the work history you write yourself, never your sensitive personal information.",
-      "ko": "§ 1798.140(ae)가 정의하는 민감 개인정보는 수집하지도 추론하지도 않습니다. AI 평가는 공개된 작업물(프로필 글, 제품 페이지, GitHub 공개 지표)과 본인이 작성한 경력만 채점하며, 개인의 민감 개인정보는 평가하지 않습니다."
+      "en": "We do not collect or infer sensitive personal information as defined in § 1798.140(ae). The AI evaluation scores only your public work products (your profile text, product pages and GitHub public metrics) and the work history, roles and skills you write yourself, never your sensitive personal information.",
+      "ko": "§ 1798.140(ae)가 정의하는 민감 개인정보는 수집하지도 추론하지도 않습니다. AI 평가는 공개된 작업물(프로필 글, 제품 페이지, GitHub 공개 지표)과 본인이 작성한 경력·직군·스킬만 채점하며, 개인의 민감 개인정보는 평가하지 않습니다."
     },
     "sale": {
       "en": "We do not sell or share your personal information, we have never done so, and we do not use it for cross-context behavioral advertising. We offer no financial incentive for personal information. There is therefore no \"Do Not Sell or Share My Personal Information\" mechanism to exercise.",
@@ -194,12 +198,12 @@
     {
       "id": "ai_eval",
       "label": {
-        "en": "I consent to my public profile, product pages and stated work history being sent to Anthropic for AI evaluation, and to the result being shown publicly on my profile.",
-        "ko": "공개 프로필, 제품 페이지, 본인이 작성한 경력이 AI 평가를 위해 Anthropic으로 전송되고, 그 결과가 내 프로필에 공개 표시되는 것에 동의합니다."
+        "en": "I consent to my public profile, product pages, stated work history, roles and skills being sent to Anthropic for AI evaluation, and to the result being shown publicly on my profile.",
+        "ko": "공개 프로필, 제품 페이지, 본인이 작성한 경력·직군·스킬이 AI 평가를 위해 Anthropic으로 전송되고, 그 결과가 내 프로필에 공개 표시되는 것에 동의합니다."
       },
       "detail": {
-        "en": "The operator runs and pays for the evaluation; members cannot write or edit their own scores. Screenshots of your product URLs, your profile text, your work history (role, organisation, period and evidence link) and your GitHub public metrics are sent. Evidence links are treated as claims to check, not as verified facts. The result is a reference opinion, not a verified fact, and like everything else here it stays in public Git history.",
-        "ko": "평가는 운영자가 실행하고 비용을 부담하며, 멤버는 자기 점수를 작성·수정할 수 없습니다. 제품 URL 스크린샷, 프로필 글, 본인이 작성한 경력(역할·조직명·기간·증거 링크), GitHub 공개 지표가 전송됩니다. 증거 링크는 검증된 사실이 아니라 확인할 대상인 주장으로 다룹니다. 결과는 참고용 의견이며 검증된 사실이 아니고, 다른 정보와 마찬가지로 공개 Git 히스토리에 남습니다."
+        "en": "The operator runs and pays for the evaluation; members cannot write or edit their own scores. Screenshots of your product URLs, your profile text, your work history (role, organisation, period and evidence link), your roles and skills if provided, and your GitHub public metrics are sent. Evidence links are treated as claims to check, not as verified facts. The result is a reference opinion, not a verified fact, and like everything else here it stays in public Git history.",
+        "ko": "평가는 운영자가 실행하고 비용을 부담하며, 멤버는 자기 점수를 작성·수정할 수 없습니다. 제품 URL 스크린샷, 프로필 글, 본인이 작성한 경력(역할·조직명·기간·증거 링크), 제공한 경우 직군과 스킬, GitHub 공개 지표가 전송됩니다. 증거 링크는 검증된 사실이 아니라 확인할 대상인 주장으로 다룹니다. 결과는 참고용 의견이며 검증된 사실이 아니고, 다른 정보와 마찬가지로 공개 Git 히스토리에 남습니다."
       }
     },
     {

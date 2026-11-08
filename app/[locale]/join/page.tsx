@@ -2,7 +2,7 @@
 
 import { use, useState } from "react";
 import consent from "../../../consent.json";
-import { fill, tr, ui, type Locale } from "../../../lib/i18n";
+import { fill, ROLES, tr, ui, type Locale } from "../../../lib/i18n";
 
 // 서버 전용 모듈(lib/guild.ts, node:fs)을 끌어오지 않도록 consent.json을 직접 읽는다.
 
@@ -30,6 +30,8 @@ export default function JoinPage({
         { role: "", org: "", from: "YYYY-MM", to: "YYYY-MM", proof: "" },
       ],
       products: [{ name: "", url: "", stage: "live", mrr_band: "none" }],
+      roles: [],
+      skills: [],
       open_to: ["hiring"],
       consent: {
         version: consent.version,
@@ -169,6 +171,9 @@ export default function JoinPage({
         )}
         <p className="mt-2 text-meta text-muted">
           {fill(t.submitNote, { v: consent.version })}
+        </p>
+        <p className="mt-2 text-meta text-muted">
+          {fill(t.joinFieldsNote, { roles: Object.keys(ROLES).join(", ") })}
         </p>
       </div>
     </main>

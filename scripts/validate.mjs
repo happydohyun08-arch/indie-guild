@@ -13,6 +13,12 @@ const YEAR_MS = 365 * 24 * 60 * 60 * 1000;
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 const MONTH_RE = /^\d{4}-(0[1-9]|1[0-2])$/;
 const HANDLE_RE = /^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/;
+// lib/i18n.ts ROLES와 같은 id.
+const ROLES = ["frontend", "backend", "fullstack", "mobile", "design", "ai-data", "indie-maker"];
+const SKILLS_MAX = 20;
+const SKILL_LEN = 30;
+// /[locale]/<handle> 과 겹치는 정적 경로. 이 이름의 프로필은 페이지가 가려진다.
+const RESERVED = new Set(["join", "members", "roles", "needs"]);
 
 // proof는 공개 https URL이어야 한다. localhost·사설 IP는 공개 증거가 아니다.
 function publicHttps(u) {
@@ -54,6 +60,7 @@ export function validate(profiles, vouches, spec) {
     }
 
     if (!HANDLE_RE.test(p.handle ?? "")) at(`handle 형식이 잘못됐습니다.`);
+    if (RESERVED.has(p.handle)) at(`"${p.handle}"은 사이트 경로와 겹쳐 쓸 수 없는 handle입니다.`);
     if (path.basename(file, ".json") !== p.handle)
       at(`파일명이 handle("${p.handle}")과 다릅니다.`);
     if (handles.has(p.handle)) at(`handle이 중복됩니다.`);
@@ -78,6 +85,26 @@ export function validate(profiles, vouches, spec) {
     for (const prod of p.products ?? []) {
       if (!/^https?:\/\//.test(prod.url ?? ""))
         at(`제품 url이 http(s)가 아닙니다.`);
+    }
+
+    if (p.roles !== undefined) {
+      if (!Array.isArray(p.roles)) at(`roles는 배열이어야 합니다.`);
+      else
+        for (const r of p.roles)
+          if (!ROLES.includes(r)) at(`roles 값 "${r}"은 허용 목록(${ROLES.join(", ")})에 없습니다.`);
+    }
+    if (p.skills !== undefined) {
+      if (!Array.isArray(p.skills)) at(`skills는 배열이어야 합니다.`);
+      else {
+        if (p.skills.length > SKILLS_MAX) at(`skills는 최대 ${SKILLS_MAX}개입니다.`);
+        for (const k of p.skills) {
+          if (typeof k !== "string" || !k.trim()) at(`skills에 빈 값이 있습니다.`);
+          else if (k.length > SKILL_LEN) at(`skill "${k}"이 ${SKILL_LEN}자를 넘습니다.`);
+          // ponytail: 흔한 TLD만 본다. "Socket.io"·"ASP.NET" 같은 기술명은 통과시키려고 io·net은 뺐다.
+          else if (/https?:|www\./i.test(k) || /\w\.(com|dev|org|app|ai|co|kr|me)\b/.test(k))
+            at(`skill "${k}"에 URL을 넣을 수 없습니다.`);
+        }
+      }
     }
 
     // consent.json이 약속한 경력 형식: 역할·조직·월 단위 기간·공개 증거 링크.
@@ -220,6 +247,17 @@ function selfcheck() {
   assert.match(e({ org: undefined })[0], /role과 org/, "org 누락 차단");
   for (const bad of ["http://acme.com", "https://localhost/x", "https://127.0.0.1/", "https://192.168.0.1/", "https://10.0.0.1/", "https://172.16.0.1/", "https://[::1]/", "not a url", "ftp://acme.com"])
     assert.match(e({ proof: bad })[0], /proof/, `비공개·비https 증거 차단: ${bad}`);
+
+  const r = (over) => validate([p("alice", over)], [], spec);
+  assert.deepEqual(r({ roles: ["frontend", "ai-data"], skills: ["TypeScript", "Next.js", "Socket.io", "ASP.NET", "Node.js"] }), [], "정상 roles·skills 통과");
+  assert.match(r({ roles: ["ceo"] })[0], /roles 값 "ceo"/, "목록 밖 role 차단");
+  assert.match(r({ roles: "frontend" })[0], /roles는 배열/, "배열 아닌 roles 차단");
+  assert.match(r({ skills: Array.from({ length: 21 }, (_, i) => `s${i}`) })[0], /최대 20개/, "스킬 21개 차단");
+  assert.match(r({ skills: ["x".repeat(31)] })[0], /30자/, "31자 스킬 차단");
+  assert.match(r({ skills: [" "] })[0], /빈 값/, "빈 스킬 차단");
+  for (const bad of ["https://evil.com", "www.evil", "see evil.com", "my.site.dev"])
+    assert.match(r({ skills: [bad] })[0], /URL/, `스킬 URL 차단: ${bad}`);
+  assert.match(validate([p("members")], [], spec)[0], /사이트 경로와 겹쳐/, "예약 handle 차단");
 
   const two = [p("alice"), p("bob")];
   assert.deepEqual(

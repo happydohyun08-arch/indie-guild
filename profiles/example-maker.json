@@ -31,6 +31,8 @@
       "stage": "wip"
     }
   ],
+  "roles": ["backend", "indie-maker"],
+  "skills": ["Go", "PostgreSQL", "Stripe billing", "CLI tooling"],
   "open_to": ["investment", "acquisition"],
   "consent": {
     "version": "3",

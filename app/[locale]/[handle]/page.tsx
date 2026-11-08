@@ -15,6 +15,7 @@ import {
   fill,
   MRR_BANDS,
   OPEN_TO,
+  ROLES,
   STAGE,
   tr,
   ui,
@@ -67,7 +68,7 @@ export default async function ProfilePage({
 
   return (
     <main className="mx-auto w-full max-w-5xl px-4 py-6 sm:px-6">
-      <Link href={`/${locale}`} className="text-meta text-muted hover:text-ink">
+      <Link href={`/${locale}/members`} className="text-meta text-muted hover:text-ink">
         {t.back}
       </Link>
 
@@ -87,6 +88,17 @@ export default async function ProfilePage({
               <p className="mt-1">{profile.tagline}</p>
             </div>
             {profile.bio && <p className="text-meta text-muted">{profile.bio}</p>}
+            {profile.roles && profile.roles.length > 0 && (
+              <p className="text-meta">
+                <span className="text-muted">{t.rolesLabel}: </span>
+                {profile.roles.map((r, i) => (
+                  <span key={r}>
+                    {i > 0 && ", "}
+                    <Link href={`/${locale}/roles/${r}`}>{tr(ROLES[r], locale)}</Link>
+                  </span>
+                ))}
+              </p>
+            )}
             <p className="text-meta text-muted">
               {profile.open_to.map((o) => tr(OPEN_TO[o], locale)).join(" · ")}
             </p>
@@ -195,6 +207,15 @@ export default async function ProfilePage({
                   </li>
                 ))}
               </ul>
+            </section>
+          )}
+
+          {profile.skills && profile.skills.length > 0 && (
+            <section aria-labelledby="skills">
+              <h2 id="skills" className="section-title">
+                {t.skillsTitle}
+              </h2>
+              <p>{profile.skills.join(", ")}</p>
             </section>
           )}
 
