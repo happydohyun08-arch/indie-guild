@@ -45,7 +45,7 @@ export const ROLES = {
   "indie-maker": { en: "Indie maker", ko: "인디 메이커" },
 } as const satisfies Record<string, Bi>;
 
-/** 니즈 = open_to 중 실제로 연결을 원하는 값. "nothing"은 카테고리가 아니다. */
+/** 희망 제안 = open_to 중 실제로 연결을 원하는 값. "nothing"은 카테고리가 아니다. */
 export const NEEDS = (Object.keys(OPEN_TO) as (keyof typeof OPEN_TO)[]).filter(
   (k) => k !== "nothing",
 );
@@ -258,9 +258,9 @@ const ko: typeof en = {
 
   membersTitle: "인재 찾기",
   roleTitle: "직군: {x}",
-  needTitle: "니즈: {x}",
+  needTitle: "희망 제안: {x}",
   rolesLabel: "직군",
-  needsLabel: "니즈",
+  needsLabel: "희망 제안",
   skillsTitle: "스킬",
   filtersTitle: "필터",
   skillFilter: "스킬",

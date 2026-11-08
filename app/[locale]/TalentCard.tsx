@@ -17,7 +17,7 @@ export function Avatar({ handle, size = "md" }: { handle: string; size?: "md" | 
   );
 }
 
-/** 홈·검색·직군·니즈가 같이 쓰는 인재 카드. 서버·클라이언트 양쪽에서 렌더된다. */
+/** 홈·검색·직군·희망 제안가 같이 쓰는 인재 카드. 서버·클라이언트 양쪽에서 렌더된다. */
 export default function TalentCard({ talent: p, locale }: { talent: Talent; locale: Locale }) {
   const t = ui(locale);
   const extra = p.skills.length - MAX_SKILLS;
