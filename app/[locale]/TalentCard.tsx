@@ -22,7 +22,7 @@ export default function TalentCard({ talent: p, locale }: { talent: Talent; loca
   const t = ui(locale);
   const extra = p.skills.length - MAX_SKILLS;
   return (
-    <article className="panel relative flex h-full flex-col gap-3 p-4 hover:border-line-strong">
+    <article data-tilt className="panel relative flex h-full flex-col gap-3 p-4 hover:border-line-strong">
       <div className="flex items-start gap-3">
         <Avatar handle={p.handle} />
         <div className="min-w-0 flex-1">
