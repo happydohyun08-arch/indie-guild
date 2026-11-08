@@ -153,4 +153,186 @@
     background: var(--subtle);
     border-color: var(--line);
   }
+  /* Initials avatar: flat, square-ish, no color coding. */
+  .avatar {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+    background: var(--subtle);
+    color: var(--muted);
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .avatar-lg {
+    width: 72px;
+    height: 72px;
+    border-radius: 14px;
+    font-size: 22px;
+  }
+
+  /* Chips: skills and roles inside cards only. Small and flat. */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    height: 22px;
+    padding: 0 8px;
+    border-radius: 4px;
+    background: var(--subtle);
+    color: var(--ink);
+    font-size: 12px;
+    line-height: 16px;
+    white-space: nowrap;
+  }
+  a.chip-link:hover {
+    background: var(--line);
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .field {
+    height: 34px;
+    padding: 0 10px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--line-strong);
+    background: var(--surface);
+    color: var(--ink);
+    font-size: 14px;
+  }
+  .field::placeholder {
+    color: var(--muted);
+  }
+  .field:focus {
+    border-color: var(--brand);
+    outline: none;
+    box-shadow: 0 0 0 1px var(--brand);
+  }
+  .field-lg {
+    height: 48px;
+    padding-right: 84px;
+    font-size: 15px;
+  }
+
+  .filter-title {
+    font-size: 13px;
+    line-height: 20px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .check {
+    clear: both;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 3px 0;
+    cursor: pointer;
+  }
+  .check input {
+    width: 15px;
+    height: 15px;
+    accent-color: var(--brand);
+  }
+
+  .nav-link,
+  .menu-link {
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .nav-link:hover,
+  .menu-link:hover {
+    color: var(--brand);
+    text-decoration: none;
+  }
+  .menu-link {
+    display: block;
+    padding: 8px 4px;
+  }
+  .mobile-menu > summary {
+    list-style: none;
+    cursor: pointer;
+  }
+  .mobile-menu > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .quick-link {
+    padding: 2px 8px;
+    border-radius: 4px;
+    color: var(--ink);
+  }
+  .quick-link:hover {
+    background: var(--subtle);
+    color: var(--brand);
+    text-decoration: none;
+  }
+
+  .home-title {
+    font-size: 18px;
+    line-height: 26px;
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+  .role-tile {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 14px 16px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--surface);
+    color: var(--ink);
+  }
+  /* Start page choice card. */
+  .choice {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    height: 100%;
+    padding: 20px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--surface);
+    color: var(--ink);
+  }
+  .choice:hover {
+    border-color: var(--brand);
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .role-tile:hover {
+    border-color: var(--brand);
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  /* Profile in-page tabs: sticky under the 56px header. */
+  .profile-tabs {
+    position: sticky;
+    top: 56px;
+    z-index: 10;
+    margin-top: 16px;
+    border-bottom: 1px solid var(--line);
+    background: var(--ground);
+  }
+  .profile-tabs a {
+    display: block;
+    padding: 12px 0 10px;
+    border-bottom: 2px solid transparent;
+    color: var(--muted);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .profile-tabs a:hover {
+    color: var(--ink);
+    border-bottom-color: var(--ink);
+    text-decoration: none;
+  }
+  .anchor {
+    scroll-margin-top: 120px;
+  }
 }

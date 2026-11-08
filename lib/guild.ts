@@ -169,3 +169,32 @@ export function getGithubStats(login: string): Promise<GithubStats | null> {
 export function repoUrl(): string {
   return `https://github.com/${consentSpec.repo}`;
 }
+
+/** 카드·검색에 쓰는 직렬화 가능한 요약. 클라이언트로 넘어가므로 fs 의존이 없다. */
+export type Talent = {
+  handle: string;
+  tagline: string;
+  roles: NonNullable<Profile["roles"]>;
+  skills: string[];
+  open_to: Profile["open_to"];
+  vouches: number;
+  /** 유효한 AI 평가 총점. 없으면 null. */
+  ai: number | null;
+  /** 등록 시점 = 동의 일자. */
+  registered: string;
+};
+
+export function getTalents(): Talent[] {
+  const received = new Map<string, number>();
+  for (const v of getVouches()) received.set(v.to, (received.get(v.to) ?? 0) + 1);
+  return getProfiles().map((p) => ({
+    handle: p.handle,
+    tagline: p.tagline,
+    roles: p.roles ?? [],
+    skills: p.skills ?? [],
+    open_to: p.open_to,
+    vouches: received.get(p.handle) ?? 0,
+    ai: getEvaluation(p.handle)?.total ?? null,
+    registered: p.consent.agreed_at,
+  }));
+}

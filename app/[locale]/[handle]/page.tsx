@@ -21,14 +21,10 @@ import {
   ui,
   type Locale,
 } from "../../../lib/i18n";
+import { Avatar } from "../TalentCard";
 
 // The only label the data file lacks; kept here, not in lib/i18n.ts.
 const TOTAL = { en: "Total", ko: "합계" };
-
-function initials(handle: string): string {
-  const parts = handle.split(/[-_.]/).filter(Boolean);
-  return (parts.length > 1 ? parts[0][0] + parts[1][0] : handle.slice(0, 2)).toUpperCase();
-}
 
 export function generateStaticParams() {
   return getProfiles().map((p) => ({ handle: p.handle }));
@@ -66,58 +62,66 @@ export default async function ProfilePage({
     `?filename=vouches/YOUR_HANDLE--${handle}.json` +
     `&value=${encodeURIComponent(vouchJson)}`;
 
-  return (
-    <main className="mx-auto w-full max-w-5xl px-4 py-6 sm:px-6">
-      <Link href={`/${locale}/members`} className="text-meta text-muted hover:text-ink">
-        {t.back}
-      </Link>
+  const tabs = [
+    ["products", t.productsTitle, true],
+    ["experience", t.experienceTitle, !!profile.experience?.length],
+    ["skills", t.skillsTitle, !!profile.skills?.length],
+    ["vouches", t.receivedTitle, true],
+    ["ai-eval", t.evalTab, !!evaluation],
+  ] as const;
+  const githubUrl = stats?.html_url ?? `https://github.com/${profile.github}`;
 
-      <div className="mt-4 grid gap-8 md:grid-cols-[17rem_minmax(0,1fr)] md:gap-10">
-        <aside className="flex min-w-0 flex-col gap-5 self-start md:sticky md:top-[4.5rem]">
-          <div className="flex flex-col gap-3">
-            <span
-              aria-hidden
-              className="flex size-12 items-center justify-center rounded-md border border-line bg-subtle text-ui font-semibold text-muted"
-            >
-              {initials(profile.handle)}
-            </span>
-            <div>
-              <h1 className="text-title font-semibold tracking-tight break-words">
-                {profile.handle}
-              </h1>
-              <p className="mt-1">{profile.tagline}</p>
-            </div>
-            {profile.bio && <p className="text-meta text-muted">{profile.bio}</p>}
+  return (
+    <main className="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6">
+      <section className="panel p-5 sm:p-6">
+        <div className="flex flex-col gap-5 sm:flex-row sm:items-start">
+          <Avatar handle={profile.handle} size="lg" />
+          <div className="min-w-0 flex-1">
+            <h1 className="text-page font-bold tracking-tight break-words">{profile.handle}</h1>
+            <p className="mt-0.5 text-title">{profile.tagline}</p>
             {profile.roles && profile.roles.length > 0 && (
-              <p className="text-meta">
-                <span className="text-muted">{t.rolesLabel}: </span>
-                {profile.roles.map((r, i) => (
-                  <span key={r}>
-                    {i > 0 && ", "}
-                    <Link href={`/${locale}/roles/${r}`}>{tr(ROLES[r], locale)}</Link>
-                  </span>
+              <ul className="mt-3 flex flex-wrap gap-1" aria-label={t.rolesLabel}>
+                {profile.roles.map((r) => (
+                  <li key={r}>
+                    <Link href={`/${locale}/roles/${r}`} className="chip chip-link">
+                      {tr(ROLES[r], locale)}
+                    </Link>
+                  </li>
                 ))}
-              </p>
+              </ul>
             )}
-            <p className="text-meta text-muted">
+            <p className="mt-3 text-meta">
+              <span className="text-muted">{t.needsLabel} </span>
               {profile.open_to.map((o) => tr(OPEN_TO[o], locale)).join(" · ")}
             </p>
+            {profile.bio && <p className="mt-2 max-w-[72ch] text-muted">{profile.bio}</p>}
           </div>
-
-          <section className="border-t border-line pt-4">
-            <h2 className="section-title">{t.contactTitle}</h2>
-            <a
-              href={stats?.html_url ?? `https://github.com/${profile.github}`}
-              target="_blank"
-              rel="noreferrer"
-              className="break-all"
-            >
-              github.com/{profile.github}
+          <div className="flex shrink-0 flex-wrap gap-2 sm:flex-col">
+            <a href={githubUrl} target="_blank" rel="noreferrer" className="btn btn-primary justify-center">
+              {t.contactGithub}
             </a>
-            <p className="mt-1 text-meta text-muted">{t.contactNote}</p>
-          </section>
+            <a href={vouchUrl} target="_blank" rel="noreferrer" className="btn justify-center">
+              {t.vouchAction}
+            </a>
+          </div>
+        </div>
+      </section>
 
-          <section className="border-t border-line pt-4">
+      <nav aria-label={profile.handle} className="profile-tabs">
+        <ul className="flex gap-6 overflow-x-auto">
+          {tabs
+            .filter(([, , show]) => show)
+            .map(([id, label]) => (
+              <li key={id}>
+                <a href={`#${id}`}>{label}</a>
+              </li>
+            ))}
+        </ul>
+      </nav>
+
+      <div className="mt-6 grid gap-8 lg:grid-cols-[minmax(0,1fr)_18rem]">
+        <aside className="flex min-w-0 flex-col gap-4 self-start lg:sticky lg:top-32 lg:order-last">
+          <section className="panel p-4">
             <h2 className="section-title">{t.metricsTitle}</h2>
             {stats ? (
               <dl className="grid grid-cols-[minmax(0,1fr)_auto] gap-y-1">
@@ -135,11 +139,19 @@ export default async function ProfilePage({
               {stats ? t.metricsAuto : t.metricsFailed}
             </p>
           </section>
+
+          <section className="panel p-4">
+            <h2 className="section-title">{t.contactTitle}</h2>
+            <a href={githubUrl} target="_blank" rel="noreferrer" className="break-all">
+              github.com/{profile.github}
+            </a>
+            <p className="mt-1 text-meta text-muted">{t.contactNote}</p>
+          </section>
         </aside>
 
         <div className="flex min-w-0 flex-col gap-8">
-          <section aria-labelledby="products">
-            <h2 id="products" className="section-title">
+          <section id="products" aria-labelledby="products-h" className="anchor">
+            <h2 id="products-h" className="section-title">
               {t.productsTitle}
             </h2>
             <ul className="panel divide-y divide-line">
@@ -176,9 +188,9 @@ export default async function ProfilePage({
           </section>
 
           {profile.experience && profile.experience.length > 0 && (
-            <section aria-labelledby="experience">
+            <section id="experience" aria-labelledby="experience-h" className="anchor">
               <div className="flex flex-wrap items-baseline justify-between gap-x-4">
-                <h2 id="experience" className="section-title">
+                <h2 id="experience-h" className="section-title">
                   {t.experienceTitle}
                 </h2>
                 <p className="mb-2 text-xs text-muted">{t.experienceAuto}</p>
@@ -211,16 +223,22 @@ export default async function ProfilePage({
           )}
 
           {profile.skills && profile.skills.length > 0 && (
-            <section aria-labelledby="skills">
-              <h2 id="skills" className="section-title">
+            <section id="skills" aria-labelledby="skills-h" className="anchor">
+              <h2 id="skills-h" className="section-title">
                 {t.skillsTitle}
               </h2>
-              <p>{profile.skills.join(", ")}</p>
+              <ul className="flex flex-wrap gap-1.5">
+                {profile.skills.map((k) => (
+                  <li key={k} className="chip">
+                    {k}
+                  </li>
+                ))}
+              </ul>
             </section>
           )}
 
-          <section id="vouch" aria-labelledby="vouches">
-            <h2 id="vouches" className="section-title">
+          <section id="vouches" aria-labelledby="vouches-h" className="anchor">
+            <h2 id="vouches-h" className="section-title">
               {t.receivedTitle} <span className="font-mono">{received.length}</span>
             </h2>
             <div className="panel divide-y divide-line">
@@ -275,8 +293,8 @@ export default async function ProfilePage({
           </section>
 
           {evaluation && (
-            <section aria-labelledby="ai-eval">
-              <h2 id="ai-eval" className="section-title">
+            <section id="ai-eval" aria-labelledby="ai-eval-h" className="anchor">
+              <h2 id="ai-eval-h" className="section-title">
                 {t.evalTitle}
               </h2>
               <div className="panel">
