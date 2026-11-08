@@ -1,16 +1,14 @@
-import { IBM_Plex_Mono, IBM_Plex_Sans_KR } from "next/font/google";
+import { Inter, Noto_Sans_KR } from "next/font/google";
 import "./globals.css";
 
-const plexSans = IBM_Plex_Sans_KR({
-  variable: "--font-plex-sans",
-  weight: ["400", "600", "700"],
-  subsets: ["latin"],
-});
+const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
 
-const plexMono = IBM_Plex_Mono({
-  variable: "--font-plex-mono",
-  weight: ["500", "600"],
+// Hangul falls through to Noto Sans KR; not preloaded (large CJK slices).
+const notoKr = Noto_Sans_KR({
+  variable: "--font-noto-kr",
+  weight: ["400", "500", "600"],
   subsets: ["latin"],
+  preload: false,
 });
 
 // ponytail: <html lang>은 en으로 고정하고 실제 언어는 app/[locale]/layout.tsx의
@@ -21,7 +19,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${plexSans.variable} ${plexMono.variable} h-full antialiased`}
+      className={`${inter.variable} ${notoKr.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">{children}</body>
     </html>

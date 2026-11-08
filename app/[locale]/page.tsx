@@ -22,51 +22,55 @@ export default async function Home({
   }
 
   return (
-    <main className="mx-auto w-full max-w-5xl px-4 sm:px-6 py-10">
-      <h1 className="max-w-[65ch] text-h1 font-bold text-balance sm:text-display">{t.homeTitle}</h1>
-      <p className="mt-4 max-w-[65ch] text-body text-muted">
-        {fill(t.homeIntro, { n: VOUCH_LIMIT_PER_YEAR })}
-      </p>
+    <main className="mx-auto w-full max-w-5xl px-4 py-8 sm:px-6">
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div className="min-w-0 max-w-[72ch]">
+          <h1 className="text-page font-semibold tracking-tight">{t.homeTitle}</h1>
+          <p className="mt-1 text-meta text-muted">
+            {fill(t.homeIntro, { n: VOUCH_LIMIT_PER_YEAR })}
+          </p>
+        </div>
+        <Link href={`/${locale}/join`} className="btn btn-primary">
+          {t.homeCta}
+        </Link>
+      </div>
 
-      <p className="mt-6 text-metric font-semibold">
-        {fill(t.homeCounts, { m: profiles.length, v: vouches.length })}
-      </p>
-
-      {profiles.length === 0 ? (
-        <p className="mt-10 text-small text-muted">
-          {t.homeEmpty}{" "}
-          <Link href={`/${locale}/join`} className="underline underline-offset-2">
-            {t.homeEmptyLink}
-          </Link>
+      <div className="panel mt-6 overflow-hidden">
+        <p className="border-b border-line bg-subtle px-4 py-2 text-meta text-muted">
+          {fill(t.homeCounts, { m: profiles.length, v: vouches.length })}
         </p>
-      ) : (
-        <ul className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {profiles.map((p) => (
-            <li key={p.handle}>
-              <Link
-                href={`/${locale}/${p.handle}`}
-                className="sheet flex h-full flex-col p-4 text-ink hover:border-brand hover:text-ink sm:p-6"
-              >
-                <span className="font-mono text-metric text-muted">@{p.handle}</span>
-                <span className="mt-2 block font-semibold">
-                  {p.tagline}
-                </span>
-                <span className="mt-auto block pt-4 text-small text-muted">
-                  {t.homeVouches} {received.get(p.handle) ?? 0} ·{" "}
-                  {p.open_to.map((o) => tr(OPEN_TO[o], locale)).join(", ")}
-                </span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      )}
-
-      <Link
-        href={`/${locale}/join`}
-        className="mt-10 inline-block rounded-md bg-brand px-5 py-3 font-semibold text-on-brand hover:bg-brand-hover hover:text-on-brand"
-      >
-        {t.homeCta}
-      </Link>
+        {profiles.length === 0 ? (
+          <p className="px-4 py-6 text-muted">
+            {t.homeEmpty}{" "}
+            <Link href={`/${locale}/join`}>{t.homeEmptyLink}</Link>
+          </p>
+        ) : (
+          <ul className="divide-y divide-line">
+            {profiles.map((p) => (
+              <li key={p.handle}>
+                <Link
+                  href={`/${locale}/${p.handle}`}
+                  className="grid grid-cols-[minmax(0,1fr)_auto] gap-x-4 gap-y-0.5 px-4 py-3 text-ink hover:bg-subtle hover:text-ink hover:no-underline sm:grid-cols-[11rem_minmax(0,1fr)_minmax(0,13rem)_6rem] sm:items-baseline"
+                >
+                  <span className="truncate font-medium">{p.handle}</span>
+                  <span className="text-right text-meta text-muted sm:order-last">
+                    <span className="font-mono text-ink">
+                      {received.get(p.handle) ?? 0}
+                    </span>{" "}
+                    {t.homeVouches}
+                  </span>
+                  <span className="col-span-2 min-w-0 sm:col-span-1">
+                    {p.tagline}
+                  </span>
+                  <span className="col-span-2 min-w-0 text-meta text-muted sm:col-span-1">
+                    {p.open_to.map((o) => tr(OPEN_TO[o], locale)).join(", ")}
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </main>
   );
 }

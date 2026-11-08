@@ -40,14 +40,17 @@ export default async function LocaleLayout({
 
   return (
     <div lang={locale} className="flex flex-1 flex-col">
-      <header className="border-b border-line bg-surface">
-        <nav className="mx-auto w-full max-w-5xl px-4 sm:px-6 flex items-baseline gap-5 py-4 text-small">
-          <Link href={`/${locale}`} className="font-bold text-ink hover:text-ink">
+      <header className="sticky top-0 z-10 border-b border-line bg-surface">
+        <nav className="mx-auto flex h-12 w-full max-w-5xl items-center gap-5 px-4 sm:px-6">
+          <Link
+            href={`/${locale}`}
+            className="font-semibold tracking-tight text-ink hover:text-ink hover:no-underline"
+          >
             {t.brand}
           </Link>
           <Link
             href={`/${locale}/join`}
-            className="text-muted hover:text-brand"
+            className="ml-auto text-muted hover:text-ink hover:no-underline"
           >
             {t.navJoin}
           </Link>
@@ -56,7 +59,7 @@ export default async function LocaleLayout({
           <Link
             href={`/${other.locale}`}
             hrefLang={other.locale}
-            className="ml-auto text-muted hover:text-brand"
+            className="text-muted hover:text-ink hover:no-underline"
           >
             {other.label}
           </Link>
@@ -66,7 +69,7 @@ export default async function LocaleLayout({
       {children}
 
       <footer className="mt-auto border-t border-line">
-        <p className="mx-auto w-full max-w-5xl px-4 sm:px-6 py-6 text-small text-muted">
+        <p className="mx-auto w-full max-w-5xl px-4 py-5 text-meta text-muted sm:px-6">
           {t.footerNote}{" "}
           <Link href={`/${locale}/join`} className="underline">
             {t.footerLink}
