@@ -47,15 +47,15 @@ export default function JoinPage({
     `&value=${encodeURIComponent(profileJson)}`;
 
   return (
-    <main className="mx-auto w-full max-w-2xl px-4 py-10 sm:px-6">
-      <h1 className="text-h1 font-bold">{t.joinTitle}</h1>
-      <p className="mt-3 text-body text-muted">{t.joinLead}</p>
+    <main className="mx-auto w-full max-w-2xl px-4 py-8 sm:px-6">
+      <h1 className="text-page font-semibold tracking-tight">{t.joinTitle}</h1>
+      <p className="mt-1 text-meta text-muted">{t.joinLead}</p>
 
-      <div className="sheet mt-8 border-2 border-critical p-4 sm:p-6">
+      <div className="panel mt-6 border-l-2 border-l-critical px-4 py-3">
         <h2 className="font-semibold text-critical">
           {t.warnTitle}
         </h2>
-        <p className="mt-2 text-small">{tr(consent.retention, locale)}</p>
+        <p className="mt-1">{tr(consent.retention, locale)}</p>
       </div>
 
       <Section title={t.secPurpose}>{tr(consent.purpose, locale)}</Section>
@@ -111,7 +111,7 @@ export default function JoinPage({
         {tr(consent.refusal_consequence, locale)}
       </Section>
 
-      <h2 className="mt-10 text-h2 font-semibold">
+      <h2 className="mt-8 text-title font-semibold">
         {fill(t.requiredTitle, {
           a: consent.required.filter((r) => agreed[r.id]).length,
           b: consent.required.length,
@@ -120,7 +120,7 @@ export default function JoinPage({
       <ul className="mt-3 space-y-3">
         {consent.required.map((r) => (
           <li key={r.id}>
-            <label className="flex gap-3 text-small">
+            <label className="flex gap-3">
               <input
                 type="checkbox"
                 className="mt-1 size-4 shrink-0 accent-brand"
@@ -138,16 +138,16 @@ export default function JoinPage({
         ))}
       </ul>
 
-      <h2 className="mt-10 text-h2 font-semibold">{t.handleTitle}</h2>
+      <h2 className="mt-8 text-title font-semibold">{t.handleTitle}</h2>
       <input
         value={handle}
         onChange={(e) => setHandle(e.target.value.trim().toLowerCase())}
         placeholder="octocat"
         aria-label={t.handleTitle}
-        className="mt-2 w-full rounded-md border border-muted bg-surface px-3 py-2 font-mono text-body"
+        className="mt-2 h-9 w-full rounded-md border border-line-strong bg-surface px-3 font-mono text-ui"
       />
       {handle && !handleOk && (
-        <p className="mt-1 text-small text-critical">
+        <p className="mt-1 text-meta text-critical">
           {t.handleError}
         </p>
       )}
@@ -158,19 +158,16 @@ export default function JoinPage({
             href={prUrl}
             target="_blank"
             rel="noreferrer"
-            className="inline-block rounded-md bg-brand px-5 py-3 font-semibold text-on-brand hover:bg-brand-hover hover:text-on-brand"
+            className="btn btn-primary"
           >
             {t.submit}
           </a>
         ) : (
-          <button
-            disabled
-            className="cursor-not-allowed rounded-md border border-line px-5 py-3 font-semibold text-muted"
-          >
+          <button disabled className="btn">
             {t.submit}
           </button>
         )}
-        <p className="mt-2 text-small text-muted">
+        <p className="mt-2 text-meta text-muted">
           {fill(t.submitNote, { v: consent.version })}
         </p>
       </div>
@@ -186,9 +183,9 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section className="mt-6">
+    <section className="mt-6 border-t border-line pt-4">
       <h2 className="font-semibold">{title}</h2>
-      <div className="mt-1 text-small">{children}</div>
+      <div className="mt-1">{children}</div>
     </section>
   );
 }
