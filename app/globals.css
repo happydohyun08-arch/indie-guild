@@ -287,6 +287,23 @@
     background: var(--surface);
     color: var(--ink);
   }
+  /* Start page choice card. */
+  .choice {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    height: 100%;
+    padding: 20px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--surface);
+    color: var(--ink);
+  }
+  .choice:hover {
+    border-color: var(--brand);
+    color: var(--ink);
+    text-decoration: none;
+  }
   .role-tile:hover {
     border-color: var(--brand);
     color: var(--ink);

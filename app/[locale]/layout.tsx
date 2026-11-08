@@ -40,8 +40,8 @@ export default async function LocaleLayout({
   const other = OTHER[locale];
   const nav = [
     [`/${locale}/members`, t.navTalent],
-    [`/${locale}/#roles`, t.navRoles],
-    [`/${locale}/#companies`, t.navCompanies],
+    [`/${locale}/members/#roles`, t.navRoles],
+    [`/${locale}/about`, t.navCompanies],
   ] as const;
 
   return (

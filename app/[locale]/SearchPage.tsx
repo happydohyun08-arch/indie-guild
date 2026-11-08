@@ -8,16 +8,19 @@ export default function SearchPage({
   title,
   locale,
   preset,
+  intro,
 }: {
   title: string;
   locale: Locale;
   preset?: Preset;
+  intro?: React.ReactNode;
 }) {
   const talents = getTalents();
   const props = { talents, locale, preset };
   return (
     <main className="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6">
       <h1 className="mb-5 text-page font-semibold tracking-tight">{title}</h1>
+      {intro}
       {/* fallback이 정적 HTML이 된다: URL을 모르는 상태 = 전체(또는 프리셋) 목록. */}
       <Suspense fallback={<TalentSearch {...props} />}>
         <TalentSearchLive {...props} />

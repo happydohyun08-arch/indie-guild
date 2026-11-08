@@ -1,10 +1,15 @@
 "use client";
 
-import { use, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { Suspense, use, useState } from "react";
 import consent from "../../../consent.json";
 import { fill, ROLES, tr, ui, type Locale } from "../../../lib/i18n";
 
 // 서버 전용 모듈(lib/guild.ts, node:fs)을 끌어오지 않도록 consent.json을 직접 읽는다.
+
+// ?goal= 은 시작 페이지에서 온 경로. 기존 open_to 값만 쓴다.
+const GOALS = ["hiring", "investment"] as const;
+type Goal = (typeof GOALS)[number];
 
 export default function JoinPage({
   params,
@@ -12,6 +17,20 @@ export default function JoinPage({
   params: Promise<{ locale: string }>;
 }) {
   const locale = use(params).locale as Locale;
+  // 정적 내보내기라 쿼리는 클라이언트에서만 읽힌다. fallback = 파라미터 없는 기본 화면.
+  return (
+    <Suspense fallback={<Join locale={locale} goal={null} />}>
+      <JoinLive locale={locale} />
+    </Suspense>
+  );
+}
+
+function JoinLive({ locale }: { locale: Locale }) {
+  const g = useSearchParams().get("goal");
+  return <Join locale={locale} goal={GOALS.find((x) => x === g) ?? null} />;
+}
+
+function Join({ locale, goal }: { locale: Locale; goal: Goal | null }) {
   const t = ui(locale);
   const [handle, setHandle] = useState("");
   const [agreed, setAgreed] = useState<Record<string, boolean>>({});
@@ -32,7 +51,7 @@ export default function JoinPage({
       products: [{ name: "", url: "", stage: "live", mrr_band: "none" }],
       roles: [],
       skills: [],
-      open_to: ["hiring"],
+      open_to: [goal ?? "hiring"],
       consent: {
         version: consent.version,
         agreed_at: new Date().toISOString().slice(0, 10),
@@ -50,7 +69,9 @@ export default function JoinPage({
 
   return (
     <main className="mx-auto w-full max-w-2xl px-4 py-8 sm:px-6">
-      <h1 className="text-page font-semibold tracking-tight">{t.joinTitle}</h1>
+      <h1 className="text-page font-semibold tracking-tight">
+        {goal === "hiring" ? t.joinGoalHiring : goal === "investment" ? t.joinGoalInvestment : t.joinTitle}
+      </h1>
       <p className="mt-1 text-meta text-muted">{t.joinLead}</p>
 
       <div className="panel mt-6 border-l-2 border-l-critical px-4 py-3">
