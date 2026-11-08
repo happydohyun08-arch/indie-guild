@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getTalents, getVouches } from "../../lib/guild";
 import { fill, NEEDS, ui, type Locale } from "../../lib/i18n";
 import GuildScene from "./GuildScene";
+import Rotator from "./Rotator";
 
 type Need = (typeof NEEDS)[number];
 
@@ -48,7 +49,9 @@ export default async function Start({ params }: { params: Promise<{ locale: stri
       <GuildScene nodes={talents.length} edges={edges} />
       <div className="mx-auto w-full max-w-6xl px-4 pt-14 pb-20 sm:px-6 sm:pt-24 sm:pb-28">
         <p className="eyebrow">{fill(t.startEyebrow, { n: talents.length })}</p>
-        <h1 className="display mt-4">{t.startHeadline}</h1>
+        <h1 className="display mt-4">
+          <Rotator lines={t.startHeadline} />
+        </h1>
         <p className="mt-5 max-w-md text-[15px] leading-6 text-muted">{t.startLead}</p>
 
         <div className="mt-16 flex max-w-3xl flex-col gap-14">
