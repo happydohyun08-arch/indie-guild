@@ -27,7 +27,9 @@ import { Avatar } from "../TalentCard";
 const TOTAL = { en: "Total", ko: "합계" };
 
 export function generateStaticParams() {
-  return getProfiles().map((p) => ({ handle: p.handle }));
+  const handles = getProfiles().map((p) => ({ handle: p.handle }));
+  // 정적 내보내기는 경로가 하나는 있어야 빌드된다. 회원이 0명이면 GitHub 핸들에 쓸 수 없는 "_"로 404 페이지 하나만 만든다.
+  return handles.length ? handles : [{ handle: "_" }];
 }
 
 export default async function ProfilePage({
