@@ -1,0 +1,192 @@
+{
+  "updated": "2026-11-08",
+  "draft": {
+    "en": "Draft for the free beta. Not yet reviewed by a lawyer; it may change before the service charges anything.",
+    "ko": "무료 베타용 초안입니다. 아직 법률 검토 전이며, 유료화 전에 바뀔 수 있습니다."
+  },
+  "officer": {
+    "name": "Indie Guild 운영자 (GitHub @happydohyun08-arch)",
+    "email": "https://github.com/happydohyun08-arch/indie-guild/issues"
+  },
+  "terms": {
+    "title": { "en": "Terms of Service", "ko": "이용약관" },
+    "sections": [
+      {
+        "h": { "en": "1. The service", "ko": "1. 서비스" },
+        "p": [
+          {
+            "en": "Indie Guild is a place where indie developers and vibe coders publish résumés and portfolios in which every claim links to public evidence, and where companies and investors browse them.",
+            "ko": "Indie Guild는 인디 개발자와 바이브 코더가 모든 항목이 공개 증거로 이어지는 이력서·포트폴리오를 게시하고, 기업과 투자자가 이를 열람하는 곳입니다."
+          }
+        ]
+      },
+      {
+        "h": { "en": "2. Free beta", "ko": "2. 무료 베타" },
+        "p": [
+          {
+            "en": "The service is a free beta. There are no paid features, and features may change without notice. If we ever introduce paid features, we will announce them at least 30 days in advance and will never charge anyone without their consent.",
+            "ko": "현재 무료 베타이며 유료 기능은 없습니다. 기능은 예고 없이 바뀔 수 있습니다. 유료 기능을 도입하면 최소 30일 전에 알리며, 본인 동의 없이 요금을 청구하지 않습니다."
+          }
+        ]
+      },
+      {
+        "h": { "en": "3. Joining", "ko": "3. 가입" },
+        "p": [
+          {
+            "en": "You must be 14 or older. You join by submitting a pull request from your own GitHub account after agreeing to the privacy notice on the join page.",
+            "ko": "만 14세 이상만 가입할 수 있습니다. 등록 페이지의 개인정보 고지에 동의한 뒤, 본인 GitHub 계정으로 Pull Request를 제출하면 가입됩니다."
+          }
+        ]
+      },
+      {
+        "h": { "en": "4. Members' commitments", "ko": "4. 회원의 약속" },
+        "p": [
+          {
+            "en": "Write only what is true, and attach a public evidence link to every work-history entry. Do not post other people's personal information, confidential material, or work you have no right to. Do not try to manipulate the AI evaluation (including hidden instructions in your profile or product pages) or trade endorsements.",
+            "ko": "사실만 적고, 모든 경력에 공개 증거 링크를 붙여야 합니다. 타인의 개인정보, 영업비밀, 권리가 없는 저작물을 올리면 안 됩니다. 프로필이나 제품 페이지에 숨긴 지시문 등으로 AI 평가를 조작하려 하거나, 추천을 서로 주고받는 행위는 금지됩니다."
+          }
+        ]
+      },
+      {
+        "h": { "en": "5. Viewers' commitments (companies and investors)", "ko": "5. 열람자의 약속 (기업·투자자)" },
+        "p": [
+          {
+            "en": "Use profiles only to evaluate hiring, contract or investment opportunities. Bulk scraping, resale, spam and discrimination based on gender, age, origin or similar grounds are prohibited. Contact members only through the channels they publish (their GitHub profile).",
+            "ko": "프로필은 채용·외주·투자 검토 목적으로만 이용해야 합니다. 대량 수집, 재판매, 스팸, 성별·나이·출신 등을 이유로 한 차별은 금지됩니다. 연락은 회원이 공개한 경로(GitHub 프로필)로만 합니다."
+          }
+        ]
+      },
+      {
+        "h": { "en": "6. AI evaluation", "ko": "6. AI 평가" },
+        "p": [
+          {
+            "en": "The operator generates a reference evaluation of each public profile with Anthropic's Claude. It is an opinion, not a verification or guarantee of the facts. Do not make hiring or investment decisions on the AI evaluation alone. Members may ask for an explanation, a re-evaluation, or for their evaluation to be hidden.",
+            "ko": "운영자는 Anthropic의 Claude로 공개 프로필마다 참고용 평가를 만듭니다. 이는 의견일 뿐 사실 확인이나 보증이 아닙니다. 채용·투자 결정을 AI 평가만으로 내리지 마세요. 회원은 평가에 대한 설명, 재평가, 평가 숨김을 요청할 수 있습니다."
+          }
+        ]
+      },
+      {
+        "h": { "en": "7. Your content", "ko": "7. 게시물의 권리" },
+        "p": [
+          {
+            "en": "You keep the rights to what you write. You allow us, without exclusivity and free of charge, to store, display and evaluate it as far as needed to run the service. Because the service runs as a public Git repository, anyone can see what you publish.",
+            "ko": "회원이 작성한 글의 권리는 회원에게 있습니다. 회원은 서비스 운영에 필요한 범위에서 운영자가 이를 무상·비독점으로 저장·표시·평가하는 것을 허락합니다. 서비스가 공개 Git 저장소로 운영되므로 게시한 내용은 누구나 볼 수 있습니다."
+          }
+        ]
+      },
+      {
+        "h": { "en": "8. Refusal and removal", "ko": "8. 게시 거부와 삭제" },
+        "p": [
+          {
+            "en": "We may decline a pull request, or remove a profile or evaluation, that breaks these terms, is false, or infringes someone else's rights. Where possible we explain why in the pull request or issue.",
+            "ko": "이 약관을 어기거나 허위이거나 타인의 권리를 침해하는 게시물은 Pull Request를 거절하거나 프로필·평가를 삭제할 수 있습니다. 가능한 한 Pull Request나 이슈에 이유를 남깁니다."
+          }
+        ]
+      },
+      {
+        "h": { "en": "9. Limits of responsibility", "ko": "9. 책임의 한계" },
+        "p": [
+          {
+            "en": "We do not guarantee that what members write is true, or the outcome of any hiring or investment. Because the service is free, we are not liable for damage unless it is caused by our intent or gross negligence, as far as the law allows.",
+            "ko": "운영자는 회원이 작성한 내용의 진실성이나 채용·투자의 결과를 보증하지 않습니다. 무료 서비스이므로, 법이 허용하는 범위에서 운영자의 고의 또는 중대한 과실이 아닌 손해에 대해서는 책임을 지지 않습니다."
+          }
+        ]
+      },
+      {
+        "h": { "en": "10. Changes", "ko": "10. 약관 변경" },
+        "p": [
+          {
+            "en": "We announce changes on this page at least 7 days before they take effect, and at least 30 days before for changes that are unfavourable to members.",
+            "ko": "약관을 바꿀 때는 시행 7일 전까지, 회원에게 불리한 변경은 30일 전까지 이 페이지에 알립니다."
+          }
+        ]
+      },
+      {
+        "h": { "en": "11. Governing law and contact", "ko": "11. 준거법과 문의" },
+        "p": [
+          {
+            "en": "These terms are governed by the laws of the Republic of Korea, and disputes go to the court with jurisdiction under the Korean Civil Procedure Act. Questions: open an issue in the GitHub repository.",
+            "ko": "이 약관은 대한민국 법을 따르며, 분쟁은 민사소송법상 관할 법원에서 다룹니다. 문의는 GitHub 저장소에 이슈로 남겨 주세요."
+          }
+        ]
+      }
+    ]
+  },
+  "privacy": {
+    "title": { "en": "Privacy Policy", "ko": "개인정보 처리방침" },
+    "sections": [
+      {
+        "h": { "en": "How we collect it", "ko": "수집 방법" },
+        "p": [
+          {
+            "en": "From the pull request you submit yourself, from the GitHub public API, and from the AI evaluation the operator generates from that information. A submission containing an email address or phone number is rejected automatically.",
+            "ko": "회원이 직접 제출한 Pull Request, GitHub 공개 API, 그리고 이 정보로 운영자가 만드는 AI 평가에서 수집합니다. 이메일 주소나 전화번호가 들어간 제출은 자동 검사에서 거부됩니다."
+          }
+        ]
+      },
+      {
+        "h": { "en": "Visitors", "ko": "방문자 정보" },
+        "p": [
+          {
+            "en": "The site uses no cookies, analytics or ads. It keeps one value in your browser's session storage to pick the start-page headline; it never leaves your browser and is cleared when you close the tab. The host, GitHub Pages, may log visitors' IP addresses for security under GitHub's own privacy statement.",
+            "ko": "사이트는 쿠키, 방문 분석 도구, 광고를 쓰지 않습니다. 시작 문구를 고르기 위해 브라우저 세션 저장소에 값 하나를 두며, 이 값은 브라우저 밖으로 나가지 않고 탭을 닫으면 지워집니다. 호스팅인 GitHub Pages는 보안을 위해 방문자 IP를 기록할 수 있으며, 이는 GitHub의 개인정보 처리방침을 따릅니다."
+          }
+        ]
+      },
+      {
+        "h": { "en": "Deletion", "ko": "파기" },
+        "p": [
+          {
+            "en": "When you ask to leave, or stop publishing, we delete your profile and its AI evaluation from the current version without delay. Copies in past Git history, third-party forks and search caches cannot be deleted, as explained under Retention below.",
+            "ko": "탈퇴를 요청하거나 게시를 중단하면 프로필과 AI 평가를 현재 버전에서 지체 없이 삭제합니다. 아래 '보유 기간'에 적은 대로, 과거 Git 히스토리·제3자 포크·검색 캐시의 사본은 삭제할 수 없습니다."
+          }
+        ]
+      },
+      {
+        "h": { "en": "Automated evaluation", "ko": "자동화된 평가" },
+        "p": [
+          {
+            "en": "The AI evaluation makes no hiring or investment decision by itself; it is shown as a reference score. You may ask us to explain an evaluation, to re-run it, or to hide it, and we will handle the request within 30 days.",
+            "ko": "AI 평가는 채용·투자를 스스로 결정하지 않으며 참고 점수로만 표시됩니다. 평가에 대한 설명, 재평가, 평가 숨김을 요청할 수 있고, 30일 안에 처리합니다."
+          }
+        ]
+      },
+      {
+        "h": { "en": "Security", "ko": "안전성 확보 조치" },
+        "p": [
+          {
+            "en": "We do not collect contact details or sensitive data by design. The AI API key is stored as an encrypted GitHub secret, and only repository maintainers can change the service.",
+            "ko": "연락처와 민감정보는 처음부터 수집하지 않도록 설계했습니다. AI API 키는 GitHub의 암호화된 비밀 값으로 보관하며, 서비스를 바꿀 수 있는 권한은 저장소 관리자에게만 있습니다."
+          }
+        ]
+      },
+      {
+        "h": { "en": "Privacy officer", "ko": "개인정보 보호책임자" },
+        "p": [
+          {
+            "en": "Name: {name} · Contact: {email} (open an issue).",
+            "ko": "성명: {name} · 연락처: {email} (이슈로 남겨 주세요)."
+          }
+        ]
+      },
+      {
+        "h": { "en": "Where to get help (Korea)", "ko": "권익 침해 구제" },
+        "p": [
+          {
+            "en": "Personal Information Infringement Report Center (privacy.kisa.or.kr, 118), Personal Information Dispute Mediation Committee (kopico.go.kr, 1833-6972), Supreme Prosecutors' Office (1301), Korean National Police Agency (182).",
+            "ko": "개인정보침해신고센터 (privacy.kisa.or.kr, 국번 없이 118), 개인정보분쟁조정위원회 (kopico.go.kr, 1833-6972), 대검찰청 (국번 없이 1301), 경찰청 (국번 없이 182)."
+          }
+        ]
+      },
+      {
+        "h": { "en": "Changes", "ko": "처리방침 변경" },
+        "p": [
+          {
+            "en": "We announce changes on this page at least 7 days before they take effect.",
+            "ko": "처리방침을 바꿀 때는 시행 7일 전까지 이 페이지에 알립니다."
+          }
+        ]
+      }
+    ]
+  }
+}

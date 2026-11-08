@@ -54,6 +54,7 @@ export default async function LocaleLayout({
             className="shrink-0 text-[17px] font-bold tracking-tight text-ink hover:text-ink hover:no-underline"
           >
             {t.brand}
+            <span className="chip ml-2 align-middle font-medium text-muted">{t.beta}</span>
           </Link>
           <nav aria-label={t.navMenu} className="hidden items-center gap-5 lg:flex">
             {nav.map(([href, label]) => (
@@ -112,6 +113,14 @@ export default async function LocaleLayout({
           {t.footerNote}{" "}
           <Link href={`/${locale}/join`} className="underline">
             {t.footerLink}
+          </Link>
+          {" · "}
+          <Link href={`/${locale}/terms`} className="underline">
+            {t.footerTerms}
+          </Link>
+          {" · "}
+          <Link href={`/${locale}/privacy`} className="underline">
+            {t.footerPrivacy}
           </Link>
         </p>
       </footer>

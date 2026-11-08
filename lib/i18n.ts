@@ -70,6 +70,9 @@ const en = {
   footerNote:
     "We never collect your email, phone number or legal name. Public Git history cannot be deleted.",
   footerLink: "Read the privacy notice",
+  footerTerms: "Terms",
+  footerPrivacy: "Privacy policy",
+  beta: "Beta",
 
   navTalent: "Find talent",
   navRoles: "Roles",
@@ -212,6 +215,9 @@ const ko: typeof en = {
   footerNote:
     "이메일·전화번호·실명은 수집하지 않습니다. 공개 Git 히스토리는 삭제할 수 없습니다.",
   footerLink: "개인정보 고지 읽기",
+  footerTerms: "이용약관",
+  footerPrivacy: "개인정보 처리방침",
+  beta: "베타",
 
   navTalent: "인재 찾기",
   navRoles: "직군",
