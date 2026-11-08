@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { LOCALES, OTHER, ui, type Locale } from "../../lib/i18n";
+import Motion from "./Motion";
 import SearchBox from "./SearchBox";
 
 export function generateStaticParams() {
@@ -104,6 +105,7 @@ export default async function LocaleLayout({
       </header>
 
       {children}
+      <Motion />
 
       <footer className="mt-auto border-t border-line">
         <p className="mx-auto w-full max-w-6xl px-4 py-5 text-meta text-muted sm:px-6">

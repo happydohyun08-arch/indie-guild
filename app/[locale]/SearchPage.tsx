@@ -3,7 +3,7 @@ import { getTalents } from "../../lib/guild";
 import type { Locale } from "../../lib/i18n";
 import TalentSearch, { TalentSearchLive, type Preset } from "./TalentSearch";
 
-/** 인재 찾기·직군·니즈 페이지 공통 본문. */
+/** 인재 찾기·직군·희망 제안 페이지 공통 본문. */
 export default function SearchPage({
   title,
   locale,

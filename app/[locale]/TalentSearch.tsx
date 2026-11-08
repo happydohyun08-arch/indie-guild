@@ -17,7 +17,7 @@ export type Preset = { role?: Role; need?: Need };
 const ROLE_IDS = Object.keys(ROLES) as Role[];
 
 function parse(sp: URLSearchParams | null, preset: Preset): Query {
-  // 직군·니즈 페이지는 URL이 비어 있을 때만 프리셋을 쓴다. 필터를 바꾸면 /members로 간다.
+  // 직군·희망 제안 페이지는 URL이 비어 있을 때만 프리셋을 쓴다. 필터를 바꾸면 /members로 간다.
   if (!sp?.toString()) {
     return {
       q: "",
