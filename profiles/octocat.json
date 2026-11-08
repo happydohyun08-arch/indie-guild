@@ -19,6 +19,8 @@
       "mrr_band": "none"
     }
   ],
+  "roles": ["fullstack"],
+  "skills": ["Git", "Ruby", "JavaScript"],
   "open_to": ["hiring"],
   "consent": {
     "version": "3",

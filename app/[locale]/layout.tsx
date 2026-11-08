@@ -49,8 +49,14 @@ export default async function LocaleLayout({
             {t.brand}
           </Link>
           <Link
-            href={`/${locale}/join`}
+            href={`/${locale}/members`}
             className="ml-auto text-muted hover:text-ink hover:no-underline"
+          >
+            {t.navMembers}
+          </Link>
+          <Link
+            href={`/${locale}/join`}
+            className="text-muted hover:text-ink hover:no-underline"
           >
             {t.navJoin}
           </Link>

@@ -14,6 +14,8 @@ accepting the notices. Hand-written JSON has no consent record and CI will rejec
 - [ ] I ticked every required item on the `/join` page.
 - [ ] I understand that public Git history cannot be deleted.
 - [ ] I read the US privacy notice (CCPA/CPRA) and accept that my right to delete is limited.
+- [ ] `roles` (optional) uses only: `frontend`, `backend`, `fullstack`, `mobile`, `design`, `ai-data`, `indie-maker`.
+- [ ] `skills` (optional) has at most 20 short items (30 characters each) and no URLs.
 - [ ] Every `experience` entry has a public evidence link (`proof`) that anyone can open.
 - [ ] I did **not** include an email, phone number, legal name or government ID.
 - [ ] I gave revenue as a band (`mrr_band`), not an exact figure, and no salary figures at all.

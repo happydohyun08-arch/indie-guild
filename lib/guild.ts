@@ -2,7 +2,7 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import consentJson from "../consent.json";
-import type { CRITERIA, MRR_BANDS, OPEN_TO, STAGE } from "./i18n";
+import type { CRITERIA, MRR_BANDS, OPEN_TO, ROLES, STAGE } from "./i18n";
 
 export const VOUCH_LIMIT_PER_YEAR = 3;
 
@@ -29,6 +29,10 @@ export type Profile = {
     proof: string;
   }[];
   open_to: (keyof typeof OPEN_TO)[];
+  /** 직군 (선택). 고정 목록 ROLES 중에서. */
+  roles?: (keyof typeof ROLES)[];
+  /** 스킬 (선택). 최대 20개, 각 30자 이내, URL 금지 — scripts/validate.mjs가 검사. */
+  skills?: string[];
   consent: { version: string; agreed_at: string; agreed: string[] };
 };
 
