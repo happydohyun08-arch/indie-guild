@@ -2,20 +2,23 @@
 
 import { useEffect, useState } from "react";
 
-/** 시작 문구를 몇 초마다 바꿔 보여준다. 첫 문구는 서버에서 그려지고,
- *  움직임 줄이기 환경에서는 바뀌지 않는다. 화면 낭독기에는 첫 문구만 읽힌다. */
-export default function Rotator({ lines, ms = 3200 }: { lines: readonly string[]; ms?: number }) {
-  const [i, setI] = useState(0);
+/** 페이지를 열거나 새로고침할 때마다 문구 하나를 고른다. 직전에 본 문구는 피한다.
+ *  고르기 전엔 자리만 잡아 두어 첫 문구가 번쩍였다 바뀌지 않게 한다. 화면 낭독기는 첫 문구만 읽는다. */
+export default function Rotator({ lines }: { lines: readonly string[] }) {
+  const [i, setI] = useState<number | null>(null);
   useEffect(() => {
-    if (lines.length < 2 || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const id = setInterval(() => setI((n) => (n + 1) % lines.length), ms);
-    return () => clearInterval(id);
-  }, [lines.length, ms]);
+    let last = -1;
+    try { last = Number(sessionStorage.getItem("headline") ?? -1); } catch {}
+    let n = Math.floor(Math.random() * lines.length);
+    if (lines.length > 1 && n === last) n = (n + 1) % lines.length;
+    try { sessionStorage.setItem("headline", String(n)); } catch {}
+    setI(n);
+  }, [lines.length]);
   return (
     <>
       <span className="sr-only">{lines[0]}</span>
-      <span key={i} aria-hidden className="rotator">
-        {lines[i]}
+      <span aria-hidden className="rotator" data-pending={i === null ? "" : undefined}>
+        {lines[i ?? 0]}
       </span>
     </>
   );

@@ -80,7 +80,7 @@ const en = {
   searchSubmit: "Search",
 
   startEyebrow: "Indie Guild · {n} builders on record",
-  startHeadline: ["Proof over pitch.", "Shipped beats said.", "Links, not claims.", "Let the work talk."],
+  startHeadline: ["Proof over pitch.", "Ship, don't spin.", "Commits don't lie.", "Skip the cover letter.", "The demo is the interview.", "One link says enough."],
   startLead: "Résumés and portfolios where every claim links to public proof.",
   startLookLabel: "For teams & investors",
   startLookTitle: "Meet the builders",
@@ -222,7 +222,7 @@ const ko: typeof en = {
   searchSubmit: "검색",
 
   startEyebrow: "Indie Guild · 등록된 개발자 {n}명",
-  startHeadline: ["말보다 증거.", "이력서 대신 결과물.", "주장 말고 링크.", "만든 것으로 말하세요."],
+  startHeadline: ["말보다 증거.", "포장 말고 배포.", "커밋은 거짓말을 안 합니다.", "자소서는 접어두세요.", "데모가 곧 면접입니다.", "링크 하나면 충분합니다."],
   startLead: "모든 항목이 공개 증거로 이어지는 이력서와 포트폴리오.",
   startLookLabel: "기업·투자자",
   startLookTitle: "증거로 만나는 개발자",
