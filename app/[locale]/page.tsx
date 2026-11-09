@@ -65,7 +65,7 @@ export default async function Start({ params }: { params: Promise<{ locale: stri
           <h1 id="hero-h" className="display mt-5">
             <Rotator lines={t.startHeadline} />
           </h1>
-          <p className="lead mt-6">{t.startLead}</p>
+          <p className="lead mt-6"><Rotator id="lead" lines={t.startLead} /></p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link href={`/${locale}/members`} className="btn btn-primary btn-lg">
               {t.navTalent}
@@ -81,7 +81,7 @@ export default async function Start({ params }: { params: Promise<{ locale: stri
 
         <section className="chapter" aria-labelledby="how-h">
           <p className="eyebrow">{t.storyHowLabel}</p>
-          <h2 id="how-h" className="headline mt-4">{t.storyHowTitle}</h2>
+          <h2 id="how-h" className="headline mt-4"><Rotator id="how" lines={t.storyHowTitle} /></h2>
           <ol className="mt-10 flex max-w-xl flex-col gap-3">
             {t.storySteps.map(([title, body], i) => (
               <li key={title} className="panel step">
@@ -97,7 +97,7 @@ export default async function Start({ params }: { params: Promise<{ locale: stri
 
         <section className="chapter" aria-labelledby="ai-h">
           <p className="eyebrow">{t.storyAiLabel}</p>
-          <h2 id="ai-h" className="headline mt-4">{t.storyAiTitle}</h2>
+          <h2 id="ai-h" className="headline mt-4"><Rotator id="ai" lines={t.storyAiTitle} /></h2>
           <p className="lead mt-6">{t.storyAiLead}</p>
           <ol className="mt-8 grid max-w-xl grid-cols-2 gap-2 sm:grid-cols-3">
             {(Object.keys(CRITERIA) as (keyof typeof CRITERIA)[]).map((k, i) => (
@@ -112,7 +112,7 @@ export default async function Start({ params }: { params: Promise<{ locale: stri
 
         <section className="chapter" aria-labelledby="paths-h">
           <p className="eyebrow">{t.storyPathsLabel}</p>
-          <h2 id="paths-h" className="headline mt-4">{t.storyPathsTitle}</h2>
+          <h2 id="paths-h" className="headline mt-4"><Rotator id="paths" lines={t.storyPathsTitle} /></h2>
           <div className="mt-10 flex max-w-3xl flex-col gap-10">
           {GROUPS.map((g) => (
             <section key={g.title} aria-labelledby={g.title}>
@@ -194,7 +194,7 @@ export default async function Start({ params }: { params: Promise<{ locale: stri
 
         <section className="chapter" aria-labelledby="end-h">
           <p className="eyebrow">{t.beta}</p>
-          <h2 id="end-h" className="headline mt-4">{t.storyEndTitle}</h2>
+          <h2 id="end-h" className="headline mt-4"><Rotator id="end" lines={t.storyEndTitle} /></h2>
           <p className="lead mt-6">{fill(t.storyEndLead, { n: talents.length })}</p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link href={`/${locale}/join`} className="btn btn-primary btn-lg">
