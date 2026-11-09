@@ -1,6 +1,9 @@
 import {
+  BoxGeometry,
+  BufferAttribute,
   BufferGeometry,
   CanvasTexture,
+  EdgesGeometry,
   Group,
   IcosahedronGeometry,
   LineBasicMaterial,
@@ -18,10 +21,19 @@ import {
 export type Graph = { nodes: number; edges: [number, number][] };
 
 const R = 2;
+/** 장면 수 (page.tsx의 장(chapter) 수와 같다): 0 구 · 1 주장→증거→검증 · 2 기준 7개 · 3 두 갈래 · 4 다시 구. */
+const STAGES = 5;
+const BARS = 7;
 
-/** 시작 페이지 배경: 옅은 격자 구 위에 실제 프로필을 브랜드 색 점으로, 보증을 호로 잇는다.
+const smooth = (x: number) => x * x * (3 - 2 * x);
+/** 장면 k에 얼마나 가까운지 (0~1). */
+const near = (s: number, k: number) => smooth(Math.max(0, 1 - Math.abs(s - k)));
+
+/** 시작 페이지 스크롤 스토리의 배경. 격자 구의 꼭짓점들이 장면마다 다른 모양으로 모였다 흩어진다.
+ *  진행도는 host를 감싼 [data-story] 요소를 얼마나 지나왔는지로 정한다.
  *  WebGL이 없으면 WebGLRenderer가 throw 하고, 호출 쪽이 잡아 빈 배경으로 둔다. */
 export function mount(host: HTMLElement, graph: Graph, still: boolean): () => void {
+  const story = host.closest<HTMLElement>("[data-story]") ?? host;
   const renderer = new WebGLRenderer({ antialias: true, alpha: true, powerPreference: "low-power" });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   const canvas = renderer.domElement;
@@ -31,27 +43,29 @@ export function mount(host: HTMLElement, graph: Graph, still: boolean): () => vo
   host.appendChild(canvas);
 
   const scene = new Scene();
-  const camera = new PerspectiveCamera(38, 1, 0.1, 50);
-  const world = new Group(); // 위치·포인터·스크롤 기울기
+  const camera = new PerspectiveCamera(38, 1, 0.1, 60);
+  const world = new Group(); // 위치·포인터 기울기
   const spin = new Group(); // 느린 자전
   world.add(spin);
   scene.add(world);
 
-  // 둥근 점 스프라이트 (외부 에셋 없이 코드로 그린다)
   const dotCanvas = document.createElement("canvas");
   dotCanvas.width = dotCanvas.height = 64;
   const ctx = dotCanvas.getContext("2d")!;
-  ctx.fillStyle = "#fff";
-  ctx.beginPath();
-  ctx.arc(32, 32, 28, 0, Math.PI * 2);
-  ctx.fill();
+  const grad = ctx.createRadialGradient(32, 32, 0, 32, 32, 30);
+  grad.addColorStop(0, "#fff");
+  grad.addColorStop(0.5, "rgba(255,255,255,.9)");
+  grad.addColorStop(1, "rgba(255,255,255,0)");
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, 64, 64);
   const dot = new CanvasTexture(dotCanvas);
 
-  // 길드라는 공간: 격자 구. 브랜드 색으로 또렷하게 (어두운 바탕 기준).
+  // 장면 0·4: 격자 구 + 실제 프로필 점 + 보증 호
   const ico = new IcosahedronGeometry(R, 3);
-  const latticeMat = new LineBasicMaterial({ transparent: true, opacity: 0.32, depthWrite: false });
   const wire = new WireframeGeometry(ico);
-  spin.add(new LineSegments(wire, latticeMat));
+  const latticeMat = new LineBasicMaterial({ transparent: true, depthWrite: false });
+  const globe = new Group();
+  globe.add(new LineSegments(wire, latticeMat));
 
   const uniq = new Map<string, Vector3>();
   const pos = ico.getAttribute("position");
@@ -60,28 +74,14 @@ export function mount(host: HTMLElement, graph: Graph, still: boolean): () => vo
     uniq.set(v.toArray().map((n) => n.toFixed(3)).join(), v);
   }
   const verts = [...uniq.values()];
-  const vertGeo = new BufferGeometry().setFromPoints(verts);
-  const vertMat = new PointsMaterial({ size: 0.07, map: dot, transparent: true, opacity: 0.75, depthWrite: false });
-  spin.add(new Points(vertGeo, vertMat));
+  const N = verts.length;
 
-  // 실제 프로필: 황금각 배치로 구 위에 고르게.
   const members: Vector3[] = [];
   for (let i = 0; i < graph.nodes; i++) {
     const y = 1 - (2 * (i + 0.5)) / graph.nodes;
     const r = Math.sqrt(1 - y * y);
     const a = i * Math.PI * (3 - Math.sqrt(5)) + 0.6;
     members.push(new Vector3(Math.cos(a) * r, y, Math.sin(a) * r).multiplyScalar(R * 1.02));
-  }
-  const memberGeo = new BufferGeometry().setFromPoints(members);
-  const memberMat = new PointsMaterial({ size: 0.16, map: dot, transparent: true, depthWrite: false });
-  const haloMat = new PointsMaterial({ size: 0.42, map: dot, transparent: true, opacity: 0.12, depthWrite: false });
-  spin.add(new Points(memberGeo, haloMat), new Points(memberGeo, memberMat));
-
-  // 프로필 → 가까운 격자점 3개 (길드에 속해 있음), 보증 → 구 바깥으로 살짝 뜬 호.
-  const tether: Vector3[] = [];
-  for (const m of members) {
-    const near = [...verts].sort((a, b) => a.distanceToSquared(m) - b.distanceToSquared(m)).slice(0, 3);
-    for (const v of near) tether.push(m, v);
   }
   const arcs: Vector3[] = [];
   for (const [a, b] of graph.edges) {
@@ -96,43 +96,132 @@ export function mount(host: HTMLElement, graph: Graph, still: boolean): () => vo
       prev = p;
     }
   }
-  const tetherGeo = new BufferGeometry().setFromPoints(tether);
-  const tetherMat = new LineBasicMaterial({ transparent: true, opacity: 0.3, depthWrite: false });
+  const memberGeo = new BufferGeometry().setFromPoints(members);
+  const memberMat = new PointsMaterial({ size: 0.22, map: dot, transparent: true, depthWrite: false });
+  const haloMat = new PointsMaterial({ size: 0.6, map: dot, transparent: true, depthWrite: false });
   const arcGeo = new BufferGeometry().setFromPoints(arcs);
-  const arcMat = new LineBasicMaterial({ transparent: true, opacity: 0.75, depthWrite: false });
-  spin.add(new LineSegments(tetherGeo, tetherMat), new LineSegments(arcGeo, arcMat));
+  const arcMat = new LineBasicMaterial({ transparent: true, depthWrite: false });
+  globe.add(new Points(memberGeo, haloMat), new Points(memberGeo, memberMat), new LineSegments(arcGeo, arcMat));
+  spin.add(globe);
 
-  // 색은 CSS 토큰에서 읽는다 (라이트/다크 자동).
+  // 모든 장면을 잇는 입자: 구의 꼭짓점이 장면마다 다른 목표 위치로 옮겨 간다.
+  const targets: Float32Array[] = Array.from({ length: STAGES }, () => new Float32Array(N * 3));
+  const put = (k: number, i: number, v: Vector3) => v.toArray(targets[k], i * 3);
+  const centers3 = [-1.9, 0, 1.9].map((x) => new Vector3(x, 0, 0));
+  const centers2 = [-1.4, 1.4].map((x) => new Vector3(x, 0, 0));
+  const barH = 2.4;
+  const perBar = Math.ceil(N / BARS);
+  verts.forEach((v, i) => {
+    const dir = v.clone().normalize();
+    put(0, i, v);
+    put(1, i, dir.clone().multiplyScalar(0.55).add(centers3[i % 3]));
+    const b = i % BARS;
+    const ang = (b / BARS) * Math.PI * 2;
+    const k = Math.floor(i / BARS);
+    put(2, i, new Vector3(Math.cos(ang) * 1.7, (k / perBar) * barH - barH / 2, Math.sin(ang) * 1.7));
+    put(3, i, dir.clone().multiplyScalar(0.8).add(centers2[i % 2]));
+    put(4, i, v);
+  });
+  const cloud = new Float32Array(targets[0]);
+  const cloudGeo = new BufferGeometry();
+  cloudGeo.setAttribute("position", new BufferAttribute(cloud, 3));
+  const cloudMat = new PointsMaterial({ size: 0.1, map: dot, transparent: true, depthWrite: false });
+  spin.add(new Points(cloudGeo, cloudMat));
+
+  // 장면 1: 주장 → 증거 → 검증을 잇는 선
+  const linkGeo = new BufferGeometry().setFromPoints([centers3[0], centers3[1], centers3[1], centers3[2]]);
+  const linkMat = new LineBasicMaterial({ transparent: true, depthWrite: false });
+  spin.add(new LineSegments(linkGeo, linkMat));
+
+  // 장면 2: 기준 7개 = 고리 위의 막대 7개 (값 없이 틀만: 실제 점수는 프로필에서)
+  const box = new BoxGeometry(0.34, barH, 0.34);
+  const boxEdges = new EdgesGeometry(box);
+  const barMat = new LineBasicMaterial({ transparent: true, depthWrite: false });
+  const bars = new Group();
+  for (let b = 0; b < BARS; b++) {
+    const ang = (b / BARS) * Math.PI * 2;
+    const e = new LineSegments(boxEdges, barMat);
+    e.position.set(Math.cos(ang) * 1.7, 0, Math.sin(ang) * 1.7);
+    bars.add(e);
+  }
+  spin.add(bars);
+
+  // 장면 3: 두 갈래를 잇는 선
+  const forkGeo = new BufferGeometry().setFromPoints([centers2[0], centers2[1]]);
+  const forkMat = new LineBasicMaterial({ transparent: true, depthWrite: false });
+  spin.add(new LineSegments(forkGeo, forkMat));
+
+  const lineMats = [latticeMat, arcMat, linkMat, barMat, forkMat];
   const scheme = window.matchMedia("(prefers-color-scheme: dark)");
   const paint = () => {
     const css = getComputedStyle(document.documentElement);
-    const ink = css.getPropertyValue("--ink").trim() || "#18181b";
-    const brand = css.getPropertyValue("--brand").trim() || "#2450b2";
-    latticeMat.color.set(brand);
-    vertMat.color.set(ink);
-    for (const m of [memberMat, haloMat, tetherMat, arcMat]) m.color.set(brand);
+    const ink = css.getPropertyValue("--ink").trim() || "#eceef4";
+    const brand = css.getPropertyValue("--brand").trim() || "#8ab0ff";
+    const proof = css.getPropertyValue("--proof").trim() || "#6fcf8f";
+    for (const m of [...lineMats, memberMat, haloMat]) m.color.set(brand);
+    linkMat.color.set(proof);
+    cloudMat.color.set(ink);
   };
   paint();
 
+  let wide = true;
+  let camZ = 9;
   const resize = () => {
     const w = host.clientWidth;
     const h = host.clientHeight;
     if (!w || !h) return;
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
-    const wide = w >= 900;
-    // 넓은 화면: 구를 오른쪽에 두어 글을 가리지 않는다. 좁은 화면: 가운데, 멀리.
-    world.position.set(wide ? 2.6 : 0, wide ? 0.1 : 0.6, 0);
-    camZ = wide ? 8 : 9.5;
-    camera.position.set(0, 0, camZ);
+    wide = w >= 900;
+    // 넓은 화면: 장면을 오른쪽에 두어 글을 가리지 않는다. 좁은 화면: 가운데, 작게.
+    world.position.set(wide ? 2.4 : 0, wide ? 0 : 0.4, 0);
+    world.scale.setScalar(wide ? 1 : 0.75);
+    camZ = wide ? 8.5 : 12;
     camera.updateProjectionMatrix();
+  };
+
+  /** s = 0..STAGES-1 의 연속값. 한 장면 안에서도 섞인다. */
+  const pose = (s: number, now: number) => {
+    const a = Math.min(Math.floor(s), STAGES - 2);
+    const f = smooth(Math.min(Math.max(s - a, 0), 1));
+    const A = targets[a];
+    const B = targets[a + 1];
+    for (let i = 0; i < cloud.length; i++) cloud[i] = A[i] + (B[i] - A[i]) * f;
+    cloudGeo.attributes.position.needsUpdate = true;
+
+    const g = Math.max(near(s, 0), near(s, 4));
+    latticeMat.opacity = 0.34 * g;
+    arcMat.opacity = 0.8 * g;
+    memberMat.opacity = g;
+    haloMat.opacity = 0.18 * g;
+    globe.scale.setScalar(0.6 + 0.4 * g);
+    linkMat.opacity = 0.9 * near(s, 1);
+    forkMat.opacity = 0.7 * near(s, 3);
+    const w2 = near(s, 2);
+    barMat.opacity = 0.75 * w2;
+    bars.children.forEach((c, b) => {
+      // 기준마다 높이가 조금씩 오르내린다 (장식, 데이터 아님)
+      c.scale.y = Math.max(0.001, w2 * (0.75 + 0.25 * Math.sin(now * 0.0012 + b * 0.9)));
+    });
+    cloudMat.size = 0.1 + 0.05 * (1 - g);
+    cloudMat.opacity = 0.85;
+
+    // 장면마다 카메라가 조금씩 다른 각도로: 1·3은 정면, 2는 위에서 내려다본다.
+    spin.rotation.x = 0.5 * w2;
+    camera.position.set(0, 0.6 * w2, camZ + 1.2 * near(s, 4) - 0.8 * near(s, 0));
+    camera.lookAt(world.position.x, world.position.y, 0);
+  };
+
+  const progress = () => {
+    const r = story.getBoundingClientRect();
+    const span = Math.max(r.height - window.innerHeight, 1);
+    return Math.min(Math.max(-r.top / span, 0), 1) * (STAGES - 1);
   };
 
   let raf = 0;
   let visible = true;
   let px = 0, py = 0, tx = 0, ty = 0;
-  let camZ = 9;
-  let sy = 0; // 부드럽게 따라가는 스크롤 진행도 (0 = 맨 위, 1 = 장면 높이만큼 내려감)
+  let s = 0;
   const render = () => {
     renderer.render(scene, camera);
     canvas.style.opacity = "1";
@@ -142,12 +231,14 @@ export function mount(host: HTMLElement, graph: Graph, still: boolean): () => vo
     if (!visible || document.hidden) return;
     px += (tx - px) * 0.04;
     py += (ty - py) * 0.04;
-    // 스크롤하면 카메라가 구를 따라 내려가며 돌아 들어간다: 아래로 이동·접근, 위로 올려다보기, 살짝 기울기.
-    sy += (Math.min(window.scrollY / Math.max(host.clientHeight, 1), 1.2) - sy) * 0.08;
-    spin.rotation.y = now * 0.00016 + sy * 2.4; // 약 40초에 한 바퀴
-    world.rotation.set(0.25 + py * 0.2 + sy * 0.5, px * 0.3, 0.12);
-    camera.position.set(0, -sy * 2.6, camZ - sy * 2.2);
-    camera.rotation.set(sy * 0.32, 0, -sy * 0.22);
+    s += (progress() - s) * 0.08;
+    // 구일 때는 돌고, 모양이 잡히는 장면에선 거의 멈춘다.
+    const g = Math.max(near(s, 0), near(s, 4));
+    const flat = Math.min(near(s, 1) + near(s, 3), 1); // 1·3은 정면을 보고 선다
+    const y = (((spin.rotation.y + 0.0012 + 0.0045 * g + Math.PI) % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI) - Math.PI;
+    spin.rotation.y = y - y * 0.08 * flat;
+    world.rotation.set(0.18 + py * 0.2, px * 0.3, 0.08 * g);
+    pose(s, now);
     render();
     raf = requestAnimationFrame(tick);
   };
@@ -156,8 +247,10 @@ export function mount(host: HTMLElement, graph: Graph, still: boolean): () => vo
   };
   const redraw = () => {
     resize();
-    if (still) render();
-    else start();
+    if (still) {
+      pose(0, 0);
+      render();
+    } else start();
   };
   const onScheme = () => {
     paint();
@@ -168,8 +261,9 @@ export function mount(host: HTMLElement, graph: Graph, still: boolean): () => vo
     ty = e.clientY / window.innerHeight - 0.5;
   };
 
-  world.rotation.set(0.25, 0, 0.12);
+  world.rotation.set(0.18, 0, 0.08);
   spin.rotation.y = 0.8;
+  s = still ? 0 : progress();
   const ro = new ResizeObserver(redraw);
   ro.observe(host);
   const io = new IntersectionObserver(([e]) => {
@@ -189,8 +283,8 @@ export function mount(host: HTMLElement, graph: Graph, still: boolean): () => vo
     document.removeEventListener("visibilitychange", start);
     scheme.removeEventListener("change", onScheme);
     window.removeEventListener("pointermove", onPointer);
-    for (const g of [ico, wire, vertGeo, memberGeo, tetherGeo, arcGeo]) g.dispose();
-    for (const m of [latticeMat, vertMat, memberMat, haloMat, tetherMat, arcMat]) m.dispose();
+    for (const g of [ico, wire, memberGeo, arcGeo, cloudGeo, linkGeo, box, boxEdges, forkGeo]) g.dispose();
+    for (const m of [...lineMats, memberMat, haloMat, cloudMat]) m.dispose();
     dot.dispose();
     renderer.dispose();
     canvas.remove();

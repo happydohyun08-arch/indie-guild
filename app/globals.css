@@ -5,8 +5,8 @@
    Every text pair clears WCAG AA (muted on surface ≈ 7.8:1, brand on ground ≈ 9:1). */
 :root {
   color-scheme: dark;
-  --ground: #0a0b10;
-  --surface: #12141b;
+  --ground: #08090d;
+  --surface: #101219;
   --subtle: #1b1e28;
   --ink: #eceef4;
   --muted: #a3a8b8;
@@ -62,7 +62,8 @@
 
   body {
     background:
-      radial-gradient(1100px 520px at 75% -120px, color-mix(in srgb, var(--brand) 13%, transparent), transparent 70%),
+      radial-gradient(900px 480px at 78% -140px, color-mix(in srgb, var(--brand) 16%, transparent), transparent 70%),
+      radial-gradient(700px 420px at 0% 30%, color-mix(in srgb, #a78bfa 7%, transparent), transparent 70%),
       var(--ground);
     color: var(--ink);
     font-family: var(--font-sans);
@@ -256,10 +257,105 @@
   }
 
   .home-title {
-    font-size: 18px;
-    line-height: 26px;
+    font-size: 22px;
+    line-height: 30px;
     font-weight: 700;
+    letter-spacing: -0.02em;
     margin-bottom: 16px;
+  }
+  /* Page titles: big, tight, with a soft ink-to-muted fade (Linear-style). */
+  .page-title,
+  .headline,
+  .display .rotator {
+    background: linear-gradient(180deg, var(--ink) 30%, color-mix(in srgb, var(--ink) 55%, var(--muted)));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .page-title {
+    font-size: clamp(28px, 4.2vw, 44px);
+    line-height: 1.1;
+    font-weight: 700;
+    letter-spacing: -0.035em;
+    word-break: keep-all;
+  }
+  .headline {
+    max-width: 16ch;
+    font-size: clamp(36px, 6.2vw, 76px);
+    line-height: 1.02;
+    font-weight: 700;
+    letter-spacing: -0.045em;
+    word-break: keep-all;
+  }
+  .lead {
+    max-width: 30rem;
+    font-size: clamp(16px, 1.6vw, 19px);
+    line-height: 1.55;
+    color: var(--muted);
+    word-break: keep-all;
+  }
+  .btn-lg {
+    height: 44px;
+    padding: 0 20px;
+    border-radius: 999px;
+    font-size: 15px;
+  }
+  .btn-primary.btn-lg {
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--brand) 40%, transparent), 0 8px 30px -8px var(--glow);
+  }
+  .beta-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    margin-right: 8px;
+    border-radius: 999px;
+    background: var(--proof);
+    box-shadow: 0 0 10px var(--proof);
+    vertical-align: 1px;
+  }
+  .scroll-hint {
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .scroll-hint::after {
+    content: "";
+    display: block;
+    width: 1px;
+    height: 40px;
+    margin: 10px 0 0 1.4em;
+    background: linear-gradient(var(--muted), transparent);
+  }
+  .step {
+    display: flex;
+    gap: 16px;
+    padding: 16px 18px;
+    background: color-mix(in srgb, var(--surface) 78%, transparent);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  }
+  .step-n {
+    flex-shrink: 0;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 22px;
+    color: var(--brand);
+  }
+  .criterion {
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+    padding: 12px 14px;
+    background: color-mix(in srgb, var(--surface) 78%, transparent);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    font-weight: 500;
+  }
+  .header-glass {
+    background: color-mix(in srgb, var(--ground) 72%, transparent);
+    -webkit-backdrop-filter: saturate(1.4) blur(14px);
+    backdrop-filter: saturate(1.4) blur(14px);
   }
   .role-tile {
     display: flex;
@@ -282,12 +378,12 @@
     color: var(--muted);
   }
   .display {
-    max-width: 14ch;
-    font-size: clamp(40px, 7vw, 72px);
-    line-height: 1.02;
-    font-weight: 600;
-    letter-spacing: -0.035em;
-    min-height: 2.04em;
+    max-width: 13ch;
+    font-size: clamp(44px, 9vw, 108px);
+    line-height: 1;
+    font-weight: 700;
+    letter-spacing: -0.05em;
+    min-height: 2em;
     word-break: keep-all; /* 한글을 낱자에서 끊지 않는다 */ /* 문구가 바뀌어도 아래가 들썩이지 않게 두 줄 자리 확보 */
   }
   .rotator {
@@ -355,6 +451,101 @@
   }
   .anchor {
     scroll-margin-top: 120px;
+  }
+}
+
+/* Thin grid behind everything, fading out from the top (fixed, never scrolls). */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--line) 55%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--line) 55%, transparent) 1px, transparent 1px);
+  background-size: 64px 64px;
+  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 20%, transparent 75%);
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 20%, transparent 75%);
+}
+
+/* Start page scroll story. The stage sticks to the viewport while five
+   chapters scroll over it; guild-scene.ts reads how far through [data-story]
+   we are. Text sits left on wide screens, the scene to the right. */
+.story {
+  position: relative;
+}
+.story-stage {
+  position: sticky;
+  top: 0;
+  z-index: -1;
+  height: 100vh;
+  height: 100svh;
+  margin-bottom: -100vh;
+  margin-bottom: -100svh;
+}
+.chapter {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100vh;
+  min-height: 100svh;
+  width: 100%;
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 96px 16px;
+}
+@media (min-width: 640px) {
+  .chapter {
+    padding: 120px 24px;
+  }
+}
+@media (max-width: 899px) {
+  /* Narrow: the scene sits behind the text, so dim it. */
+  .story-stage {
+    opacity: 0.45;
+  }
+}
+/* Reduced motion: no pinning. The scene stays a still picture behind the
+   first chapter and the rest reads as a normal document. */
+@media (prefers-reduced-motion: reduce) {
+  .story-stage {
+    position: absolute;
+    inset: 0 0 auto;
+    margin-bottom: 0;
+  }
+  .chapter {
+    min-height: 0;
+  }
+  .chapter:first-of-type {
+    min-height: 100svh;
+  }
+}
+
+/* Glowing edge that follows the pointer (Motion.tsx sets --mx/--my). */
+@layer components {
+  /* Layered so utilities like the mobile menu's `absolute` still win. */
+  :is(.panel, .choice, .role-tile) {
+    position: relative;
+  }
+}
+:is(.panel, .choice, .role-tile)::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  padding: 1px;
+  border-radius: inherit;
+  background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), var(--brand), transparent 70%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  :is(.panel, .choice, .role-tile):hover::after {
+    opacity: 1;
   }
 }
 

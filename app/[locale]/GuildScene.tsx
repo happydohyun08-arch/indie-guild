@@ -33,5 +33,5 @@ export default function GuildScene({ nodes, edges }: Graph) {
     };
   }, [nodes, edges]);
 
-  return <div ref={host} aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden" />;
+  return <div ref={host} aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden" />;
 }

@@ -79,7 +79,7 @@ export default async function ProfilePage({
         <div className="flex flex-col gap-5 sm:flex-row sm:items-start">
           <Avatar handle={profile.handle} size="lg" />
           <div className="min-w-0 flex-1">
-            <h1 className="text-page font-bold tracking-tight break-words">{profile.handle}</h1>
+            <h1 className="page-title break-words">{profile.handle}</h1>
             <p className="mt-0.5 text-title">{profile.tagline}</p>
             {profile.roles && profile.roles.length > 0 && (
               <ul className="mt-3 flex flex-wrap gap-1" aria-label={t.rolesLabel}>

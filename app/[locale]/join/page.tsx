@@ -69,7 +69,7 @@ function Join({ locale, goal }: { locale: Locale; goal: Goal | null }) {
 
   return (
     <main className="mx-auto w-full max-w-2xl px-4 py-8 sm:px-6">
-      <h1 className="text-page font-semibold tracking-tight">
+      <h1 className="page-title">
         {goal === "hiring" ? t.joinGoalHiring : goal === "investment" ? t.joinGoalInvestment : t.joinTitle}
       </h1>
       <p className="mt-1 text-meta text-muted">{t.joinLead}</p>

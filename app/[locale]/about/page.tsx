@@ -10,7 +10,7 @@ export default async function About({ params }: { params: Promise<{ locale: stri
   return (
     <main className="mx-auto flex w-full max-w-6xl flex-col gap-12 px-4 py-10 sm:px-6">
       <section>
-        <h1 className="home-title">{t.companiesTitle}</h1>
+        <h1 className="page-title mb-8">{t.companiesTitle}</h1>
         <ol className="grid gap-3 md:grid-cols-3">
           {t.companiesSteps.map(([title, body], i) => (
             <li key={title} className="panel p-5">
