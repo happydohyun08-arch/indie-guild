@@ -123,13 +123,16 @@ export function mount(host: HTMLElement, graph: Graph, still: boolean): () => vo
     const wide = w >= 900;
     // 넓은 화면: 구를 오른쪽에 두어 글을 가리지 않는다. 좁은 화면: 가운데, 멀리.
     world.position.set(wide ? 2.6 : 0, wide ? 0.1 : 0.6, 0);
-    camera.position.set(0, 0, wide ? 9 : 10);
+    camZ = wide ? 9 : 10;
+    camera.position.set(0, 0, camZ);
     camera.updateProjectionMatrix();
   };
 
   let raf = 0;
   let visible = true;
   let px = 0, py = 0, tx = 0, ty = 0;
+  let camZ = 9;
+  let sy = 0; // 부드럽게 따라가는 스크롤 진행도 (0 = 맨 위, 1 = 장면 높이만큼 내려감)
   const render = () => {
     renderer.render(scene, camera);
     canvas.style.opacity = "1";
@@ -139,8 +142,12 @@ export function mount(host: HTMLElement, graph: Graph, still: boolean): () => vo
     if (!visible || document.hidden) return;
     px += (tx - px) * 0.04;
     py += (ty - py) * 0.04;
-    spin.rotation.y = now * 0.00005;
-    world.rotation.set(0.25 + py * 0.2 + window.scrollY * 0.0005, px * 0.3, 0.12);
+    // 스크롤하면 카메라가 구를 따라 내려가며 돌아 들어간다: 아래로 이동·접근, 위로 올려다보기, 살짝 기울기.
+    sy += (Math.min(window.scrollY / Math.max(host.clientHeight, 1), 1.2) - sy) * 0.08;
+    spin.rotation.y = now * 0.00005 + sy * 2.4;
+    world.rotation.set(0.25 + py * 0.2 + sy * 0.5, px * 0.3, 0.12);
+    camera.position.set(0, -sy * 2.6, camZ - sy * 2.2);
+    camera.rotation.set(sy * 0.32, 0, -sy * 0.22);
     render();
     raf = requestAnimationFrame(tick);
   };
