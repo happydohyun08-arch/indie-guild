@@ -1,41 +1,24 @@
 @import "tailwindcss";
 
-/* Indie Guild product tokens: neutral zinc grays, 1px hairlines, one blue
-   used only for links, the primary action and focus. */
+/* Indie Guild product tokens: dark by default. Deep blue-black ground, light
+   ink, 1px hairlines, one bright blue for links, the primary action and focus.
+   Every text pair clears WCAG AA (muted on surface ≈ 7.8:1, brand on ground ≈ 9:1). */
 :root {
-  color-scheme: light;
-  --ground: #fafafa;
-  --surface: #ffffff;
-  --subtle: #f4f4f5;
-  --ink: #18181b;
-  --muted: #5f5f67;
-  --line: #e4e4e7;
-  --line-strong: #d4d4d8;
-  --brand: #2450b2;
-  --brand-hover: #1c3f8f;
-  --on-brand: #ffffff;
-  --proof: #1d6b3a;
-  --warn: #9a4a12;
-  --critical: #b42318;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    color-scheme: dark;
-    --ground: #0c0c0e;
-    --surface: #131316;
-    --subtle: #1b1b1f;
-    --ink: #ececef;
-    --muted: #a1a1aa;
-    --line: #27272a;
-    --line-strong: #3f3f46;
-    --brand: #8ab0ff;
-    --brand-hover: #b0caff;
-    --on-brand: #0c1a3a;
-    --proof: #6fcf8f;
-    --warn: #f0a060;
-    --critical: #f97066;
-  }
+  color-scheme: dark;
+  --ground: #0a0b10;
+  --surface: #12141b;
+  --subtle: #1b1e28;
+  --ink: #eceef4;
+  --muted: #a3a8b8;
+  --line: #262a36;
+  --line-strong: #3a4052;
+  --brand: #8ab0ff;
+  --brand-hover: #b3cbff;
+  --on-brand: #0a1530;
+  --proof: #6fcf8f;
+  --warn: #f0a060;
+  --critical: #f97066;
+  --glow: color-mix(in srgb, var(--brand) 45%, transparent);
 }
 
 @theme inline {
@@ -78,7 +61,9 @@
   }
 
   body {
-    background: var(--ground);
+    background:
+      radial-gradient(1100px 520px at 75% -120px, color-mix(in srgb, var(--brand) 13%, transparent), transparent 70%),
+      var(--ground);
     color: var(--ink);
     font-family: var(--font-sans);
     font-size: 14px;
@@ -390,7 +375,7 @@
   .role-tile:hover,
   [data-tilt]:hover {
     --lift: -3px;
-    box-shadow: 0 14px 30px -20px rgb(0 0 0 / 0.35);
+    box-shadow: 0 18px 40px -22px var(--glow);
   }
 }
 
@@ -405,19 +390,138 @@
     animation: none;
   }
 }
+/* Scroll-in: cards and sections drop in from above, tilted back in 3D, and
+   land flat. `backwards` fill only, so once landed the tilt/pop transforms
+   take over again. Browsers without view timelines just show everything. */
 @keyframes reveal {
   from {
     opacity: 0;
-    translate: 0 18px;
+    transform: perspective(1000px) translate3d(0, -90px, -160px) rotateX(42deg);
+  }
+  to {
+    opacity: 1;
+    transform: perspective(1000px) translate3d(0, 0, 0) rotateX(0deg);
   }
 }
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
     main :is(.panel, .role-tile, .choice),
     main section:not(:has(.panel, .role-tile, .choice)) {
-      animation: reveal linear both;
+      transform-origin: 50% 0;
+      animation: reveal linear backwards;
       animation-timeline: view();
-      animation-range: entry 0% entry 35%;
+      animation-range: entry 0% entry 90%;
     }
+  }
+}
+
+/* Pop (Pop.tsx): press a card and it jumps toward you while a preview panel
+   flips down beneath it. Layout here; movement only without reduced motion. */
+.pop {
+  position: relative;
+  height: 100%;
+}
+.pop[data-open] {
+  z-index: 15; /* above sibling cards, under the z-20 sticky header */
+}
+.pop-face {
+  position: relative;
+  height: 100%;
+  cursor: pointer;
+}
+.pop-hit {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  border-radius: 10px;
+  background: transparent;
+  pointer-events: none; /* clicks land on the card (keeps hover/tilt); the button takes keyboard focus */
+}
+.pop[data-open] :is(.choice, .panel) {
+  border-color: var(--brand);
+}
+.pop-panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  padding: 16px;
+  border: 1px solid var(--line-strong);
+  border-radius: 10px;
+  background: var(--surface);
+  box-shadow: 0 30px 70px -24px rgb(0 0 0 / 0.9), 0 0 40px -18px var(--glow);
+  transform-origin: 50% 0;
+}
+.pop-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  color: var(--muted);
+}
+.pop-close:hover {
+  background: var(--subtle);
+  color: var(--ink);
+}
+.pop-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px;
+  border-radius: 6px;
+  color: var(--ink);
+}
+.pop-row:hover {
+  background: var(--subtle);
+  color: var(--ink);
+  text-decoration: none;
+}
+.pop-step {
+  display: inline-grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--brand) 18%, transparent);
+  color: var(--brand);
+  font-size: 12px;
+  font-weight: 600;
+}
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: perspective(900px) translateY(-14px) rotateX(-88deg);
+  }
+  55% {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .pop-face > :first-child {
+    transition: transform 0.45s cubic-bezier(0.2, 0.9, 0.25, 1.25), box-shadow 0.3s ease,
+      border-color 0.2s ease;
+  }
+  .pop[data-open] .pop-face > :first-child {
+    transform: perspective(900px) translate3d(0, -6px, 70px) rotateX(10deg);
+    box-shadow: 0 26px 60px -20px var(--glow);
+  }
+  .pop-panel {
+    animation: pop-in 0.55s cubic-bezier(0.2, 0.9, 0.25, 1.15) both;
+  }
+}
+
+/* Reduced motion: nothing moves, anywhere. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
   }
 }
