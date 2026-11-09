@@ -47,7 +47,7 @@ export default async function LocaleLayout({
 
   return (
     <div lang={locale} className="flex flex-1 flex-col">
-      <header className="sticky top-0 z-20 border-b border-line bg-surface">
+      <header className="header-glass sticky top-0 z-20 border-b border-line">
         <div className="mx-auto flex h-14 w-full max-w-6xl items-center gap-6 px-4 sm:px-6">
           <Link
             href={`/${locale}`}

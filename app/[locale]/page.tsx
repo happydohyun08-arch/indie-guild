@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { getTalents, getVouches } from "../../lib/guild";
-import { fill, NEEDS, ui, type Locale } from "../../lib/i18n";
+import { CRITERIA, fill, NEEDS, tr, ui, type Locale } from "../../lib/i18n";
 import GuildScene from "./GuildScene";
 import Pop from "./Pop";
 import Rotator from "./Rotator";
@@ -8,7 +8,9 @@ import { Avatar } from "./TalentCard";
 
 type Need = (typeof NEEDS)[number];
 
-/** 시작 페이지: 방문 목적부터 나눈다. 뒤에는 실제 프로필·보증으로 그린 3D 길드(GuildScene). */
+/** 시작 페이지 = 스크롤 스토리. 화면에 고정된 3D 장면(GuildScene) 위로 다섯 장이 지나가고,
+ *  장면은 스크롤 진행도에 따라 구 → 주장·증거·검증 → 기준 7개 → 두 갈래 → 구로 바뀐다.
+ *  움직임 줄이기면 고정을 풀고 평범한 문서로 읽힌다 (globals.css .story). */
 const GROUPS = [
   {
     label: "startLookLabel",
@@ -46,23 +48,78 @@ export default async function Start({ params }: { params: Promise<{ locale: stri
     return a === undefined || b === undefined ? [] : [[a, b]];
   });
 
+  const reviewed = talents.filter((p) => p.ai !== null).length;
+
   return (
     <main className="relative isolate overflow-x-clip">
-      <GuildScene nodes={talents.length} edges={edges} />
-      <div className="mx-auto w-full max-w-6xl px-4 pt-14 pb-20 sm:px-6 sm:pt-24 sm:pb-28">
-        <p className="eyebrow">{talents.length ? fill(t.startEyebrow, { n: talents.length }) : t.brand}</p>
-        <h1 className="display mt-4">
-          <Rotator lines={t.startHeadline} />
-        </h1>
-        <p className="mt-5 max-w-md text-[15px] leading-6 text-muted">{t.startLead}</p>
+      <div data-story className="story">
+        <div className="story-stage" aria-hidden>
+          <GuildScene nodes={talents.length} edges={edges} />
+        </div>
 
-        <div className="mt-16 flex max-w-3xl flex-col gap-14">
+        <section className="chapter" aria-labelledby="hero-h">
+          <p className="eyebrow">
+            <span className="beta-dot" aria-hidden />
+            {talents.length ? fill(t.startEyebrow, { n: talents.length }) : t.beta}
+          </p>
+          <h1 id="hero-h" className="display mt-5">
+            <Rotator lines={t.startHeadline} />
+          </h1>
+          <p className="lead mt-6">{t.startLead}</p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link href={`/${locale}/members`} className="btn btn-primary btn-lg">
+              {t.navTalent}
+            </Link>
+            <Link href={`/${locale}/join`} className="btn btn-lg">
+              {t.navJoin}
+            </Link>
+          </div>
+          <p className="scroll-hint mt-14" aria-hidden>
+            {t.storyScroll}
+          </p>
+        </section>
+
+        <section className="chapter" aria-labelledby="how-h">
+          <p className="eyebrow">{t.storyHowLabel}</p>
+          <h2 id="how-h" className="headline mt-4">{t.storyHowTitle}</h2>
+          <ol className="mt-10 flex max-w-xl flex-col gap-3">
+            {t.storySteps.map(([title, body], i) => (
+              <li key={title} className="panel step">
+                <span className="step-n">0{i + 1}</span>
+                <span>
+                  <span className="block font-semibold text-ink">{title}</span>
+                  <span className="block text-muted">{body}</span>
+                </span>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        <section className="chapter" aria-labelledby="ai-h">
+          <p className="eyebrow">{t.storyAiLabel}</p>
+          <h2 id="ai-h" className="headline mt-4">{t.storyAiTitle}</h2>
+          <p className="lead mt-6">{t.storyAiLead}</p>
+          <ol className="mt-8 grid max-w-xl grid-cols-2 gap-2 sm:grid-cols-3">
+            {(Object.keys(CRITERIA) as (keyof typeof CRITERIA)[]).map((k, i) => (
+              <li key={k} className="panel criterion">
+                <span className="step-n">{i + 1}</span>
+                {tr(CRITERIA[k], locale)}
+              </li>
+            ))}
+          </ol>
+          {reviewed > 0 && <p className="mt-5 text-meta text-muted">{fill(t.storyAiCount, { n: reviewed })}</p>}
+        </section>
+
+        <section className="chapter" aria-labelledby="paths-h">
+          <p className="eyebrow">{t.storyPathsLabel}</p>
+          <h2 id="paths-h" className="headline mt-4">{t.storyPathsTitle}</h2>
+          <div className="mt-10 flex max-w-3xl flex-col gap-10">
           {GROUPS.map((g) => (
             <section key={g.title} aria-labelledby={g.title}>
               <p className="eyebrow">{t[g.label]}</p>
-              <h2 id={g.title} className="mt-2 text-page font-semibold tracking-tight">
+              <h3 id={g.title} className="mt-2 text-title font-semibold tracking-tight">
                 {t[g.title]}
-              </h2>
+              </h3>
               <ul className="mt-5 grid gap-3 sm:grid-cols-2">
                 {g.choices.map((c) => {
                   const [title, body] = t.startChoices[c.key];
@@ -132,7 +189,22 @@ export default async function Start({ params }: { params: Promise<{ locale: stri
               </ul>
             </section>
           ))}
-        </div>
+          </div>
+        </section>
+
+        <section className="chapter" aria-labelledby="end-h">
+          <p className="eyebrow">{t.beta}</p>
+          <h2 id="end-h" className="headline mt-4">{t.storyEndTitle}</h2>
+          <p className="lead mt-6">{fill(t.storyEndLead, { n: talents.length })}</p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link href={`/${locale}/join`} className="btn btn-primary btn-lg">
+              {t.navJoin}
+            </Link>
+            <Link href={`/${locale}/about`} className="btn btn-lg">
+              {t.navCompanies}
+            </Link>
+          </div>
+        </section>
       </div>
     </main>
   );
