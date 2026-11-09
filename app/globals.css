@@ -266,7 +266,8 @@
   /* Page titles: big, tight, with a soft ink-to-muted fade (Linear-style). */
   .page-title,
   .headline,
-  .display .rotator {
+  .display .rotator,
+  .headline .rotator { /* 돌아가는 문구는 자기 상자라 그라데이션을 직접 받아야 보인다 */
     background: linear-gradient(180deg, var(--ink) 30%, color-mix(in srgb, var(--ink) 55%, var(--muted)));
     -webkit-background-clip: text;
     background-clip: text;
