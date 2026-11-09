@@ -12,6 +12,7 @@ import {
 } from "../../../lib/guild";
 import {
   CRITERIA,
+  CRITERIA_DESC,
   fill,
   MRR_BANDS,
   OPEN_TO,
@@ -300,30 +301,47 @@ export default async function ProfilePage({
                 {t.evalTitle}
               </h2>
               <div className="panel">
-                <table className="w-full text-left">
-                  <tbody className="divide-y divide-line">
-                    {(Object.keys(CRITERIA) as (keyof typeof CRITERIA)[]).map((id) => (
-                      <tr key={id}>
-                        <th scope="row" className="px-4 py-2 font-normal text-muted">
-                          {tr(CRITERIA[id], locale)}
-                        </th>
-                        <td className="px-4 py-2 text-right font-mono text-meta">
-                          {evaluation.scores[id]?.score ?? "–"}
-                          <span className="text-muted">/20</span>
-                        </td>
-                      </tr>
-                    ))}
-                    <tr>
-                      <th scope="row" className="px-4 py-2 font-medium">
-                        {tr(TOTAL, locale)}
-                      </th>
-                      <td className="px-4 py-2 text-right font-mono text-meta font-semibold">
-                        {evaluation.total}
-                        <span className="font-normal text-muted">/100</span>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                <p className="px-4 pt-3 text-xs text-muted">{t.evalTap}</p>
+                <ul className="divide-y divide-line">
+                  {(Object.keys(CRITERIA) as (keyof typeof CRITERIA)[]).map((id) => {
+                    const sc = evaluation.scores[id];
+                    return (
+                      <li key={id}>
+                        <details className="crit">
+                          <summary className="flex cursor-pointer items-center justify-between px-4 py-2">
+                            <span className="text-muted">{tr(CRITERIA[id], locale)}</span>
+                            <span className="font-mono text-meta">
+                              {sc?.score ?? "–"}
+                              <span className="text-muted">/20</span>
+                            </span>
+                          </summary>
+                          <div className="space-y-2 px-4 pb-3 text-sm">
+                            <p>{tr(CRITERIA_DESC[id], locale)}</p>
+                            {sc && (
+                              <>
+                                <p>
+                                  <span className="text-muted">{t.evalWhy} · </span>
+                                  {sc.evidence}
+                                </p>
+                                <p>
+                                  <span className="text-muted">{t.evalFix} · </span>
+                                  {sc.fix}
+                                </p>
+                              </>
+                            )}
+                          </div>
+                        </details>
+                      </li>
+                    );
+                  })}
+                  <li className="flex items-center justify-between px-4 py-2">
+                    <span className="font-medium">{tr(TOTAL, locale)}</span>
+                    <span className="font-mono text-meta font-semibold">
+                      {evaluation.total}
+                      <span className="font-normal text-muted">/100</span>
+                    </span>
+                  </li>
+                </ul>
                 <div className="border-t border-line px-4 py-3">
                   <p>{tr(evaluation.summary, locale)}</p>
                   <p className="mt-2 text-xs text-muted">

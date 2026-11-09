@@ -89,6 +89,11 @@
 
 @layer components {
   /* Panel: surface on ground, hairline, no shadow. */
+  .crit summary { list-style: none; }
+  .crit summary::-webkit-details-marker { display: none; }
+  .crit summary > span:first-child::after { content: " ▸"; font-size: 11px; }
+  .crit[open] summary > span:first-child::after { content: " ▾"; }
+  .crit summary:hover { background: var(--surface); }
   .panel {
     background: var(--surface);
     border: 1px solid var(--line);
