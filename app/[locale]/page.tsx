@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { getTalents, getVouches } from "../../lib/guild";
-import { CRITERIA, fill, NEEDS, tr, ui, type Locale } from "../../lib/i18n";
+import { CRITERIA, CRITERIA_DESC, fill, NEEDS, tr, ui, type Locale } from "../../lib/i18n";
 import GuildScene from "./GuildScene";
 import Pop from "./Pop";
 import Rotator from "./Rotator";
@@ -102,8 +102,13 @@ export default async function Start({ params }: { params: Promise<{ locale: stri
           <ol className="mt-8 grid max-w-xl grid-cols-2 gap-2 sm:grid-cols-3">
             {(Object.keys(CRITERIA) as (keyof typeof CRITERIA)[]).map((k, i) => (
               <li key={k} className="panel criterion">
-                <span className="step-n">{i + 1}</span>
-                {tr(CRITERIA[k], locale)}
+                <details>
+                  <summary>
+                    <span className="step-n">{i + 1}</span>
+                    {tr(CRITERIA[k], locale)}
+                  </summary>
+                  <p className="criterion-desc">{tr(CRITERIA_DESC[k], locale)}</p>
+                </details>
               </li>
             ))}
           </ol>

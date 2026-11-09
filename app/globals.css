@@ -348,6 +348,15 @@
     line-height: 22px;
     color: var(--brand);
   }
+  /* 누르면 그 칸이 한 줄을 다 차지하며 커지고 설명이 나온다 */
+  .criterion:has(details[open]) { grid-column: 1 / -1; border-color: var(--line-strong); }
+  .criterion details { width: 100%; }
+  .criterion summary { display: flex; gap: 10px; align-items: baseline; cursor: pointer; list-style: none; }
+  .criterion summary::-webkit-details-marker { display: none; }
+  .criterion summary::after { content: "+"; margin-left: auto; color: var(--muted); }
+  .criterion details[open] summary::after { content: "−"; }
+  .criterion-desc { margin-top: 10px; font-weight: 400; color: var(--muted); line-height: 1.6; animation: crit-in .25s ease; }
+  @keyframes crit-in { from { opacity: 0; transform: translateY(-4px); } }
   .criterion {
     display: flex;
     gap: 10px;
