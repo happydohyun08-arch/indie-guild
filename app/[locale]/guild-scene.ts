@@ -47,9 +47,9 @@ export function mount(host: HTMLElement, graph: Graph, still: boolean): () => vo
   ctx.fill();
   const dot = new CanvasTexture(dotCanvas);
 
-  // 길드라는 공간: 격자 구. 사람이 아니라 배경이므로 단색, 아주 옅게.
+  // 길드라는 공간: 격자 구. 브랜드 색으로 또렷하게 (어두운 바탕 기준).
   const ico = new IcosahedronGeometry(R, 3);
-  const latticeMat = new LineBasicMaterial({ transparent: true, opacity: 0.07, depthWrite: false });
+  const latticeMat = new LineBasicMaterial({ transparent: true, opacity: 0.32, depthWrite: false });
   const wire = new WireframeGeometry(ico);
   spin.add(new LineSegments(wire, latticeMat));
 
@@ -61,7 +61,7 @@ export function mount(host: HTMLElement, graph: Graph, still: boolean): () => vo
   }
   const verts = [...uniq.values()];
   const vertGeo = new BufferGeometry().setFromPoints(verts);
-  const vertMat = new PointsMaterial({ size: 0.04, map: dot, transparent: true, opacity: 0.3, depthWrite: false });
+  const vertMat = new PointsMaterial({ size: 0.07, map: dot, transparent: true, opacity: 0.75, depthWrite: false });
   spin.add(new Points(vertGeo, vertMat));
 
   // 실제 프로필: 황금각 배치로 구 위에 고르게.
@@ -108,7 +108,7 @@ export function mount(host: HTMLElement, graph: Graph, still: boolean): () => vo
     const css = getComputedStyle(document.documentElement);
     const ink = css.getPropertyValue("--ink").trim() || "#18181b";
     const brand = css.getPropertyValue("--brand").trim() || "#2450b2";
-    latticeMat.color.set(ink);
+    latticeMat.color.set(brand);
     vertMat.color.set(ink);
     for (const m of [memberMat, haloMat, tetherMat, arcMat]) m.color.set(brand);
   };
@@ -123,7 +123,7 @@ export function mount(host: HTMLElement, graph: Graph, still: boolean): () => vo
     const wide = w >= 900;
     // 넓은 화면: 구를 오른쪽에 두어 글을 가리지 않는다. 좁은 화면: 가운데, 멀리.
     world.position.set(wide ? 2.6 : 0, wide ? 0.1 : 0.6, 0);
-    camZ = wide ? 9 : 10;
+    camZ = wide ? 8 : 9.5;
     camera.position.set(0, 0, camZ);
     camera.updateProjectionMatrix();
   };
@@ -144,7 +144,7 @@ export function mount(host: HTMLElement, graph: Graph, still: boolean): () => vo
     py += (ty - py) * 0.04;
     // 스크롤하면 카메라가 구를 따라 내려가며 돌아 들어간다: 아래로 이동·접근, 위로 올려다보기, 살짝 기울기.
     sy += (Math.min(window.scrollY / Math.max(host.clientHeight, 1), 1.2) - sy) * 0.08;
-    spin.rotation.y = now * 0.00005 + sy * 2.4;
+    spin.rotation.y = now * 0.00016 + sy * 2.4; // 약 40초에 한 바퀴
     world.rotation.set(0.25 + py * 0.2 + sy * 0.5, px * 0.3, 0.12);
     camera.position.set(0, -sy * 2.6, camZ - sy * 2.2);
     camera.rotation.set(sy * 0.32, 0, -sy * 0.22);
