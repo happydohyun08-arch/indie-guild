@@ -18,7 +18,7 @@ const ROLES = ["frontend", "backend", "fullstack", "mobile", "design", "ai-data"
 const SKILLS_MAX = 20;
 const SKILL_LEN = 30;
 // /[locale]/<handle> 과 겹치는 정적 경로. 이 이름의 프로필은 페이지가 가려진다.
-const RESERVED = new Set(["join", "members", "roles", "needs"]);
+const RESERVED = new Set(["join", "members", "roles", "needs", "about", "terms", "privacy", "verify"]);
 
 // proof는 공개 https URL이어야 한다. localhost·사설 IP는 공개 증거가 아니다.
 function publicHttps(u) {
