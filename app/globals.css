@@ -537,6 +537,13 @@ body::before {
   }
 }
 
+/* 첫 화면: 왼쪽 문구, 오른쪽 실제 프로필 미리보기. .chapter(레이어 밖)를 이기려면 여기 있어야 한다. */
+.hero-sample { margin-top: 40px; max-width: 360px; }
+@media (min-width: 1024px) {
+  .hero-grid { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 48px; align-content: center; align-items: center; }
+  .hero-sample { margin-top: 0; }
+}
+
 /* Glowing edge that follows the pointer (Motion.tsx sets --mx/--my). */
 @layer components {
   /* Layered so utilities like the mobile menu's `absolute` still win. */

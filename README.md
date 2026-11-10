@@ -11,6 +11,25 @@ For companies and investors who want to verify before they hire or invest.
 
 Available in English (`/en`) and Korean (`/ko`).
 
+## How verification works
+
+There is no server. Every check runs in GitHub Actions on each pull request (`.github/workflows/validate.yml`),
+and the site is a static export built only from what passed.
+
+| Claim | How it is checked | Where |
+|---|---|---|
+| Who wrote the profile | The PR is opened by a signed-in GitHub account and merged by the maintainer, who checks that the PR author matches the profile's `github` field. Git history keeps that author forever. | review + Git history |
+| Every work-history line has evidence | CI rejects an entry without a public `https` `proof` URL, and rejects localhost and private IPs. | `scripts/validate.mjs` |
+| The evidence actually exists | CI opens every product and proof link. A 404, 410 or unknown host fails the PR; 403, 429 and timeouts only warn, because many sites block bots. | `scripts/validate.mjs --links` |
+| Metrics | Repos, stars and account age come from the GitHub public API at build time. Members cannot type them. | `lib/guild.ts` |
+| No personal data | CI blocks emails, phone numbers and resident-registration-number patterns before they can be committed. | `scripts/validate.mjs` |
+| AI review | Runs after merge, paid by the operator. Members cannot write or edit scores; the result file is committed by the CI bot. | `scripts/evaluate.mjs` |
+
+**Limits.** A Git commit email can be set to anything, so the commit email alone proves nothing; identity rests on the
+GitHub account that opened the PR, and the author check is a human review step, not automated yet. A link that opens
+is not proof that its content supports the claim; CI checks that it exists, not what it says. The AI review only
+sees the profile text, a screenshot of each product and GitHub metrics, and it is told to treat all of them as untrusted.
+
 ## Publishing your résumé
 
 1. Read the notices at `/en/join` (or `/ko/join`) and tick every required item.

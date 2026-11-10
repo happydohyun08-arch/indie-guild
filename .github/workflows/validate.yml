@@ -87,6 +87,8 @@ jobs:
       - run: node scripts/validate.mjs --selfcheck
       - run: node scripts/evaluate.mjs --selfcheck
       - run: node scripts/validate.mjs
+      - name: Open every evidence link
+        run: node scripts/validate.mjs --links
       - run: npm ci
       - run: npm run build
         env:

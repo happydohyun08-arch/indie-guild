@@ -4,7 +4,7 @@ import { CRITERIA, CRITERIA_DESC, fill, NEEDS, tr, ui, type Locale } from "../..
 import GuildScene from "./GuildScene";
 import Pop from "./Pop";
 import Rotator from "./Rotator";
-import { Avatar } from "./TalentCard";
+import TalentCard, { Avatar } from "./TalentCard";
 
 type Need = (typeof NEEDS)[number];
 
@@ -49,6 +49,8 @@ export default async function Start({ params }: { params: Promise<{ locale: stri
   });
 
   const reviewed = talents.filter((p) => p.ai !== null).length;
+  // 첫 화면에 실제 프로필 하나를 미리 보여 준다. AI 점수가 가장 높은 사람.
+  const sample = [...talents].sort((a, b) => (b.ai ?? -1) - (a.ai ?? -1))[0];
 
   return (
     <main className="relative isolate overflow-x-clip">
@@ -57,7 +59,8 @@ export default async function Start({ params }: { params: Promise<{ locale: stri
           <GuildScene nodes={talents.length} edges={edges} />
         </div>
 
-        <section className="chapter" aria-labelledby="hero-h">
+        <section className="chapter hero-grid" aria-labelledby="hero-h">
+          <div>
           <p className="eyebrow">
             <span className="beta-dot" aria-hidden />
             {talents.length ? fill(t.startEyebrow, { n: talents.length }) : t.beta}
@@ -77,6 +80,16 @@ export default async function Start({ params }: { params: Promise<{ locale: stri
           <p className="scroll-hint mt-14" aria-hidden>
             {t.storyScroll}
           </p>
+          </div>
+          {sample && (
+            <aside className="hero-sample" aria-label={t.heroSample}>
+              <p className="eyebrow mb-3">{t.heroSample}</p>
+              <TalentCard talent={sample} locale={locale} />
+              <Link href={`/${locale}/${sample.handle}`} className="btn mt-3 w-full justify-center">
+                {t.heroSampleCta}
+              </Link>
+            </aside>
+          )}
         </section>
 
         <section className="chapter" aria-labelledby="how-h">

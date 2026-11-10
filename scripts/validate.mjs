@@ -176,6 +176,45 @@ function readDir(dir) {
     });
 }
 
+/** 링크를 실제로 열어 본다. 404·410·주소 없음은 죽은 링크(오류), 그 밖의 실패(403·429·시간 초과)는
+ *  사이트가 봇을 막는 경우가 많아 경고만 한다. */
+export function linkVerdict(status) {
+  if (status === "dns" || status === 404 || status === 410) return "dead";
+  if (typeof status === "number" && status < 400) return "ok";
+  return "warn";
+}
+
+async function probe(url) {
+  try {
+    const res = await fetch(url, {
+      redirect: "follow",
+      signal: AbortSignal.timeout(10000),
+      headers: { "user-agent": "indie-guild-link-check" },
+    });
+    return res.status;
+  } catch (e) {
+    return /ENOTFOUND|EAI_AGAIN/.test(String(e?.cause?.code ?? e)) ? "dns" : "error";
+  }
+}
+
+async function checkLinks(profiles) {
+  const errors = [];
+  for (const { file, data: p } of profiles) {
+    const urls = [
+      ...(p.products ?? []).map((x) => x.url),
+      ...(p.experience ?? []).map((x) => x.proof),
+    ].filter((u) => publicHttps(u) || /^http:\/\//.test(u ?? ""));
+    for (const u of urls) {
+      const st = await probe(u);
+      const v = linkVerdict(st);
+      if (v === "dead") errors.push(`${file}: 열리지 않는 링크 (${st}) ${u}`);
+      else if (v === "warn") console.log(`::warning::${file}: 확인 못 한 링크 (${st}) ${u}`);
+      else console.log(`  ok ${st} ${u}`);
+    }
+  }
+  return errors;
+}
+
 function selfcheck() {
   const spec = { version: "v1", required: [{ id: "a" }, { id: "b" }] };
   const ok = {
@@ -301,11 +340,26 @@ function selfcheck() {
     "365일을 벗어난 보증은 상한에 포함되지 않음",
   );
 
+  assert.equal(linkVerdict(200), "ok");
+  assert.equal(linkVerdict(301), "ok");
+  assert.equal(linkVerdict(404), "dead", "404는 죽은 링크");
+  assert.equal(linkVerdict("dns"), "dead", "없는 주소는 죽은 링크");
+  assert.equal(linkVerdict(403), "warn", "봇 차단은 경고만");
+  assert.equal(linkVerdict("error"), "warn", "시간 초과는 경고만");
+
   console.log("selfcheck 통과");
 }
 
 if (process.argv.includes("--selfcheck")) {
   selfcheck();
+} else if (process.argv.includes("--links")) {
+  const errors = await checkLinks(readDir("profiles"));
+  if (errors.length) {
+    console.error(`죽은 링크 ${errors.length}건:\n`);
+    for (const e of errors) console.error(`  - ${e}`);
+    process.exit(1);
+  }
+  console.log("링크 검사 통과");
 } else {
   const spec = JSON.parse(
     fs.readFileSync(path.join(ROOT, "consent.json"), "utf8"),
