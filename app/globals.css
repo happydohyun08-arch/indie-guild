@@ -65,7 +65,8 @@
   body {
     background:
       radial-gradient(900px 480px at 78% -140px, color-mix(in srgb, var(--brand) 16%, transparent), transparent 70%),
-      radial-gradient(760px 460px at 0% 34%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 70%),
+      radial-gradient(760px 460px at 0% 34%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 70%),
+      radial-gradient(900px 520px at 100% 110%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 70%),
       var(--ground);
     color: var(--ink);
     font-family: var(--font-sans);
@@ -493,6 +494,8 @@ body::before {
   position: relative;
 }
 .story-stage {
+  /* 3D 장면 뒤에 은은한 주황 빛 */
+  background: radial-gradient(42% 46% at 50% 52%, color-mix(in srgb, var(--accent) 20%, transparent), transparent 72%);
   position: sticky;
   top: 0;
   z-index: -1;
