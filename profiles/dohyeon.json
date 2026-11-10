@@ -2,17 +2,17 @@
   "handle": "dohyeon",
   "github": "happydohyun08-arch",
   "tagline": "증거 없는 주장을 안 쓰는 것을 만듭니다",
-  "bio": "모든 항목에 공개 증거 링크를 요구하는 이력서·포트폴리오 플랫폼 Indie Guild를 만들고 있습니다. 서버·DB·로그인 없이 공개 Git 저장소와 GitHub Actions만으로 돌아갑니다. PR마다 CI가 모든 제품·증거 링크를 실제로 열어 보고 404·없는 주소면 거절하며, 이메일·전화번호 패턴은 커밋 전에 막습니다. GitHub 지표는 공개 API에서 직접 가져와 본인이 쓸 수 없습니다. 검증 구조와 그 한계는 README에 정리했습니다.",
+  "bio": "모든 항목에 공개 증거 링크를 요구하는 이력서·포트폴리오 플랫폼 Indie Guild를 만들고 있습니다. 서버·DB·로그인 없이 공개 Git 저장소와 GitHub Actions만으로 돌아갑니다. PR마다 CI가 모든 제품·증거 링크를 실제로 열어 보고 404·없는 주소면 거절하며, 이메일·전화번호 패턴은 커밋 전에 막습니다. GitHub 지표는 공개 API에서 직접 가져와 본인이 쓸 수 없습니다. 검증 구조와 그 한계는 사이트의 검증 구조 페이지와 README에 정리했습니다.",
   "products": [
     {
       "name": "Indie Guild",
-      "url": "https://happydohyun08-arch.github.io/indie-guild/",
+      "url": "https://happydohyun08-arch.github.io/indie-guild/ko/",
       "stage": "live",
       "mrr_band": "none"
     },
     {
-      "name": "Indie Guild 검증 구조 (소스)",
-      "url": "https://github.com/happydohyun08-arch/indie-guild#how-verification-works",
+      "name": "Indie Guild 검증 구조",
+      "url": "https://happydohyun08-arch.github.io/indie-guild/ko/verify/",
       "stage": "live",
       "mrr_band": "none"
     }
