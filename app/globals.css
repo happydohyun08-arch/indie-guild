@@ -9,7 +9,7 @@
   --surface: #101219;
   --subtle: #1b1e28;
   --ink: #eceef4;
-  --muted: #a3a8b8;
+  --muted: #b6bbca;
   --line: #262a36;
   --line-strong: #3a4052;
   --brand: #8ab0ff;
@@ -538,7 +538,9 @@ body::before {
 }
 
 /* 첫 화면: 왼쪽 문구, 오른쪽 실제 프로필 미리보기. .chapter(레이어 밖)를 이기려면 여기 있어야 한다. */
-.hero-sample { margin-top: 40px; max-width: 360px; }
+.hero-sample { margin-top: 40px; max-width: 360px; position: relative; z-index: 1; }
+.hero-sample .panel { background: var(--surface); box-shadow: 0 24px 60px -20px rgb(0 0 0 / 0.7); }
+.hero-sample .eyebrow { color: var(--ink); }
 @media (min-width: 1024px) {
   .hero-grid { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 48px; align-content: center; align-items: center; }
   .hero-sample { margin-top: 0; }
