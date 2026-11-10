@@ -17,6 +17,7 @@
   --on-brand: #0a1530;
   --proof: #6fcf8f;
   --warn: #f0a060;
+  --accent: #ff9f5a; /* 따뜻한 주황 포인트: 제목 끝 물듦, 배경 빛, 번호. 행동(버튼·링크)은 파랑 그대로 */
   --critical: #f97066;
   --glow: color-mix(in srgb, var(--brand) 45%, transparent);
 }
@@ -34,6 +35,7 @@
   --color-on-brand: var(--on-brand);
   --color-proof: var(--proof);
   --color-warn: var(--warn);
+  --color-accent: var(--accent);
   --color-critical: var(--critical);
 
   --font-sans: var(--font-inter), var(--font-noto-kr), "Apple SD Gothic Neo",
@@ -63,7 +65,7 @@
   body {
     background:
       radial-gradient(900px 480px at 78% -140px, color-mix(in srgb, var(--brand) 16%, transparent), transparent 70%),
-      radial-gradient(700px 420px at 0% 30%, color-mix(in srgb, #a78bfa 7%, transparent), transparent 70%),
+      radial-gradient(760px 460px at 0% 34%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 70%),
       var(--ground);
     color: var(--ink);
     font-family: var(--font-sans);
@@ -273,7 +275,7 @@
   .headline,
   .display .rotator,
   .headline .rotator { /* 돌아가는 문구는 자기 상자라 그라데이션을 직접 받아야 보인다 */
-    background: linear-gradient(180deg, var(--ink) 30%, color-mix(in srgb, var(--ink) 55%, var(--muted)));
+    background: linear-gradient(180deg, var(--ink) 35%, color-mix(in srgb, var(--ink) 50%, var(--accent)));
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -346,7 +348,7 @@
     font-family: var(--font-mono);
     font-size: 12px;
     line-height: 22px;
-    color: var(--brand);
+    color: var(--accent);
   }
   /* 누르면 그 칸이 한 줄을 다 차지하며 커지고 설명이 나온다 */
   .criterion:has(details[open]) { grid-column: 1 / -1; border-color: var(--line-strong); }
@@ -390,7 +392,7 @@
     font-weight: 500;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--muted);
+    color: var(--accent);
   }
   .display {
     max-width: 13ch;
