@@ -1,54 +1,54 @@
 {
   "model": "claude-sonnet-5-5",
-  "evaluated_at": "2026-11-10T02:44:15.897Z",
-  "profile_hash": "5dfb6d7b34b8f737abbc89061ba6916d67453c471e735b95db450a36a8af8386",
-  "total": 52,
+  "evaluated_at": "2026-11-10T06:48:43.951Z",
+  "profile_hash": "0b16297f4dd17b6fca5bf9f68d72fc60fbca38a3d3060fbb4d3a9e6d8fb1220a",
+  "total": 55,
   "scores": {
     "tech_depth": {
-      "score": 11,
-      "evidence": "Verify page (screenshot 2) maps 6 claims to specific scripts (validate.mjs, evaluate.mjs, validate.yml): link liveness checks with 404/410 fail and 403/429 warn, PII pattern blocking, GitHub API metrics fetched at build. Design reasoning (no server/DB/login) is explained. No measurements, tests or performance data are visible.",
-      "fix": "Add measured results, e.g. the number of PRs checked, false-reject rate, CI run time, and link to a CI run showing a rejected PR."
+      "score": 14,
+      "evidence": "Screenshot 2 lists 7 automated checks mapped to specific code (scripts/validate.mjs, lib/guild.ts, validate.yml), PR author vs profile account matching, CI-bot-committed AI scores, and measured 'PR checks 30, 1 rejected, median 29s'. Serverless design is explained. No performance or design-tradeoff analysis beyond that.",
+      "fix": "Add a short write-up of why a no-server Git/Actions architecture was chosen, with its limits at scale (e.g. API rate limits, build time with 1,000 profiles)."
     },
     "traction": {
-      "score": 3,
-      "evidence": "Screenshot 1 shows 'beta · registered developers 1'; the verify page shows 1 public profile; GitHub metrics show 0 stars and 1 repo created 2026-09-25. The only profile is the author's own. No users, traffic or usage data.",
-      "fix": "Onboard at least 10 real developers and publish dated numbers such as profiles merged and visits, with an analytics capture."
+      "score": 4,
+      "evidence": "Screenshot 1 shows 'beta · 1 registered developer' and the only profile is the author's own, with 보증 0. Only CI run counts are given; there are no user figures. GitHub metrics: 1 repo, 0 stars.",
+      "fix": "Get 10 real developers to register via PR and publish the count with dates, plus any visitor numbers from analytics."
     },
     "differentiation": {
-      "score": 10,
-      "evidence": "The angle is 'only provable claims': CI opens every evidence link and GitHub metrics cannot be self-edited (bio, screenshot 2). The idea is distinctive, but the checks are only existence checks; the page admits 'CI only confirms existence.' No proprietary data or merged external contributions.",
-      "fix": "Add a verification that checks content against claims, such as repo ownership or commit-history matching, and show it working on a real case."
+      "score": 12,
+      "evidence": "The angle of requiring a public evidence link for every claim, with CI link checks and account-ownership marks, differs from generic portfolio sites (bio, screenshot 2). But it is unproven at scale, with no unique data or external contributions.",
+      "fix": "Show a concrete case where the checks caught a fake or dead claim, and compare to LinkedIn or GitHub profiles side by side."
     },
     "evidence": {
-      "score": 15,
-      "evidence": "Live site on GitHub Pages with two product URLs, screenshots, a public repo implied by the code links, and a 'view actual CI run history' button. Short, clear copy. Only one repo and one profile, and the CI runs themselves are not visible.",
-      "fix": "Put a 30-second demo or GIF of a PR being rejected for a dead link on the home page, and link the repo directly."
+      "score": 16,
+      "evidence": "Two live URLs work (screenshots 1 and 2), the site links to actual CI run records and a rejected run, and claims map to code files. The bio paragraph is long and dense. The GitHub repo link is not given explicitly in the profile.",
+      "fix": "Put the repo URL and a 30-second demo of a PR being accepted/rejected at the top; shorten the bio to 3 numeric bullets."
     },
     "commercial": {
-      "score": 5,
-      "evidence": "mrr_band is 'none' for both products. There is a 'for companies/investors' nav item but no pricing, revenue model or waitlist. The operator pays evaluation costs ('운영자가 비용을 냅니다'), with no monetization plan shown.",
-      "fix": "State a specific target customer (e.g. startup recruiters) and a price or revenue model, and collect a waitlist or pilot with a count."
+      "score": 4,
+      "evidence": "Both products have mrr_band 'none'. Nav shows a '기업·투자자' section, but no pricing, target customer segment or revenue model is visible. Customers are vague.",
+      "fix": "State one target buyer (e.g. startup recruiters), a price, and collect a waitlist or pilot commitment."
     },
     "design": {
-      "score": 17,
-      "evidence": "Dark theme with a large headline '증명할 수 있는 것만.', a clear CTA pair, a consistent nav, and a readable verification table with check marks and a limits section (screenshots 1-2). Minor issues: the sphere graphic overlaps the profile card area and the profile card label is small and low contrast.",
-      "fix": "Move the sphere so it does not collide with the profile card, and increase contrast for small gray labels."
+      "score": 16,
+      "evidence": "Screenshot 1 has a clear dark hero with a big headline, two CTAs, a sample profile card and consistent nav. Screenshot 2 has a clean stat cards plus claim/method/code table. The globe overlaps the headline slightly, and the page has a large empty area below the fold.",
+      "fix": "Fix the globe/headline overlap and add contrast to secondary text; fill the empty hero space with a proof metric."
     },
     "innovation": {
-      "score": 12,
-      "evidence": "Serverless, CI-gated resume/portfolio platform that rejects unverifiable claims is a fresh take on portfolio sites. The verification is shallow (link existence), the author-identity check is still manual (◐ half-mark), and the profile shows 'AI 44 (reference)' while 보증 is 0.",
-      "fix": "Automate author identity verification and demonstrate one verification step that goes beyond link existence."
+      "score": 11,
+      "evidence": "Enforcing evidence at PR time through GitHub Actions and showing ownership-verified links is a modestly new take on resumes (screenshot 2). Verification-based profiles are an existing idea, and the approach is simple link checks.",
+      "fix": "Add a verification that goes beyond link liveness, such as checking that a repo's commits or deployed app truly belong to the claimant, and demo it."
     }
   },
   "summary": {
-    "en": "A clearly designed, honest trust-network platform with a concrete CI-based verification design and candid limitations, but it has zero users, zero revenue, one repo, no stars, and no measured results.",
-    "ko": "CI 기반 검증 구조가 구체적이고 한계까지 솔직히 밝힌 깔끔한 플랫폼이지만, 사용자·매출·스타가 없고 저장소도 1개뿐이며 측정된 성과가 없습니다."
+    "en": "A coherent, honestly scoped verification-first resume platform with real CI checks and a few measured figures (30 PR runs, 1 rejection, 29s median). It has no users, no revenue, 1 registered developer, 0 stars and no demonstrated market traction.",
+    "ko": "증거 기반 이력서 플랫폼으로 CI 검증 구조가 구체적이고 한계까지 솔직히 밝혔으며 일부 측정치(PR 검사 30회, 거절 1회, 중앙값 29초)가 있습니다. 다만 사용자·매출·시장 반응이 없고 등록 개발자 1명, 스타 0개입니다."
   },
   "injection_flags": [],
   "screenshots": 2,
   "usage": {
-    "input_tokens": 6334,
-    "output_tokens": 1315,
-    "usd": 0.0258
+    "input_tokens": 6408,
+    "output_tokens": 1332,
+    "usd": 0.0261
   }
 }
