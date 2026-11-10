@@ -101,7 +101,17 @@ export default async function ProfilePage({
             {profile.bio && <p className="mt-2 max-w-[72ch] text-muted">{profile.bio}</p>}
           </div>
           <div className="flex shrink-0 flex-wrap gap-2 sm:flex-col">
-            <a href={githubUrl} target="_blank" rel="noreferrer" className="btn btn-primary justify-center">
+            {profile.contact && (
+              <a href={profile.contact} target="_blank" rel="noreferrer nofollow" className="btn btn-primary justify-center">
+                {t.contactAction}
+              </a>
+            )}
+            <a
+              href={githubUrl}
+              target="_blank"
+              rel="noreferrer"
+              className={profile.contact ? "btn justify-center" : "btn btn-primary justify-center"}
+            >
               {t.contactGithub}
             </a>
             <a href={vouchUrl} target="_blank" rel="noreferrer" className="btn justify-center">
@@ -146,6 +156,11 @@ export default async function ProfilePage({
 
           <section className="panel p-4">
             <h2 className="section-title">{t.contactTitle}</h2>
+            {profile.contact && (
+              <a href={profile.contact} target="_blank" rel="noreferrer nofollow" className="mb-1 block break-all">
+                {profile.contact.replace(/^https:\/\//, "")}
+              </a>
+            )}
             <a href={githubUrl} target="_blank" rel="noreferrer" className="break-all">
               github.com/{profile.github}
             </a>

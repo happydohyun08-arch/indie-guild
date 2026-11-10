@@ -51,8 +51,8 @@
         "h": { "en": "5. Viewers' commitments (companies and investors)", "ko": "5. 열람자의 약속 (기업·투자자)" },
         "p": [
           {
-            "en": "Use profiles only to evaluate hiring, contract or investment opportunities. Bulk scraping, resale, spam and discrimination based on gender, age, origin or similar grounds are prohibited. Contact members only through the channels they publish (their GitHub profile).",
-            "ko": "프로필은 채용·외주·투자 검토 목적으로만 이용해야 합니다. 대량 수집, 재판매, 스팸, 성별·나이·출신 등을 이유로 한 차별은 금지됩니다. 연락은 회원이 공개한 경로(GitHub 프로필)로만 합니다."
+            "en": "Use profiles only to evaluate hiring, contract or investment opportunities. Bulk scraping, resale, spam and discrimination based on gender, age, origin or similar grounds are prohibited. Contact members only through the channels they publish (their GitHub profile or the contact link they add).",
+            "ko": "프로필은 채용·외주·투자 검토 목적으로만 이용해야 합니다. 대량 수집, 재판매, 스팸, 성별·나이·출신 등을 이유로 한 차별은 금지됩니다. 연락은 회원이 공개한 경로(GitHub 프로필 또는 회원이 넣은 연락 링크)로만 합니다."
           }
         ]
       },

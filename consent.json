@@ -1,5 +1,5 @@
 {
-  "version": "3",
+  "version": "4",
   "repo": "happydohyun08-arch/indie-guild",
   "controller": {
     "name": {
@@ -21,7 +21,10 @@
       "en": "URLs of public products and repositories you run",
       "ko": "본인이 운영하는 공개 제품/저장소 URL"
     },
-    { "en": "A self-written tagline and bio", "ko": "본인이 직접 작성한 소개 문구" },
+    {
+      "en": "A self-written tagline and bio",
+      "ko": "본인이 직접 작성한 소개 문구"
+    },
     {
       "en": "Activity metrics read from the GitHub public API (public repo count, total stars, account creation date)",
       "ko": "GitHub 공개 API로 조회되는 활동 지표 (공개 저장소 수, 스타 수, 계정 생성일)"
@@ -45,15 +48,37 @@
     {
       "en": "An AI evaluation of your public profile, product pages, stated work history, roles and skills (scores, short summary, model and date), generated and paid for by the operator; you cannot write or edit it",
       "ko": "공개 프로필, 제품 페이지, 본인이 작성한 경력·직군·스킬에 대한 AI 평가 결과 (점수, 짧은 총평, 모델, 평가일). 운영자가 생성·비용 부담하며 본인이 작성·수정할 수 없습니다"
+    },
+    {
+      "en": "Optional: one contact link you choose (for example LinkedIn, your own site's contact page, a booking or form page). It must be a public https page, never an email address or phone number.",
+      "ko": "선택: 본인이 고른 연락 링크 1개 (예: LinkedIn, 본인 사이트의 연락 페이지, 미팅 예약·폼 페이지). 공개 https 페이지여야 하며, 이메일 주소나 전화번호는 넣을 수 없습니다."
     }
   ],
   "never_collected": [
-    { "en": "Email address", "ko": "이메일 주소" },
-    { "en": "Phone number", "ko": "전화번호" },
-    { "en": "Legal name", "ko": "실명" },
-    { "en": "Date of birth", "ko": "생년월일" },
-    { "en": "Postal address", "ko": "주소" },
-    { "en": "Exact revenue figures", "ko": "수익 실액" },
+    {
+      "en": "Email address",
+      "ko": "이메일 주소"
+    },
+    {
+      "en": "Phone number",
+      "ko": "전화번호"
+    },
+    {
+      "en": "Legal name",
+      "ko": "실명"
+    },
+    {
+      "en": "Date of birth",
+      "ko": "생년월일"
+    },
+    {
+      "en": "Postal address",
+      "ko": "주소"
+    },
+    {
+      "en": "Exact revenue figures",
+      "ko": "수익 실액"
+    },
     {
       "en": "Education records (school name, degree, grades) and salary figures",
       "ko": "학력 기록 (학교명·학위·성적) 및 급여 액수"
@@ -158,8 +183,8 @@
         "ko": "수집 항목에 동의합니다."
       },
       "detail": {
-        "en": "Email, phone number and legal name are never collected and must never be committed to the repository. Contact happens through your GitHub profile.",
-        "ko": "이메일·전화번호·실명은 수집하지 않으며 저장소에 기록해서도 안 됩니다. 연락은 GitHub 프로필을 통해 이루어집니다."
+        "en": "Email, phone number and legal name are never collected and must never be committed to the repository. Contact happens through your GitHub profile or the contact link you choose.",
+        "ko": "이메일·전화번호·실명은 수집하지 않으며 저장소에 기록해서도 안 됩니다. 연락은 GitHub 프로필이나 본인이 고른 연락 링크로 이루어집니다."
       }
     },
     {

@@ -33,6 +33,8 @@ export type Profile = {
   roles?: (keyof typeof ROLES)[];
   /** 스킬 (선택). 최대 20개, 각 30자 이내, URL 금지 — scripts/validate.mjs가 검사. */
   skills?: string[];
+  /** 연락 링크 (선택). 공개 https 페이지 1개 — 이메일·전화번호는 CI가 막는다. */
+  contact?: string;
   consent: { version: string; agreed_at: string; agreed: string[] };
 };
 

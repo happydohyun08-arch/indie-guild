@@ -55,7 +55,7 @@ notice at collection.
 
 - **Never collected**: email, phone, legal name, date of birth, address, exact revenue figures,
   government IDs, education records (school, degree, grades), salary figures.
-- **Contact**: your GitHub profile link only — there is no contact detail stored, so there is nothing to purge.
+- **Contact**: your GitHub profile, plus one optional `contact` link you choose (a public https page such as LinkedIn or a booking form). Emails, phone numbers and `mailto:`/`tel:` links are rejected by CI, and the contact link is not sent to the AI review.
 - **Limits of deletion**: this is a public Git repository. Past commits, third-party forks and
   search-engine caches are beyond our control. You must explicitly consent to this at `/join`
   (CCPA § 1798.105(d) technical infeasibility).
