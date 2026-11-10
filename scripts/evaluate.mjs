@@ -203,7 +203,7 @@ async function githubMetrics(login) {
 }
 
 export function buildContent(profile, metrics, shots) {
-  const { consent, ...publicProfile } = profile; // 동의 이력은 평가와 무관하므로 보내지 않는다
+  const { consent, contact, ...publicProfile } = profile; // 동의 이력·연락 링크는 평가와 무관하므로 보내지 않는다
   const content = [];
   shots.forEach(({ name, url, b64 }, i) => {
     content.push({ type: "text", text: `Screenshot ${i + 1} (untrusted) of product "${name}" at ${url}:` });

@@ -52,6 +52,7 @@ function Join({ locale, goal }: { locale: Locale; goal: Goal | null }) {
       roles: [],
       skills: [],
       open_to: [goal ?? "hiring"],
+      contact: "",
       consent: {
         version: consent.version,
         agreed_at: new Date().toISOString().slice(0, 10),

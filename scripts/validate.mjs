@@ -87,6 +87,9 @@ export function validate(profiles, vouches, spec) {
         at(`제품 url이 http(s)가 아닙니다.`);
     }
 
+    if (p.contact && !publicHttps(p.contact)) // 빈 문자열 = 연락 링크 없음
+      at(`contact는 공개 https 페이지 주소여야 합니다 (이메일·전화번호·mailto: 불가).`);
+
     if (p.roles !== undefined) {
       if (!Array.isArray(p.roles)) at(`roles는 배열이어야 합니다.`);
       else
@@ -203,6 +206,7 @@ async function checkLinks(profiles) {
     const urls = [
       ...(p.products ?? []).map((x) => x.url),
       ...(p.experience ?? []).map((x) => x.proof),
+      ...(p.contact ? [p.contact] : []),
     ].filter((u) => publicHttps(u) || /^http:\/\//.test(u ?? ""));
     for (const u of urls) {
       const st = await probe(u);
@@ -369,6 +373,12 @@ function selfcheck() {
   const vf = [{ file: "vouches/alice-bob.json", data: { from: "alice", to: "bob" } }];
   assert.deepEqual(authorErrors(vf, "alice-gh", "owner", prof), [], "본인 보증 통과");
   assert.match(authorErrors(vf, "mallory", "owner", prof)[0], /다릅니다/, "남 이름으로 보증 차단");
+
+  const withContact = (c) => validate([p("alice", { contact: c })], [], spec);
+  assert.deepEqual(withContact("https://www.linkedin.com/in/alice"), [], "https 연락 링크 통과");
+  assert.deepEqual(withContact(""), [], "빈 연락 링크는 없음으로 봄");
+  for (const bad of ["mailto:a@b.com", "tel:01012345678", "http://alice.dev", "https://localhost/c"])
+    assert.ok(withContact(bad).some((e) => /contact/.test(e)), `잘못된 연락 링크 차단: ${bad}`);
 
   console.log("selfcheck 통과");
 }
