@@ -201,10 +201,9 @@ export function mount(host: HTMLElement, graph: Graph, still: boolean): () => vo
   const beaconMat = pointMat(0.34, true);
   spin.add(new Points(beaconGeo, beaconMat));
 
-  const brandMats = [
-    latticeMat, arcMat, linkMat, tieMat, ...barMats, ...forkMats,
-    memberMat, haloMat, flowMat, seatMat, seatHalo, beaconMat,
-  ];
+  // 뼈대(격자·막대·갈래)는 파랑, 움직이며 빛나는 것(보증 호·깜빡이는 노드·흐름·당신의 자리)은 주황.
+  const brandMats = [latticeMat, linkMat, ...barMats, forkMats[1]];
+  const accentMats = [memberMat, arcMat, tieMat, forkMats[0], haloMat, flowMat, seatMat, seatHalo, beaconMat];
   const ink = new Color();
   const proof = new Color();
   const scheme = window.matchMedia("(prefers-color-scheme: dark)");
@@ -214,6 +213,8 @@ export function mount(host: HTMLElement, graph: Graph, still: boolean): () => vo
     ink.set(css.getPropertyValue("--ink").trim() || "#eceef4");
     proof.set(css.getPropertyValue("--proof").trim() || "#6fcf8f");
     for (const m of brandMats) m.color.set(brand);
+    const accent = css.getPropertyValue("--accent").trim() || "#ff9f5a";
+    for (const m of accentMats) m.color.set(accent);
   };
   paint();
 
@@ -436,7 +437,7 @@ export function mount(host: HTMLElement, graph: Graph, still: boolean): () => vo
     window.removeEventListener("pointermove", onPointer);
     for (const g of [ico, wire, memberGeo, arcGeo, cloudGeo, linkGeo, flowGeo, box, boxEdges, ...forkGeos, seatGeo, tieGeo, beaconGeo])
       g.dispose();
-    for (const m of [...brandMats, cloudMat]) m.dispose();
+    for (const m of [...brandMats, ...accentMats, cloudMat]) m.dispose();
     dot.dispose();
     renderer.dispose();
     canvas.remove();
