@@ -88,7 +88,21 @@ export function mount(host: HTMLElement, graph: Graph, still: boolean): () => vo
   const wire = new WireframeGeometry(ico);
   const latticeMat = lineMat();
   const globe = new Group();
-  globe.add(new LineSegments(wire, latticeMat));
+  // 격자 아래쪽 비스듬한 띠는 주황 선, 나머지는 파랑 선 (노을처럼 물든 느낌).
+  const wp = wire.getAttribute("position");
+  const cool: Vector3[] = [];
+  const warm: Vector3[] = [];
+  for (let i = 0; i < wp.count; i += 2) {
+    const a = new Vector3().fromBufferAttribute(wp, i);
+    const b = new Vector3().fromBufferAttribute(wp, i + 1);
+    const m = a.clone().add(b).multiplyScalar(0.5 / R);
+    (m.y - 0.45 * m.x < -0.35 ? warm : cool).push(a, b);
+  }
+  const warmMat = lineMat();
+  globe.add(
+    new LineSegments(new BufferGeometry().setFromPoints(cool), latticeMat),
+    new LineSegments(new BufferGeometry().setFromPoints(warm), warmMat),
+  );
 
   const uniq = new Map<string, Vector3>();
   const pos = ico.getAttribute("position");
@@ -203,7 +217,7 @@ export function mount(host: HTMLElement, graph: Graph, still: boolean): () => vo
 
   // 뼈대(격자·막대·갈래)는 파랑, 움직이며 빛나는 것(보증 호·깜빡이는 노드·흐름·당신의 자리)은 주황.
   const brandMats = [latticeMat, linkMat, ...barMats, forkMats[1]];
-  const accentMats = [memberMat, arcMat, tieMat, forkMats[0], haloMat, flowMat, seatMat, seatHalo, beaconMat];
+  const accentMats = [warmMat, memberMat, arcMat, tieMat, forkMats[0], haloMat, flowMat, seatMat, seatHalo, beaconMat];
   const ink = new Color();
   const proof = new Color();
   const scheme = window.matchMedia("(prefers-color-scheme: dark)");
@@ -332,6 +346,7 @@ export function mount(host: HTMLElement, graph: Graph, still: boolean): () => vo
     // 0·4: 구
     const g = Math.max(w[0], w[4]);
     latticeMat.opacity = 0.34 * g;
+    warmMat.opacity = 0.55 * g;
     arcMat.opacity = 0.8 * g;
     memberMat.opacity = g;
     haloMat.opacity = 0.18 * g;

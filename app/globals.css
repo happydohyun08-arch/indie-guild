@@ -495,7 +495,7 @@ body::before {
 }
 .story-stage {
   /* 3D 장면 뒤에 은은한 주황 빛 */
-  background: radial-gradient(42% 46% at 50% 52%, color-mix(in srgb, var(--accent) 20%, transparent), transparent 72%);
+  background: radial-gradient(42% 46% at 50% 52%, color-mix(in srgb, var(--accent) 32%, transparent), transparent 72%);
   position: sticky;
   top: 0;
   z-index: -1;
