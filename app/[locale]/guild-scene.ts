@@ -348,7 +348,8 @@ export function mount(host: HTMLElement, graph: Graph, still: boolean): () => vo
 
     // 장면마다 카메라가 조금씩 다른 각도로: 1·3은 정면, 2는 위에서 내려다본다.
     spin.rotation.x = 0.5 * w[2];
-    camera.position.set(0, 0.6 * w[2], camZ + 1.2 * w[4] - 0.8 * w[0]);
+    // 넓은 첫 화면: 오른쪽엔 실제 프로필 카드가 있으니 카메라를 물려 구를 작게, 카드와 겹치지 않게.
+    camera.position.set(0, 0.6 * w[2], camZ + 1.2 * w[4] + (wide ? 4.5 : -0.8) * w[0]);
     camera.lookAt(world.position.x, world.position.y, 0);
   };
 

@@ -215,6 +215,20 @@ async function checkLinks(profiles) {
   return errors;
 }
 
+/** PR로 바뀐 프로필·보증 파일이 PR 작성자 본인 것인지. 저장소 주인(운영자)은 관리 목적으로 예외. */
+export function authorErrors(files, author, owner, profilesByHandle) {
+  const me = String(author).toLowerCase();
+  if (me === String(owner).toLowerCase()) return [];
+  const errors = [];
+  for (const { file, data } of files) {
+    const handle = file.startsWith("vouches/") ? data.from : data.handle;
+    const gh = file.startsWith("vouches/") ? profilesByHandle.get(handle)?.github : data.github;
+    if (String(gh ?? "").toLowerCase() !== me)
+      errors.push(`${file}: PR 작성자(${author})와 이 파일의 GitHub 계정(${gh ?? "없음"})이 다릅니다. 본인 파일만 올릴 수 있습니다.`);
+  }
+  return errors;
+}
+
 function selfcheck() {
   const spec = { version: "v1", required: [{ id: "a" }, { id: "b" }] };
   const ok = {
@@ -347,11 +361,32 @@ function selfcheck() {
   assert.equal(linkVerdict(403), "warn", "봇 차단은 경고만");
   assert.equal(linkVerdict("error"), "warn", "시간 초과는 경고만");
 
+  const prof = new Map([["alice", { github: "Alice-GH" }]]);
+  const pf = (gh) => [{ file: "profiles/alice.json", data: { handle: "alice", github: gh } }];
+  assert.deepEqual(authorErrors(pf("alice-gh"), "Alice-GH", "owner", prof), [], "본인 프로필 통과 (대소문자 무시)");
+  assert.match(authorErrors(pf("alice-gh"), "mallory", "owner", prof)[0], /다릅니다/, "남의 프로필 차단");
+  assert.deepEqual(authorErrors(pf("alice-gh"), "owner", "owner", prof), [], "운영자는 관리 목적 예외");
+  const vf = [{ file: "vouches/alice-bob.json", data: { from: "alice", to: "bob" } }];
+  assert.deepEqual(authorErrors(vf, "alice-gh", "owner", prof), [], "본인 보증 통과");
+  assert.match(authorErrors(vf, "mallory", "owner", prof)[0], /다릅니다/, "남 이름으로 보증 차단");
+
   console.log("selfcheck 통과");
 }
 
 if (process.argv.includes("--selfcheck")) {
   selfcheck();
+} else if (process.argv.includes("--author")) {
+  // node validate.mjs --author <PR 작성자> <저장소 주인> <바뀐 파일...>
+  const i = process.argv.indexOf("--author");
+  const [author, owner, ...changed] = process.argv.slice(i + 1);
+  const read = (f) => ({ file: f, data: JSON.parse(fs.readFileSync(path.join(ROOT, f), "utf8")) });
+  const byHandle = new Map(readDir("profiles").map(({ data }) => [data.handle, data]));
+  const errors = authorErrors(changed.filter((f) => f.endsWith(".json")).map(read), author, owner, byHandle);
+  if (errors.length) {
+    for (const e of errors) console.error(`  - ${e}`);
+    process.exit(1);
+  }
+  console.log(`작성자 확인 통과 (${changed.length}개 파일)`);
 } else if (process.argv.includes("--links")) {
   const errors = await checkLinks(readDir("profiles"));
   if (errors.length) {

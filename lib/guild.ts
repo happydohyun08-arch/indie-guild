@@ -166,6 +166,52 @@ export function getGithubStats(login: string): Promise<GithubStats | null> {
   return task;
 }
 
+/** 링크가 이 GitHub 계정 소유인지 주소로 확인한다: github.com/<계정>/… 또는 <계정>.github.io.
+ *  링크가 열리는지(존재)를 넘어, 그 결과물이 정말 본인 계정에 있는지를 보는 검사. */
+export function ownedBy(url: string, login: string): boolean {
+  try {
+    const u = new URL(url);
+    const me = login.toLowerCase();
+    const host = u.hostname.toLowerCase();
+    if (host === `${me}.github.io`) return true;
+    return host === "github.com" && u.pathname.split("/")[1]?.toLowerCase() === me;
+  } catch {
+    return false;
+  }
+}
+
+export type CiStats = { checked: number; rejected: number; medianSec: number; rejectedUrl: string | null };
+
+/** 빌드 시점에 이 저장소의 PR 검사 실행 기록을 GitHub API에서 센다. 실패하면 null. */
+export async function getCiStats(): Promise<CiStats | null> {
+  const headers: Record<string, string> = { Accept: "application/vnd.github+json" };
+  if (process.env.GITHUB_TOKEN) headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
+  try {
+    const res = await fetch(
+      `https://api.github.com/repos/${consentSpec.repo}/actions/runs?event=pull_request&status=completed&per_page=100`,
+      { headers },
+    );
+    if (!res.ok) return null;
+    const body = await res.json();
+    const runs: { conclusion: string; run_started_at: string; updated_at: string; html_url: string }[] =
+      body.workflow_runs ?? [];
+    if (!runs.length) return null;
+    const secs = runs
+      .map((r) => (Date.parse(r.updated_at) - Date.parse(r.run_started_at)) / 1000)
+      .filter((n) => n > 0)
+      .sort((x, y) => x - y);
+    const failed = runs.filter((r) => r.conclusion === "failure");
+    return {
+      checked: body.total_count ?? runs.length,
+      rejected: failed.length,
+      medianSec: Math.round(secs[Math.floor(secs.length / 2)] ?? 0),
+      rejectedUrl: failed[0]?.html_url ?? null,
+    };
+  } catch {
+    return null;
+  }
+}
+
 export function repoUrl(): string {
   return `https://github.com/${consentSpec.repo}`;
 }

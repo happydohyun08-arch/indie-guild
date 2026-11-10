@@ -6,6 +6,7 @@ import {
   getGithubStats,
   getProfile,
   getProfiles,
+  ownedBy,
   vouchesBy,
   vouchesFor,
   VOUCH_LIMIT_PER_YEAR,
@@ -164,7 +165,14 @@ export default async function ProfilePage({
                   className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-0.5 px-4 py-3"
                 >
                   <div className="min-w-0">
-                    <h3 className="font-medium break-words">{p.name || p.url}</h3>
+                    <h3 className="font-medium break-words">
+                      {p.name || p.url}
+                      {ownedBy(p.url, profile.github) && (
+                        <span className="ml-2 text-meta font-normal text-proof">
+                          ✓ {locale === "ko" ? "본인 GitHub 계정 소유" : "Owned by this GitHub account"}
+                        </span>
+                      )}
+                    </h3>
                     <a
                       href={p.url}
                       target="_blank"

@@ -1,5 +1,5 @@
-import { getProfiles } from "../../../lib/guild";
-import { tr, type Locale } from "../../../lib/i18n";
+import { getCiStats, getProfiles, ownedBy } from "../../../lib/guild";
+import { fill, tr, type Locale } from "../../../lib/i18n";
 
 const REPO = "https://github.com/happydohyun08-arch/indie-guild";
 
@@ -18,6 +18,13 @@ const T = {
   where: { ko: "코드", en: "Code" },
   limitsTitle: { ko: "한계", en: "Limits" },
   runs: { ko: "실제 CI 실행 기록 보기 →", en: "See real CI runs →" },
+  owned: { ko: "본인 계정 소유가 확인된 링크", en: "Links verified as their own" },
+  ciTitle: { ko: "실제 측정", en: "Measured" },
+  ci: {
+    ko: "지금까지 PR 검사 {n}회 · 거절 {r}회 · 한 번 검사에 걸린 시간 중간값 {s}초",
+    en: "PR checks so far: {n} · rejected: {r} · median check time: {s}s",
+  },
+  rejectedRun: { ko: "실제로 거절된 실행 보기 →", en: "See a real rejected run →" },
 };
 
 const ROWS: { claim: { ko: string; en: string }; how: { ko: string; en: string }; file: string; auto: boolean }[] = [
@@ -69,23 +76,32 @@ const ROWS: { claim: { ko: string; en: string }; how: { ko: string; en: string }
   {
     claim: { ko: "프로필 작성자가 본인이다", en: "The profile's author is its owner" },
     how: {
-      ko: "로그인한 GitHub 계정이 PR을 열고, 운영자가 PR 작성자와 github 필드가 같은지 보고 머지합니다.",
-      en: "A signed-in GitHub account opens the PR; the maintainer checks it matches the github field before merging.",
+      ko: "PR을 연 GitHub 계정과 바뀐 프로필·보증 파일의 github 필드가 다르면 PR 실패. 저장소 주인(운영자)만 관리 목적 예외.",
+      en: "If the account that opened the PR differs from the github field of a changed profile or vouch, the PR fails. Only the repo owner is exempt, for moderation.",
     },
     file: ".github/workflows/validate.yml",
-    auto: false,
+    auto: true,
+  },
+  {
+    claim: { ko: "결과물이 본인 계정에 있다", en: "The work lives on their own account" },
+    how: {
+      ko: "github.com/<계정>/… 나 <계정>.github.io 링크는 프로필의 GitHub 계정과 일치할 때만 '본인 계정 소유' 표시.",
+      en: "github.com/<account>/… and <account>.github.io links get an 'owned' badge only when they match the profile's GitHub account.",
+    },
+    file: "lib/guild.ts",
+    auto: true,
   },
 ];
 
 const LIMITS = {
   ko: [
     "Git 커밋 이메일은 아무렇게나 정할 수 있어 그것만으로는 신원이 증명되지 않습니다. 신원은 PR을 연 GitHub 계정에 기댑니다.",
-    "작성자 확인은 아직 사람이 하는 단계입니다.",
+    "운영자 계정은 관리 목적으로 작성자 확인에서 빠집니다.",
     "링크가 열린다고 그 내용이 주장을 뒷받침한다는 뜻은 아닙니다. CI는 존재만 확인합니다.",
   ],
   en: [
     "A Git commit email can be anything, so it proves nothing alone; identity rests on the GitHub account that opened the PR.",
-    "The author check is still a human step.",
+    "The owner account is exempt from the author check, for moderation.",
     "A link that opens does not prove its content supports the claim. CI checks existence only.",
   ],
 };
@@ -97,9 +113,15 @@ export default async function Verify({ params }: { params: Promise<{ locale: str
     (n, p) => n + p.products.length + (p.experience?.length ?? 0),
     0,
   );
+  const ci = await getCiStats();
+  const owned = profiles.reduce(
+    (n, p) => n + p.products.filter((x) => ownedBy(x.url, p.github)).length,
+    0,
+  );
   const stats = [
     [T.profiles, profiles.length],
     [T.links, links],
+    [T.owned, owned],
     [T.checks, ROWS.filter((r) => r.auto).length],
   ] as const;
 
@@ -110,7 +132,7 @@ export default async function Verify({ params }: { params: Promise<{ locale: str
         <p className="mt-2 max-w-3xl text-muted">{tr(T.lead, locale)}</p>
       </div>
 
-      <ul className="grid grid-cols-3 gap-3">
+      <ul className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         {stats.map(([label, n]) => (
           <li key={label.en} className="panel px-4 py-3">
             <span className="block font-mono text-2xl font-semibold">{n}</span>
@@ -118,6 +140,20 @@ export default async function Verify({ params }: { params: Promise<{ locale: str
           </li>
         ))}
       </ul>
+
+      {ci && (
+        <p className="panel flex flex-wrap items-center justify-between gap-3 px-4 py-3 text-sm">
+          <span>
+            <span className="text-muted">{tr(T.ciTitle, locale)} · </span>
+            {fill(tr(T.ci, locale), { n: ci.checked, r: ci.rejected, s: ci.medianSec })}
+          </span>
+          {ci.rejectedUrl && (
+            <a href={ci.rejectedUrl} className="underline">
+              {tr(T.rejectedRun, locale)}
+            </a>
+          )}
+        </p>
+      )}
 
       <div className="panel overflow-x-auto">
         <table className="w-full text-left text-sm">
@@ -131,7 +167,7 @@ export default async function Verify({ params }: { params: Promise<{ locale: str
           <tbody className="divide-y divide-line">
             {ROWS.map((r) => (
               <tr key={r.claim.en}>
-                <td className="px-4 py-2 font-medium">
+                <td className="whitespace-nowrap px-4 py-2 font-medium">
                   <span aria-hidden className={r.auto ? "text-proof" : "text-muted"}>
                     {r.auto ? "✓ " : "◐ "}
                   </span>

@@ -87,6 +87,12 @@ jobs:
       - run: node scripts/validate.mjs --selfcheck
       - run: node scripts/evaluate.mjs --selfcheck
       - run: node scripts/validate.mjs
+      - name: Profile and vouch files must belong to the PR author
+        if: github.event_name == 'pull_request'
+        env:
+          AUTHOR: ${{ github.event.pull_request.user.login }}
+          OWNER: ${{ github.repository_owner }}
+        run: node scripts/validate.mjs --author "$AUTHOR" "$OWNER" $(git diff --name-only --diff-filter=AM HEAD^1 HEAD -- profiles vouches)
       - name: Open every evidence link
         run: node scripts/validate.mjs --links
       - run: npm ci
